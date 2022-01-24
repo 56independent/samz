@@ -1,3 +1,5 @@
+local mg_name = minetest.get_mapgen_setting("mg_name")
+
 --
 -- Aliases for map generator outputs
 --
@@ -51,6 +53,10 @@ end
 -- Register biomes for biome API
 --
 
+if mg_name == "v6" or mg_name == "singlenode" then
+	return
+end
+
 minetest.clear_registered_biomes()
 minetest.clear_registered_decorations()
 
@@ -66,7 +72,7 @@ minetest.register_biome({
 	node_dungeon_alt = "nodez:mossycobble",
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = 31000,
-	y_min = 4,
+	y_min = 1,
 	heat_point = 50,
 	humidity_point = 50,
 })
@@ -83,10 +89,28 @@ minetest.register_biome({
 	node_dungeon = "nodez:cobble",
 	node_dungeon_alt = "nodez:mossycobble",
 	node_dungeon_stair = "stairs:stair_cobble",
-	y_max = 3,
+	y_max = 0,
 	y_min = -255,
 	heat_point = 50,
 	humidity_point = 50,
+})
+
+minetest.register_biome({
+	name = "beach",
+	node_top = "nodez:sand",
+	depth_top = 1,
+	node_filler = "nodez:sand",
+	depth_filler = 3,
+	node_riverbed = "nodez:sand",
+	depth_riverbed = 2,
+	node_cave_liquid = "nodez:water_source",
+	node_dungeon = "nodez:cobble",
+	node_dungeon_alt = "nodez:mossycobble",
+	node_dungeon_stair = "stairs:stair_cobble",
+	y_max = 3,
+	y_min = -255,
+	heat_point = 55,
+	humidity_point = 55,
 })
 
 minetest.register_biome({
@@ -100,3 +124,98 @@ minetest.register_biome({
 	heat_point = 50,
 	humidity_point = 50,
 })
+
+--Clay
+
+minetest.register_decoration({
+	decoration = "nodez:clay",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass", "nodez:sand"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "forest_ocean", "beach"},
+	noise_params = {
+		offset = 0.005,
+		scale = 0.008,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 222,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 0,
+	y_max = 1,
+	spawn_by = "nodez:water_source",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+minetest.register_decoration({
+	decoration = "nodez:clay",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass", "nodez:sand"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "forest_ocean", "beach"},
+	noise_params = {
+		offset = 0.5,
+		scale = 0.8,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 222,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 0,
+	y_max = 1,
+	spawn_by = "nodez:clay",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+--Snow
+
+minetest.register_decoration({
+	decoration = "nodez:dirt_with_snow",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "beach"},
+	noise_params = {
+		offset = 0.5,
+		scale = 0.8,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 672,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 65,
+	y_max = 200,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+minetest.register_decoration({
+	decoration = "nodez:dirt_with_snow",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "beach"},
+	noise_params = {
+		offset = 0.5,
+		scale = 5.0,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 91,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 65,
+	y_max = 200,
+	spawn_by = "nodez:dirt_with_snow",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+

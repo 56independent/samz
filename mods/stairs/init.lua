@@ -48,18 +48,14 @@ end
 
 stairs.register_stair_and_slab("stone", "nodez:stone",
 		{cracky=3},
-		{"default_stone.png"},
+		{"nodez_stone.png"},
 		"Stone Stair",
-		"Stone Slab")
-
-stairs.register_stair_and_slab("desert_stone", "nodez:desert_stone",
-		{cracky=3},
-		{"default_desert_stone.png"},
-		"Desert Stone Stair",
-		"Desert Stone Slab")
+		"Stone Slab"
+)
 
 stairs.register_stair_and_slab("cobble", "nodez:cobble",
 		{cracky=3},
-		{"default_cobble.png"},
+		{"nodez_cobble.png"},
 		"Cobblestone Stair",
-		"Cobblestone Slab")
+		"Cobblestone Slab"
+)

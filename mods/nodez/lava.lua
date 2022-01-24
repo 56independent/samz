@@ -7,10 +7,10 @@ minetest.register_node("nodez:lava_flowing", {
 		"4 damage per second".."\n"..
 		"Drowning damage: 1",
 	drawtype = "flowingliquid",
-	tiles = {"default_lava_flowing.png"},
+	tiles = {"nodez_lava_flowing.png"},
 	special_tiles = {
-		{name="default_lava_flowing.png", backface_culling = false},
-		{name="default_lava_flowing.png", backface_culling = false},
+		{name="nodez_lava_flowing.png", backface_culling = false},
+		{name="nodez_lava_flowing.png", backface_culling = false},
 	},
 	paramtype = "light",
 	light_source = minetest.LIGHT_MAX,
@@ -34,10 +34,10 @@ minetest.register_node("nodez:lava_source", {
 		"4 damage per second".."\n"..
 		"Drowning damage: 1",
 	drawtype = "liquid",
-	tiles = { "default_lava.png" },
+	tiles = { "nodez_lava.png" },
 	special_tiles = {
-		{name = "default_lava.png", backface_culling = false},
-		{name = "default_lava.png", backface_culling = true},
+		{name = "nodez_lava.png", backface_culling = false},
+		{name = "nodez_lava.png", backface_culling = true},
 	},
 	paramtype = "light",
 	light_source = minetest.LIGHT_MAX,

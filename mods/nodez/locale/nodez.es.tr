@@ -1,4 +1,8 @@
 # textdomain: nodez
+Clay=Arcilla
+Clay Brick=Ladrillo
+Clay Bricks=Bloque de ladrillos
+Clay Lump=Trozo de arcilla
 Cobblestone=Empedrado
 Dirt=Tierra
 Dirt with Grass=Tierra con pasto
@@ -12,5 +16,3 @@ River Water Source=Fuente de agua de río
 Sand=Arena
 Stone=Piedra
 Water Source=Fuente de agua
-
-

@@ -13,7 +13,7 @@ minetest.register_on_prejoinplayer(function(player)
 	local connected_players = minetest.get_connected_players()
 	local max_players = tonumber(minetest.setting_get("max_users"))
 	if max_players <= #connected_players + svrz.settings.reserved then
-		msg = S("Server full of players! Retry later.")
+		local msg = S("Server full of players! Retry later.")
 		return msg
 	end
 end)

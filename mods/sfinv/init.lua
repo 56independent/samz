@@ -25,7 +25,7 @@ sfinv.register_page("sfinv:crafting", {
 				list[current_player;craft;1.75,0.5;2,2;]
 				list[current_player;craftpreview;4.75,1.5;1,1;]
 				image[3.75,1.5;1,1;sfinv_crafting_arrow.png]
-				image[3.58,3;0.8,0.8;creative_trash_icon.png]
+				image[3.58,3;0.8,0.8;sfinv_trash_icon.png]
 				listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]
 				list[detached:creative_trash;main;3.52,2.9;1,1;]
 				listring[current_player;main]

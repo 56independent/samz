@@ -1,28 +1,32 @@
-local S = ...
+  local S = ...
 
 minetest.register_node("nodez:stone", {
 	description = S("Stone"),
-	tiles = {"default_stone.png"},
-	groups = {cracky=3},
+	tiles = {"nodez_stone.png"},
+	groups = {cracky=3, stone=1},
+	sounds = sound.stone(),
 })
 
 minetest.register_node("nodez:cobble", {
 	description = S("Cobblestone"),
-	tiles ={"default_cobble.png"},
+	tiles ={"nodez_cobble.png"},
 	is_ground_content = false,
-	groups = {cracky=3},
+	groups = {cracky=3, stone=1},
+	sounds = sound.stone(),
 })
 
 minetest.register_node("nodez:mossycobble", {
 	description = S("Mossy Cobblestone"),
-	tiles ={"default_mossycobble.png"},
+	tiles ={"nodez_mossycobble.png"},
 	is_ground_content = false,
-	groups = {cracky=3},
+	groups = {cracky=3, stone=1},
+	sounds = sound.stone(),
 })
 
 minetest.register_node("nodez:gravel", {
 	description = S("Gravel"),
-	tiles ={"default_gravel.png"},
+	tiles ={"nodez_gravel.png"},
 	groups = {crumbly=2},
+	sounds = sound.gravel(),
 })
 

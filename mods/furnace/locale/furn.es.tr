@@ -1,0 +1,9 @@
+# textdomain: furn
+(Item: @1; Fuel: @2)=(Producto: @1; Fuel: @2)
+100% (output full)=100% (salida llena)
+Empty=Vacío
+Furnace=Horno
+Furnace active=Horno activo
+Furnace inactive=Horno inactivo
+Furnace is empty=El horno está vacío
+Not cookable=No cocinable

@@ -1,6 +1,6 @@
 local S = ...
 
-local WATER_ALPHA = "^[opacity:" .. 160
+local WATER_ALPHA = "^[opacity:" .. 210
 local WATER_VISC = 1
 
 minetest.register_node("nodez:water_source", {
@@ -8,10 +8,10 @@ minetest.register_node("nodez:water_source", {
 		"Drowning damage: 1",
 	drawtype = "liquid",
 	waving = 3,
-	tiles = {"default_water.png"..WATER_ALPHA},
+	tiles = {"nodez_water.png"..WATER_ALPHA},
 	special_tiles = {
-		{name = "default_water.png"..WATER_ALPHA, backface_culling = false},
-		{name = "default_water.png"..WATER_ALPHA, backface_culling = true},
+		{name = "nodez_water.png"..WATER_ALPHA, backface_culling = false},
+		{name = "nodez_water.png"..WATER_ALPHA, backface_culling = true},
 	},
 	use_texture_alpha = "blend",
 	paramtype = "light",
@@ -34,11 +34,11 @@ minetest.register_node("nodez:water_flowing", {
 		"Drowning damage: 1",
 	drawtype = "flowingliquid",
 	waving = 3,
-	tiles = {"default_water_flowing.png"},
+	tiles = {"nodez_water_flowing.png"},
 	special_tiles = {
-		{name = "default_water_flowing.png"..WATER_ALPHA,
+		{name = "nodez_water_flowing.png"..WATER_ALPHA,
 			backface_culling = false},
-		{name = "default_water_flowing.png"..WATER_ALPHA,
+		{name = "nodez_water_flowing.png"..WATER_ALPHA,
 			backface_culling = false},
 	},
 	use_texture_alpha = "blend",
@@ -63,10 +63,10 @@ minetest.register_node("nodez:river_water_source", {
 		"Drowning damage: 1",
 	drawtype = "liquid",
 	waving = 3,
-	tiles = { "default_river_water.png"..WATER_ALPHA },
+	tiles = { "nodez_river_water.png"..WATER_ALPHA },
 	special_tiles = {
-		{name = "default_river_water.png"..WATER_ALPHA, backface_culling = false},
-		{name = "default_river_water.png"..WATER_ALPHA, backface_culling = true},
+		{name = "nodez_river_water.png"..WATER_ALPHA, backface_culling = false},
+		{name = "nodez_river_water.png"..WATER_ALPHA, backface_culling = true},
 	},
 	use_texture_alpha = "blend",
 	paramtype = "light",
@@ -91,11 +91,11 @@ minetest.register_node("nodez:river_water_flowing", {
 		"Drowning damage: 1",
 	drawtype = "flowingliquid",
 	waving = 3,
-	tiles = {"default_river_water_flowing.png"..WATER_ALPHA},
+	tiles = {"nodez_river_water_flowing.png"..WATER_ALPHA},
 	special_tiles = {
-		{name = "default_river_water_flowing.png"..WATER_ALPHA,
+		{name = "nodez_river_water_flowing.png"..WATER_ALPHA,
 			backface_culling = false},
-		{name = "default_river_water_flowing.png"..WATER_ALPHA,
+		{name = "nodez_river_water_flowing.png"..WATER_ALPHA,
 			backface_culling = false},
 	},
 	use_texture_alpha = "blend",

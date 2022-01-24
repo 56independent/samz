@@ -106,12 +106,7 @@ local function move_head(player, on_water)
 		pitch = pitch + 70
 	end
 	local head_rotation = {x= pitch, y= 0, z= 0} --the head movement {pitch, yaw, roll}
-	local head_offset
-	if minetest.get_modpath("3d_armor")~=nil then
-		head_offset = 6.75
-	else
-		head_offset = 6.3
-	end
+	local head_offset = 6.3
 	local head_position = {x=0, y=head_offset, z=0}
 	player:set_bone_position("Head", head_position, head_rotation) --set the head movement
 end
@@ -348,11 +343,6 @@ function player_api.set_texture(player)
 	local gender_model = player_api.get_gender_model(gender)
 	player_api.registered_models[gender_model].textures[1] = cloth
 	player_api.set_model(player, gender_model)
-	if minetest.get_modpath("3d_armor")~=nil then
-		--armor.default_skin = cloth
-		local player_name = player:get_player_name()
-		armor.textures[player_name].skin = cloth
-	end
 	player_api.set_textures(player, models[gender_model].textures)
 end
 
