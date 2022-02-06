@@ -1,5 +1,17 @@
 local mg_name = minetest.get_mapgen_setting("mg_name")
 
+biomes = {}
+
+if mg_name == "valleys" then
+	biomes.peaky_mountain_height = 85
+elseif mg_name == "carphatian" then
+	biomes.peaky_mountain_height = 65
+elseif mg_name == "v7"  then
+	biomes.peaky_mountain_height = 45
+else
+	biomes.peaky_mountain_height = 55
+end
+
 --
 -- Aliases for map generator outputs
 --
@@ -91,8 +103,8 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = 0,
 	y_min = -255,
-	heat_point = 50,
-	humidity_point = 50,
+	heat_point = 45.5,
+	humidity_point = 55.5,
 })
 
 minetest.register_biome({
@@ -109,8 +121,8 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = 3,
 	y_min = -255,
-	heat_point = 55,
-	humidity_point = 55,
+	heat_point = 55.2,
+	humidity_point = 56.2,
 })
 
 minetest.register_biome({
@@ -121,8 +133,54 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = -256,
 	y_min = -31000,
-	heat_point = 50,
-	humidity_point = 50,
+	heat_point = 43.7,
+	humidity_point = 40.7,
+})
+
+--Desert Biome
+
+minetest.register_biome({
+	name = "desert",
+	node_top = "nodez:desert_sand",
+	depth_top = 1,
+	node_filler = "nodez:sandstone",
+	depth_filler = 6,
+	node_riverbed = "nodez:desert_sand",
+	depth_riverbed = 2,
+	node_cave_liquid = "nodez:water_source",
+	node_dungeon = "nodez:cobble",
+	node_dungeon_alt = "nodez:mossycobble",
+	node_dungeon_stair = "stairs:stair_cobble",
+	y_max = 31000,
+	y_min = -4,
+	heat_point = 85,
+	humidity_point = 15,
+})
+
+-- Register Ores
+
+--Coal
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:coal_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 8 * 8 * 8,
+	clust_num_ores = 8,
+	clust_size     = 3,
+	y_max          = 16,
+	y_min          = -512,
+})
+
+--Iron
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:iron_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 7 * 7 * 7,
+	clust_num_ores = 5,
+	clust_size     = 3,
+	y_max          = 0,
+	y_min          = -512,
 })
 
 --Clay
@@ -173,6 +231,53 @@ minetest.register_decoration({
 	flags = "place_center_x, place_center_z, force_placement",
 })
 
+--Ice
+
+minetest.register_decoration({
+	decoration = "nodez:ice",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "beach"},
+	noise_params = {
+		offset = -0.005,
+		scale = 0.008,
+		spread = {x = 64, y = 64, z = 64},
+		seed = 1342,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = biomes.peaky_mountain_height,
+	y_max = 200,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+
+minetest.register_decoration({
+	decoration = "nodez:ice",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass"},
+	spawn_by = "nodez:ice",
+	num_spawn_by = 1,
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "beach"},
+	noise_params = {
+		offset = 2.5,
+		scale = 2.5,
+		spread = {x = 64, y = 64, z = 64},
+		seed = 402,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = biomes.peaky_mountain_height,
+	y_max = 200,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
 --Snow
 
 minetest.register_decoration({
@@ -190,7 +295,7 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.66
 	},
-	y_min = 65,
+	y_min = biomes.peaky_mountain_height,
 	y_max = 200,
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
@@ -211,11 +316,24 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.66
 	},
-	y_min = 65,
+	y_min = biomes.peaky_mountain_height,
 	y_max = 200,
 	spawn_by = "nodez:dirt_with_snow",
 	num_spawn_by = 1,
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
 })
+
+--Gems
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:ruby_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 17 * 17 * 17,
+	clust_num_ores = 4,
+	clust_size     = 3,
+	y_max          = -384,
+	y_min          = -512,
+})
+
 

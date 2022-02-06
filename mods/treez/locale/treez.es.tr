@@ -1,6 +1,9 @@
 # textdomain: treez
+@1 Leaves=Hojas @1
+@1 Sapling=Retoño @1
+@1 Trunk=Tronco @1
+@1 Wood=Madera @1
 Apple=Manzana
-Apple Tree Leaves=Hojas de manzano
-Apple Tree Sapling=Brote de manzano
-Apple Tree Trunk=Tronco de manzano
-Apple Tree Wood=Madera de manzano
+Apple Tree=de manzano
+Cherries=Cerezas
+Cherry Tree=de cerezo

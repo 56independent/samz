@@ -116,3 +116,15 @@ minetest.register_node("nodez:river_water_flowing", {
 	post_effect_color = {a = 103, r = 30, g = 76, b = 90},
 	groups = {water = 3, liquid = 3, },
 })
+
+minetest.register_node("nodez:ice", {
+	description = S("Ice"),
+	tiles = {"nodez_ice.png"},
+	is_ground_content = false,
+	drawtype = "glasslike",
+	use_texture_alpha = "blend",
+	paramtype = "light",
+	paramtype2 = "glasslikeliquidlevel",
+	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+	sounds = sound.ice(),
+})

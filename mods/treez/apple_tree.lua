@@ -4,31 +4,27 @@
 
 local S, modpath, mg_name = ...
 
-local fruit_grow_time = 1200
+local variability = 0.2 --20%
+local fruit_grow_time = 1200 --1200 by default
+local tree_grow_time = 5 --3600 by default
 
 -- Apple Fruit
 
 minetest.register_node("treez:apple", {
 	description = S("Apple"),
+	drawtype = "plantlike",
+	tiles = {"treez_apple.png"},
 	inventory_image = "treez_apple_inv.png",
-	tiles = {
-		"treez_apple_side.png",
-		"treez_apple_side.png",
-		"treez_apple_top.png",
-	},
-	drawtype = "nodebox",
 	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.125, -0.5, -0.1875, 0.1875, -0.1875, 0.125}, -- NodeBox1
-			{0, -0.1875, -0.0625, 0.0624999, -0.0625, -5.21541e-08}, -- NodeBox2
-			{0.0625, -0.125, 0, 0.125, -0.0625, 0.0625}, -- NodeBox5
-		}
-	},
+	sunlight_propagates = true,
 	walkable = false,
 	is_ground_content = false,
-	groups = {fleshy = 3, dig_immediate = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1},
+	selection_box = {
+		type = "fixed",
+		fixed = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
+	},
+	groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
+		leafdecay = 3, leafdecay_drop = 1},
 
 	on_use = minetest.item_eat(2),
 
@@ -48,8 +44,8 @@ minetest.register_node("treez:apple", {
 		local node_above = minetest.get_node_or_nil(pos)
 		if node_above and node_above.param2 == 0 and node_above.name == "treez:apple_tree_leaves" then
 			--20% of variation on time
-			local twenty_percent = fruit_grow_time * 0.2
-			local grow_time = math.random(fruit_grow_time - twenty_percent, fruit_grow_time + twenty_percent)
+			local grow_time = math.random(fruit_grow_time - (fruit_grow_time * variability),
+				fruit_grow_time + (fruit_grow_time * variability))
 			minetest.get_node_timer(pos):start(grow_time)
 		end
 	end,
@@ -73,16 +69,17 @@ if mg_name ~= "v6" and mg_name ~= "singlenode" then
 		place_on = "nodez:dirt_with_grass",
 		sidelen = 16,
 		noise_params = {
-			offset = 0.0005,
-			scale = 0.00005,
+			offset = -0.005,
+			scale = 0.02,
 			spread = {x = 250, y = 250, z = 250},
-			seed = 1242,
+			seed = 729,
 			octaves = 3,
 			persist = 0.66
 		},
 		biomes = {"forest"},
 		y_min = 1,
-		y_max = 32,
+		y_max = biomes.peaky_mountain_height,
+		place_offset_y = 1,
 		schematic = modpath.."/schematics/apple_tree.mts",
 		flags = "place_center_x, place_center_z, force_placement",
 		rotation = "random",
@@ -111,7 +108,8 @@ minetest.register_node("treez:apple_tree_sapling", {
 		attached_node = 1, sapling = 1},
 
 	on_construct = function(pos)
-		minetest.get_node_timer(pos):start(math.random(2400, 4800))
+		minetest.get_node_timer(pos):start(math.random(tree_grow_time - (tree_grow_time * variability),
+				tree_grow_time + (tree_grow_time * variability)))
 	end,
 
 })
@@ -138,7 +136,7 @@ minetest.register_node("treez:apple_tree_wood", {
 	groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3},
 })
 
-minetest.register_node("treez:appletree_leaves", {
+minetest.register_node("treez:apple_tree_leaves", {
 	description = S("Apple Tree Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"treez_apple_tree_leaves.png"},
