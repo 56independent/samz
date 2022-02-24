@@ -7,7 +7,15 @@ treez.register_tree("apple_tree", {
 	},
 	deco = {
 		biomes = {"forest"},
-		place_on = "nodez:dirt_with_grass"
+		place_on = "nodez:dirt_with_grass",
+		noise_params = {
+			offset = -0.005,
+			scale = 0.02,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 729,
+			octaves = 3,
+			persist = 0.66
+		},
 	}
 })
 
@@ -20,6 +28,14 @@ treez.register_tree("cherry_tree", {
 	},
 	deco = {
 		biomes = {"forest"},
-		place_on = "nodez:dirt_with_grass"
+		place_on = "nodez:dirt_with_grass",
+		noise_params = {
+			offset = -0.005,
+			scale = 0.008,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 237,
+			octaves = 3,
+			persist = 0.66
+		},
 	}
 })

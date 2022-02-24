@@ -22,6 +22,7 @@ function treez.register_tree(name, def)
 			},
 			groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
 				leafdecay = 3, leafdecay_drop = 1},
+			sounds = sound.leaves(),
 
 			on_use =  minetest.item_eat(2),
 
@@ -58,10 +59,12 @@ function treez.register_tree(name, def)
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
+		sounds = sound.leaves(),
 
 		on_timer = function(pos)
 			minetest.remove_node(pos)
-			minetest.place_schematic({x = pos.x-2, y = pos.y, z = pos.z-2}, modpath.."/schematics/"..name..".mts", "0", nil, false)
+			minetest.place_schematic({x = pos.x-2, y = pos.y, z = pos.z-2}, modpath.."/schematics/"..name..".mts", "0",
+				nil, false)
 		end,
 
 		selection_box = {
@@ -89,6 +92,7 @@ function treez.register_tree(name, def)
 		groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 		paramtype2 = "facedir",
 		is_ground_content = false,
+		sounds = sound.wood(),
 		on_place = minetest.rotate_node,
 	})
 
@@ -100,6 +104,7 @@ function treez.register_tree(name, def)
 		place_param2 = 0,
 		is_ground_content = false,
 		groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3},
+		sounds = sound.wood(),
 	})
 
 	--Leaves
@@ -118,6 +123,7 @@ function treez.register_tree(name, def)
 				{items = {"treez:"..name.."_leaves"}}
 			}
 		},
+		sounds = sound.leaves(),
 	})
 
 	--
@@ -148,17 +154,10 @@ function treez.register_tree(name, def)
 			deco_type = "schematic",
 			place_on = def.deco.place_on,
 			sidelen = 16,
-			noise_params = {
-				offset = -0.005,
-				scale = 0.02,
-				spread = {x = 250, y = 250, z = 250},
-				seed = 729,
-				octaves = 3,
-				persist = 0.66
-			},
+			noise_params = def.deco.noise_params,
 			biomes = def.deco.biomes,
 			y_min = 1,
-			y_max = biomes.peaky_mountain_height,
+			y_max = mapgen.biomes.peaky_mountain_height,
 			place_offset_y = 1,
 			schematic = modpath.."/schematics/"..name..".mts",
 			flags = "place_center_x, place_center_z, force_placement",

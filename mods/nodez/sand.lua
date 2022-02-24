@@ -33,9 +33,9 @@ minetest.register_node("nodez:glass", {
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky= 3, glass= 1,
-	oddly_breakable_by_hand = 3},
-	sounds = sound.glass(),
+	groups = {cracky= 3, glass= 1},
+	oddly_breakable_by_hand = 3,
+	sounds = sound.glass()
 })
 
 minetest.register_craft({

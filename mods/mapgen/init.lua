@@ -1,15 +1,17 @@
 local mg_name = minetest.get_mapgen_setting("mg_name")
 
-biomes = {}
+mapgen = {
+	biomes = {}
+}
 
 if mg_name == "valleys" then
-	biomes.peaky_mountain_height = 85
+	mapgen.biomes.peaky_mountain_height = 85
 elseif mg_name == "carphatian" then
-	biomes.peaky_mountain_height = 65
+	mapgen.biomes.peaky_mountain_height = 65
 elseif mg_name == "v7"  then
-	biomes.peaky_mountain_height = 45
+	mapgen.biomes.peaky_mountain_height = 45
 else
-	biomes.peaky_mountain_height = 55
+	mapgen.biomes.peaky_mountain_height = 55
 end
 
 --
@@ -62,7 +64,7 @@ if minetest.settings:get_bool("devtest_dungeon_stairs", false) then
 end
 
 --
--- Register biomes for biome API
+-- Register mapgen.biomes.for biome API
 --
 
 if mg_name == "v6" or mg_name == "singlenode" then
@@ -248,7 +250,7 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.66
 	},
-	y_min = biomes.peaky_mountain_height,
+	y_min = mapgen.biomes.peaky_mountain_height,
 	y_max = 200,
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
@@ -272,7 +274,7 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.66
 	},
-	y_min = biomes.peaky_mountain_height,
+	y_min = mapgen.biomes.peaky_mountain_height,
 	y_max = 200,
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
@@ -295,7 +297,7 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.66
 	},
-	y_min = biomes.peaky_mountain_height,
+	y_min = mapgen.biomes.peaky_mountain_height,
 	y_max = 200,
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
@@ -316,7 +318,7 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.66
 	},
-	y_min = biomes.peaky_mountain_height,
+	y_min = mapgen.biomes.peaky_mountain_height,
 	y_max = 200,
 	spawn_by = "nodez:dirt_with_snow",
 	num_spawn_by = 1,
@@ -335,5 +337,3 @@ minetest.register_ore({
 	y_max          = -384,
 	y_min          = -512,
 })
-
-

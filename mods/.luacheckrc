@@ -6,7 +6,7 @@ globals = {
     "furn",
 	"minetest",
 	"nodez",
-	"player_api",
+	"playerz",
 	"samz",
 	"sfinv",
     "sound",
