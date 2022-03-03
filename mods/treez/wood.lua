@@ -4,7 +4,7 @@ local S = ...
 minetest.register_craftitem("treez:stick", {
 	description = S("Stick"),
 	inventory_image = "treez_stick.png",
-	groups = {stick = 1}
+	groups = {stick = 1, wood=1, flammable = 3}
 })
 
 minetest.register_craft({
@@ -13,4 +13,10 @@ minetest.register_craft({
 	recipe = {
 		"group:wood"
 	}
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "treez:stick",
+	burntime = 5,
 })

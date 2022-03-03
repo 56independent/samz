@@ -33,6 +33,9 @@ minetest.register_node("nodez:iron_ore", {
 })
 
 minetest.register_craftitem("nodez:iron_lump", {
-	description = S("Irom Lump"),
+	description = S("Iron Lump"),
 	inventory_image = "nodez_iron_lump.png"
 })
+
+--Mese
+

@@ -17,7 +17,7 @@ minetest.register_node("nodez:cobble", {
 
 minetest.register_node("nodez:mossycobble", {
 	description = S("Mossy Cobblestone"),
-	tiles ={"nodez_mossycobble.png"},
+	tiles ={"nodez_cobble.png^(nodez_moss.png^[makealpha:50,50,50)"},
 	is_ground_content = false,
 	groups = {cracky=3, stone=1},
 	sounds = sound.stone(),

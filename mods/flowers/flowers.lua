@@ -139,7 +139,6 @@ flowers.list = {
 				seed = 356,
 				biomes = {"forest"},
 				height = {y_max = 128, y_min = 1},
-				height = {y_max = 128, y_min = 1},
 				noise_params = {
 					scale = 0.02,
 				}

@@ -185,6 +185,30 @@ minetest.register_ore({
 	y_min          = -512,
 })
 
+--Gems
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:ruby_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 17 * 17 * 17,
+	clust_num_ores = 4,
+	clust_size     = 3,
+	y_max          = -384,
+	y_min          = -512,
+})
+
+--Gems
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:mese_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 21 * 21 * 21,
+	clust_num_ores = 5,
+	clust_size     = 3,
+	y_max          = -384,
+	y_min          = -512,
+})
+
 --Clay
 
 minetest.register_decoration({
@@ -256,7 +280,6 @@ minetest.register_decoration({
 	flags = "place_center_x, place_center_z, force_placement",
 })
 
-
 minetest.register_decoration({
 	decoration = "nodez:ice",
 	deco_type = "simple",
@@ -324,16 +347,4 @@ minetest.register_decoration({
 	num_spawn_by = 1,
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
-})
-
---Gems
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "nodez:ruby_ore",
-	wherein        = "nodez:stone",
-	clust_scarcity = 17 * 17 * 17,
-	clust_num_ores = 4,
-	clust_size     = 3,
-	y_max          = -384,
-	y_min          = -512,
 })

@@ -8,11 +8,11 @@ minetest.register_node("nodez:water_source", {
 		"Drowning damage: 1",
 	drawtype = "liquid",
 	waving = 3,
-	tiles = {"nodez_water.png"..WATER_ALPHA},
-	special_tiles = {
-		{name = "nodez_water.png"..WATER_ALPHA, backface_culling = false},
-		{name = "nodez_water.png"..WATER_ALPHA, backface_culling = true},
-	},
+	tiles = {{
+		    name = "nodez_water_animated.png"..WATER_ALPHA,
+		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 4.0},
+		    backface_culling = true,
+	}},
 	use_texture_alpha = "blend",
 	paramtype = "light",
 	walkable = false,

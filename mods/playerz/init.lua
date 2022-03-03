@@ -3,6 +3,7 @@
 dofile(minetest.get_modpath("playerz") .. "/api.lua")
 dofile(minetest.get_modpath("playerz") .. "/base_texture.lua")
 dofile(minetest.get_modpath("playerz") .. "/cloths.lua")
+dofile(minetest.get_modpath("playerz") .. "/freeze.lua")
 
 -- Default player appearance
 playerz.register_model("character.b3d", {
@@ -24,13 +25,24 @@ playerz.register_model("character.b3d", {
 	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
 	stepheight = 0.6,
 	eye_height = 1.47,
+
 })
+
+minetest.register_on_dieplayer(function(player, reason)
+	playerz.set_status(player, "dead")
+end)
+
+minetest.register_on_respawnplayer(function(player)
+	playerz.set_status(player, "normal")
+end)
 
 -- Update appearance when the player joins
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	playerz.player_attached[player_name] = false
 	local gender = playerz.get_gender(player)
+	--Set some vars
+	playerz.set_status(player, "normal")
 	if minetest.get_modpath("ptol") ~= nil then
 		if player:get_meta():get_int("ptol:level") == 0 then
 			player:get_meta():set_int("ptol:level", 4)

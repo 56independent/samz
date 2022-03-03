@@ -35,6 +35,14 @@ function playerz.get_animation(player)
 	}
 end
 
+function playerz.is_dead(player)
+	if player:get_hp() <= 0 then
+		return true
+	else
+		return false
+	end
+end
+
 function playerz.set_gender(player, gender)
 	if not(gender) or gender == "random" then
 		if math.random(2) == 1 then
@@ -54,6 +62,14 @@ end
 function playerz.get_gender_model(gender)
 	local model = "character.b3d"
 	return model
+end
+
+function playerz.get_status(player)
+	return player:get_meta():get_string("playerz:status")
+end
+
+function playerz.set_status(player, status)
+	return player:get_meta():set_string("playerz:status", status)
 end
 
 function playerz.set_base_texture(player, gender)
@@ -256,7 +272,7 @@ minetest.register_globalstep(function(dtime)
 			--end
 
 			-- Apply animations based on what the player is doing
-			if player:get_hp() == 0 then
+			if playerz.is_dead(player) or playerz.get_status(player) == "sleep" then
 				player_set_animation(player, "lay")
 			-- Determine if the player is walking
 			elseif controls.up or controls.down or controls.left or controls.right then
@@ -363,9 +379,9 @@ function playerz.compose_face(base_texture, scale)
 		scale = scale,
 		skin_texture = "player_face_skin.png",
 		eyebrowns_pos = "0,0",
-		eye_right_pos = "2,4",
-		eye_left_pos = "5,4",
-		mouth_pos = "0,6",
+		eye_right_pos = "1,3",
+		eye_left_pos = "4,3",
+		mouth_pos = "0,5",
 		hair_preview = true,
 		hair_pos = "0,0",
 	})
