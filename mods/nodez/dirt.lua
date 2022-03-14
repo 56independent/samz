@@ -1,10 +1,26 @@
-local S = ...
+local S, farmz_mod = ...
+
+local function remove_plow(pos)
+	if helper.in_group(pos, "plow") or helper.in_group(pos, "plant") then
+		minetest.swap_node(pos, {name="air"})
+	end
+end
+
+local function destroy_plow(pos)
+	if not farmz_mod then
+		return
+	end
+	remove_plow({x=pos.x, y=pos.y+1, z=pos.z})
+end
 
 minetest.register_node("nodez:dirt", {
 	description = S("Dirt"),
 	tiles = {"nodez_dirt.png"},
 	groups = {crumbly=3, dirt=1, soil=1},
 	sounds = sound.dirt(),
+	on_destruct = function(pos)
+		destroy_plow(pos)
+	end
 })
 
 minetest.register_node("nodez:dirt_with_grass", {
@@ -16,6 +32,9 @@ minetest.register_node("nodez:dirt_with_grass", {
 		tileable_vertical = false}},
 	groups = {crumbly=3, dirt=1, soil=1},
 	sounds = sound.dirt(),
+	on_destruct = function(pos)
+		destroy_plow(pos)
+	end
 })
 
 --Snow
@@ -30,6 +49,9 @@ minetest.register_node("nodez:dirt_with_snow", {
 	sounds = sound.dirt({
 		footstep = {name = "sound_snow_footstep", gain = 0.2},
 	}),
+	on_destruct = function(pos)
+		destroy_plow(pos)
+	end
 })
 
 --Pottery

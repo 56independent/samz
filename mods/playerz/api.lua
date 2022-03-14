@@ -25,6 +25,7 @@ local player_textures = {}
 local player_anim = {}
 local player_sneak = {}
 playerz.player_attached = {}
+playerz.count = 0 --Total number of connected players
 
 function playerz.get_animation(player)
 	local name = player:get_player_name()
@@ -180,15 +181,6 @@ function playerz.set_animation(player, anim_name, speed)
 	player:set_animation(anim, speed or model.animation_speed, animation_blend)
 end
 
-minetest.register_on_leaveplayer(function(player)
-	local name = player:get_player_name()
-	player_model[name] = nil
-	player_anim[name] = nil
-	player_textures[name] = nil
-	player_sneak[name] = nil
-	playerz.player_attached[name] = nil
-end)
-
 -- Localize for better performance.
 local player_set_animation = playerz.set_animation
 local player_attached = playerz.player_attached
@@ -196,7 +188,7 @@ local player_attached = playerz.player_attached
 -- Prevent knockback for attached players
 local old_calculate_knockback = minetest.calculate_knockback
 function minetest.calculate_knockback(player, ...)
-	if player_attached[player:get_player_name()] then
+	if player_attached[player:get_player_name()] or playerz.is_sleeping(player) then
 		return 0
 	end
 	return old_calculate_knockback(player, ...)
@@ -387,6 +379,26 @@ function playerz.compose_face(base_texture, scale)
 	})
 end
 
+--Sleep functions
+
+function playerz.count_sleeping()
+	local count = 0
+	for _, player in pairs(minetest.get_connected_players()) do
+		if playerz.get_status(player) == "sleep" then
+			count = count + 1
+		end
+	end
+	return count
+end
+
+function playerz.is_sleeping(player)
+	if playerz.get_status(player) == "sleep" then
+		return true
+	else
+		return false
+	end
+end
+
 --Level functions
 function playerz.lvl_up(player)
 	local meta = player:get_meta()
@@ -414,6 +426,26 @@ end
 function playerz.reset_lvl(player, level)
 	player:get_meta():set_int("level", 0)
 end
+
+--Player Register Functions
+
+minetest.register_on_dieplayer(function(player, reason)
+	playerz.set_status(player, "dead")
+end)
+
+minetest.register_on_respawnplayer(function(player)
+	playerz.set_status(player, "normal")
+end)
+
+minetest.register_on_leaveplayer(function(player)
+	local name = player:get_player_name()
+	player_model[name] = nil
+	player_anim[name] = nil
+	player_textures[name] = nil
+	player_sneak[name] = nil
+	playerz.player_attached[name] = nil
+	playerz.count = playerz.count - 1
+end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "playerz:gender" then

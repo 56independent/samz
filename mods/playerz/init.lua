@@ -28,14 +28,6 @@ playerz.register_model("character.b3d", {
 
 })
 
-minetest.register_on_dieplayer(function(player, reason)
-	playerz.set_status(player, "dead")
-end)
-
-minetest.register_on_respawnplayer(function(player)
-	playerz.set_status(player, "normal")
-end)
-
 -- Update appearance when the player joins
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
@@ -64,4 +56,5 @@ minetest.register_on_joinplayer(function(player)
 	-- Set hotbar textures
 	player:hud_set_hotbar_image("playerz_hotbar.png")
 	player:hud_set_hotbar_selected_image("playerz_hotbar_selected.png")
+	playerz.count = playerz.count + 1
 end)

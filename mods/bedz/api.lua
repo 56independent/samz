@@ -1,4 +1,66 @@
-local modname = ...
+local S, modname = ...
+
+local singleplayer
+if minetest.is_singleplayer() then
+	singleplayer = true
+else
+	singleplayer = false
+end
+
+local multiplayer_timeofday = nil
+local default_hours = 8
+
+local _contexts = {}
+
+local function get_context(name)
+    local context = _contexts[name] or {}
+    _contexts[name] = context
+    return context
+end
+
+local function compose_formspec(player_name, await)
+	local players_sleeping = 0
+	if not(singleplayer) then
+		players_sleeping = playerz.count_sleeping()
+	end
+	local formspec
+	if singleplayer or not(await) then
+		local context = get_context(player_name)
+		local hours = context.hours or tonumber(default_hours)
+		local timeofday = minetest.get_timeofday()
+		local btn_dawn_dusk, img_dawn_dusk, lbl_dawn_dusk
+		if timeofday > 0.2 and timeofday < 0.805 then
+			lbl_dawn_dusk = S("Dusk")
+			btn_dawn_dusk = "btn_dusk"
+			img_dawn_dusk = "moon.png^[transformR180"
+		else
+			lbl_dawn_dusk = S("Dawn")
+			btn_dawn_dusk = "btn_dawn"
+			img_dawn_dusk = "sun_icon.png"
+		end
+		formspec = [[
+			formspec_version[5]
+			size[6,4.25]
+			image[2,0;1,1;clock_white.png]
+			label[3,0.5;]]..helper.to_clock()..[[]
+			image_button_exit[2,1.75;2,1;;btn_hours;]]..hours.." "..S("Hours")..[[]
+			image_button_exit[1.5,3;1,1;]]..img_dawn_dusk..[[;]]..btn_dawn_dusk..[[;]]..lbl_dawn_dusk..[[]
+			button_exit[3.5,3;2,1;btn_leave;]]..S("Leave Bed")..[[]
+			scrollbaroptions[min=1;max=12;smallstep=1;largestep=12]
+			scrollbar[0.5,1;5,0.5;;scrollbar;]]..hours..[[]
+		]]
+	else --awaiting formspec
+		formspec = [[
+			formspec_version[5]
+			size[6,4.25]
+			label[0.5,0.5;]]..S("Players sleeping")..": "..tostring(players_sleeping)..[[]
+			label[0.5,1;]]..S("Connected players")..": "..tostring(playerz.count)..[[]
+			label[0.5,1.5;]]..S("Required players to sleep")..": "..tostring(math.floor(playerz.count/2)+ 1)..[[]
+			button_exit[3.5,3;2,1;btn_leave;]]..S("Leave Bed")..[[]
+		]]
+	end
+	return formspec
+end
 
 local function get_look_yaw(pos)
 	local rotation = minetest.get_node(pos).param2
@@ -16,41 +78,91 @@ local function get_look_yaw(pos)
 	end
 end
 
-local function unmark_bed(pos)
+function bedz.check_bed(pos)
 	local node = minetest.get_node_or_nil(pos)
-	if not node then
-		return
+	if (not node) or (minetest.get_node_group(node.name, "bed") == 0) then --not a bed
+		return false
+	else
+		return true
 	end
-	if minetest.get_node_group(node.name, "bed") == 0 then --not a bed
-		return
+end
+
+local function unmark_bed(pos)
+	if bedz.check_bed(pos) then
+		minetest.get_meta(pos):set_string("bedside", "") --unmark the bed
 	end
-	minetest.get_meta(pos):set_string("bedside", "") --unmark the bed
+end
+
+local function rest_player(player, rest)
+	local hp = player:get_hp()
+	hp = hp + (rest * 0.5)
+	player:set_hp(hp)
 end
 
 local function stop_sleep(player)
 	local meta = player:get_meta()
+	local player_name = player:get_player_name()
 	unmark_bed(minetest.string_to_pos(meta:get_string("bedz:bed_pos")))
 	playerphysics.remove_physics_factor(player, "speed", "bedz")
 	playerphysics.remove_physics_factor(player, "jump", "bedz")
 	playerphysics.remove_physics_factor(player, "gravity", "bedz")
 	playerz.set_status(player, "normal")
 	player:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
+	minetest.close_formspec(player_name, "bedz:form")
+	--playerz.player_attached[player_name] = false
 end
 
-minetest.register_on_dieplayer(function(player, reason)
+local function awake(player, rest)
 	if playerz.get_status(player) == "sleep" then
-		stop_sleep(player)
+		stop_sleep(player, rest)
+		if rest then
+			rest_player(player, rest)
+		end
+		return true
+	else
+		return false
 	end
-end)
+end
 
-minetest.register_on_leaveplayer(function(player)
-	if playerz.get_status(player) == "sleep" then
-		stop_sleep(player)
+local function close_all_forms()
+	for _, _player in ipairs(minetest.get_connected_players()) do
+		if playerz.get_status(_player) == "sleep" then
+			awake(_player, nil)
+			minetest.close_formspec(_player:get_player_name(), "bedz:form")
+		end
 	end
-end)
+end
 
-local function awake(player)
-	stop_sleep(player)
+local function calculate_hours(timeofday)
+	local current_hour = helper.what_hour()
+	--minetest.chat_send_all(tostring(current_hour))
+	local hour = helper.what_hour(timeofday)
+	--minetest.chat_send_all(tostring(hour))
+	local hours
+	if (current_hour > hour)  then
+		hours = 24 - current_hour + hour
+	else
+		hours = hour - current_hour
+	end
+	return tostring(hours)
+end
+
+local function multiplayer_sleep()
+	local players_sleeping = playerz.count_sleeping()
+	local slept
+	if multiplayer_timeofday and (players_sleeping > (playerz.count / 2)) then
+		local hours = calculate_hours(multiplayer_timeofday)
+		minetest.set_timeofday(multiplayer_timeofday)
+		for _, _player in ipairs(minetest.get_connected_players()) do
+			minetest.chat_send_player(_player:get_player_name(), "You have slept".." "..hours.." ".."hours")
+			awake(_player, hours) --awake all players
+		end
+		multiplayer_timeofday = nil
+		slept = true
+	else
+		slept = false
+	end
+	return slept, players_sleeping
 end
 
 local function sleep(pos, player)
@@ -58,7 +170,7 @@ local function sleep(pos, player)
 	local meta_bed = minetest.get_meta(pos)
 
 	meta_bed:set_string("bedside", player_name) --mark the bed
-
+	--playerz.player_attached[player_name] = true
 	-- physics, eye_offset, etc
 	player:set_eye_offset({x = 0, y = -13, z = 0}, {x = 0, y = 0, z = 0})
 	local yaw, param2 = get_look_yaw(pos)
@@ -66,16 +178,30 @@ local function sleep(pos, player)
 	local dir = minetest.facedir_to_dir(param2)
 	local player_pos = {
 		x = pos.x + dir.x / 3,
-		y = pos.y + 0.07,
+		y = pos.y + 0.31,
 		z = pos.z + dir.z / 3
 	}
-
-	playerz.set_status(player, "sleep")
 	playerphysics.add_physics_factor(player, "speed", "bedz", 0)
 	playerphysics.add_physics_factor(player, "jump", "bedz", 0)
 	playerphysics.add_physics_factor(player, "gravity", "bedz", 0)
 	player:set_pos(player_pos)
 	player:get_meta():set_string("bedz:bed_pos", minetest.pos_to_string(pos))
+	playerz.set_status(player, "sleep")
+	local await
+	if singleplayer or (playerz.count == 1) then
+		await = false
+	else
+		local slept, players_sleeping = multiplayer_sleep()
+		if slept then
+			return
+		end
+		if (players_sleeping) == 1 and not(multiplayer_timeofday) then
+			await = false
+		else
+			await = true
+		end
+	end
+	minetest.show_formspec(player_name , "bedz:form", compose_formspec(player_name, await))
 end
 
 local function use_bed(pos, player)
@@ -105,17 +231,15 @@ local function use_bed(pos, player)
 	end
 
 	if bedside == player_name then
-		return false, "You are already in bed"
+		return false, S("You are already in bed")
 	elseif not(bedside == "") then
-		return false, "This bed is already occupied"
+		return false, S("This bed is already occupied")
 	end
 
 	--Sleep
 	sleep(pos, player)
 	return true
 end
-
---minetest.chat_send_all("test")
 
 local function place_bed(bed_name, placer, pointed_thing)
 	local above_pos = pointed_thing.above
@@ -138,7 +262,8 @@ function bedz.register_bed(name, def)
 		description = def.description,
 		inventory_image = def.inventory_image or "",
 		wield_image = def.wield_image or def.inventory_image,
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "bedz_simple_bed.obj",
 		tiles = def.tiles,
 		use_texture_alpha = "clip",
 		paramtype = "light",
@@ -147,10 +272,6 @@ function bedz.register_bed(name, def)
 		stack_max = 1,
 		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1},
 		sounds = sound.wood(),
-		node_box = {
-			type = "fixed",
-			fixed = def.nodebox,
-		},
 		selection_box = {
 			type = "fixed",
 			fixed = def.selectionbox,
@@ -175,9 +296,80 @@ function bedz.register_bed(name, def)
 			if not(bedside == "") then
 				local player = minetest.get_player_by_name(bedside)
 				if player then
-					stop_sleep(player)
+					stop_sleep(player, nil)
 				end
 			end
 		end
 	})
 end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+    if formname ~= "bedz:form" then
+        return
+    end
+    local player_name = player:get_player_name()
+    local context = get_context(player_name)
+    local new_timeofday = nil
+    if fields.btn_dawn then
+		new_timeofday = 0.23
+    elseif fields.btn_dusk then
+		new_timeofday = 0.805
+    elseif fields.btn_hours then
+		local sleep_hours = tonumber(context.hours) or default_hours
+		local hours = sleep_hours/24
+		local timeofday = minetest.get_timeofday()
+		if (timeofday+hours) > 1 then
+			timeofday = (timeofday + hours) - 1
+		else
+			timeofday = timeofday + hours
+		end
+		new_timeofday = timeofday
+	elseif fields.quit then
+		awake(player, nil)
+		if not singleplayer then
+			multiplayer_timeofday = nil
+			close_all_forms()
+		end
+		return
+    elseif fields.scrollbar then
+		local scrollbar = minetest.explode_scrollbar_event(fields.scrollbar)
+		if scrollbar.type == "CHG" then
+			context.hours = scrollbar.value
+			minetest.show_formspec(player_name, "bedz:form", compose_formspec(player_name))
+			return
+		end
+	end
+	if singleplayer or (playerz.count == 1) then
+		--singleplayer or only one player in multiplayer
+		local hours = calculate_hours(new_timeofday)
+		minetest.chat_send_player(player_name, S("You have slept").." "..hours.." "
+			..S("hours"))
+		minetest.set_timeofday(new_timeofday)
+		awake(player, hours)
+	else --multiplayer, #players>1
+		if new_timeofday then --set the multiplayer new timeofday for the first time
+			multiplayer_timeofday = new_timeofday
+		end
+		local slept = multiplayer_sleep()
+		if slept then
+			return
+		else --awating formspec
+			minetest.show_formspec(player_name, "bedz:form", compose_formspec(player_name, true))
+		end
+	end
+end)
+
+--Player Status
+
+minetest.register_on_dieplayer(function(player, reason)
+	awake(player, nil)
+end)
+
+minetest.register_on_leaveplayer(function(player)
+	awake(player, nil)
+	_contexts[player:get_player_name()] = nil
+end)
+
+minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage)
+	return awake(player, nil)
+end)

@@ -348,3 +348,24 @@ minetest.register_decoration({
 	place_offset_y = -1,
 	flags = "place_center_x, place_center_z, force_placement",
 })
+
+-- Grasses
+
+minetest.register_decoration({
+	name = "farmz:grass",
+	decoration = "farmz:grass",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.015,
+		scale = 0.045,
+		spread = {x = 200, y = 200, z = 200},
+		seed = 32559,
+		octaves = 3,
+		persist = 0.6
+	},
+	biomes = {"forest"},
+	y_max = mapgen.biomes.peaky_mountain_height,
+	y_min = 1,
+})

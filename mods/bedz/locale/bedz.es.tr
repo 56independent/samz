@@ -1,2 +1,10 @@
 # textdomain: bedz
 Bed=Cama
+Dawn=Amanecer
+Dusk=Atardecer
+Hours=Horas
+hours=horas
+Leave Bed=Abandonar cama
+This bed is already occupied=Esta cama ya está ocupada
+You are already in bed=Ya estás en cama
+You have slept=Has dormido

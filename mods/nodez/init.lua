@@ -8,9 +8,14 @@ local modname = minetest.get_current_modname()
 local modpath = minetest.get_modpath(modname)
 local S = minetest.get_translator(modname)
 
-assert(loadfile(modpath .. "/dirt.lua"))(S)
+local farmz_mod
+
+if minetest.get_modpath("farmz") ~= nil then
+	farmz_mod = true
+end
+
+assert(loadfile(modpath .. "/dirt.lua"))(S, farmz_mod)
 assert(loadfile(modpath .. "/gems.lua"))(S)
-assert(loadfile(modpath .. "/grass.lua"))(S)
 assert(loadfile(modpath .. "/metals.lua"))(S)
 assert(loadfile(modpath .. "/mese.lua"))(S)
 assert(loadfile(modpath .. "/lava.lua"))(S)

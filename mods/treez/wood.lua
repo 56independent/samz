@@ -4,7 +4,7 @@ local S = ...
 minetest.register_craftitem("treez:stick", {
 	description = S("Stick"),
 	inventory_image = "treez_stick.png",
-	groups = {stick = 1, wood=1, flammable = 3}
+	groups = {stick = 1, flammable = 3}
 })
 
 minetest.register_craft({
