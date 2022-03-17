@@ -4,6 +4,7 @@ dofile(minetest.get_modpath("playerz") .. "/api.lua")
 dofile(minetest.get_modpath("playerz") .. "/base_texture.lua")
 dofile(minetest.get_modpath("playerz") .. "/cloths.lua")
 dofile(minetest.get_modpath("playerz") .. "/freeze.lua")
+dofile(minetest.get_modpath("playerz") .. "/hunger.lua")
 
 -- Default player appearance
 playerz.register_model("character.b3d", {
@@ -40,17 +41,22 @@ minetest.register_on_joinplayer(function(player)
 			player:get_meta():set_int("ptol:level", 4)
 		end
 	end
-	if gender == "" then
+	local hunger
+	if gender == "" then --Initial values as gender, hunger
+		hunger = playerz.init_hunger(player)
 		playerz.select_gender(player_name) --select the gender
 	else
+		hunger = playerz.load_hunger(player)
 		local cloth = playerz.compose_cloth(player)
 		playerz.registered_models[playerz.get_gender_model(gender)].textures[1] = cloth
 		playerz.set_model(player, playerz.get_gender_model(gender))
 	end
+	--Set Hunger Hudbar
+	playerz.hb_add(player, hunger)
 	-- Set formspec prepend
 	local formspec = [[
-			bgcolor[#303030;both]
-			listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]
+		bgcolor[#303030;both]
+		listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]
 	]]
 	player:set_formspec_prepend(formspec)
 	-- Set hotbar textures

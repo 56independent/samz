@@ -197,6 +197,7 @@ end
 -- Check each player and apply animations
 local timer = 0
 minetest.register_globalstep(function(dtime)
+	timer = timer + dtime
 	for _, player in pairs(minetest.get_connected_players()) do
 		local name = player:get_player_name()
 		local model_name = player_model[name]
@@ -299,10 +300,9 @@ minetest.register_globalstep(function(dtime)
 				end
 			end
 			if on_water and player_pos.y < 0 then
-				timer = timer + dtime
 				if timer > 1 then
 					player_pos.y = player_pos.y + 1
-					minetest.add_particlespawner({
+					minetest.addadd_particlespawner({
 						amount = 6,
 						time = 1,
 						minpos = player_pos,
@@ -319,10 +319,15 @@ minetest.register_globalstep(function(dtime)
 						vertical = false,
 						texture = "bubble.png",
 					})
-					timer = 0
 				end
 			end
 		end
+		if timer > 1 then
+			playerz.hunger(player)
+		end
+	end
+	if timer > 1 then
+		timer = 0
 	end
 end)
 
@@ -435,6 +440,7 @@ end)
 
 minetest.register_on_respawnplayer(function(player)
 	playerz.set_status(player, "normal")
+	playerz.reset_hunger(player) --reinit hunger
 end)
 
 minetest.register_on_leaveplayer(function(player)
@@ -444,6 +450,7 @@ minetest.register_on_leaveplayer(function(player)
 	player_textures[name] = nil
 	player_sneak[name] = nil
 	playerz.player_attached[name] = nil
+	playerz.remove_hunger(player)
 	playerz.count = playerz.count - 1
 end)
 
@@ -466,3 +473,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	playerz.set_cloths(player) --set the default clothes
 	playerz.set_texture(player)
 end)
+
+minetest.register_on_shutdown(function()
+	for _, player in ipairs(minetest.get_connected_players()) do
+		playerz.shutdown_hunger(player)
+	end
+end)
+
