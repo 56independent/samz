@@ -97,17 +97,14 @@ end
 function farmz.register_plant(name, def)
 	local plant_name = modname..":"..name
 	for i = 1,2 do
-		local description = ""
-		local _type = ""
-		local _plant_name = ""
-		local texture = modname.."_"..name
+		local description
+		local _plant_name
+		local texture
 		if i == 1 then
-			_type = "plant"
 			_plant_name = plant_name.."_plant"
 			texture = modname.."_"..name.."_plant.png"
 			description = def.description.." "..S("Plant")
 		else
-			_type = "sprout"
 			_plant_name = plant_name.."_sprout"
 			texture = modname.."_"..name.."_sprout.png"
 			description = def.description.." "..S("Plant").." ".."("..S("Sprout")..")"

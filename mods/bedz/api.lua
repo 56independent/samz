@@ -93,9 +93,9 @@ local function unmark_bed(pos)
 	end
 end
 
-local function rest_player(player, rest)
+local function rest_player(player, rest_hours)
 	local hp = player:get_hp()
-	hp = hp + (rest * 0.5)
+	hp = hp + (rest_hours * 0.5)
 	player:set_hp(hp)
 end
 
@@ -112,11 +112,12 @@ local function stop_sleep(player)
 	--playerz.player_attached[player_name] = false
 end
 
-local function awake(player, rest)
+local function awake(player, rest_hours)
 	if playerz.get_status(player) == "sleep" then
-		stop_sleep(player, rest)
-		if rest then
-			rest_player(player, rest)
+		stop_sleep(player)
+		if rest_hours then
+			rest_player(player, rest_hours)
+			playerz.change_hunger(player, -(rest_hours*(playerz.max_hunger/playerz.starving_hours))) --decrease hunger
 		end
 		return true
 	else

@@ -1,10 +1,13 @@
 -- player/init.lua
 
-dofile(minetest.get_modpath("playerz") .. "/api.lua")
-dofile(minetest.get_modpath("playerz") .. "/base_texture.lua")
-dofile(minetest.get_modpath("playerz") .. "/cloths.lua")
-dofile(minetest.get_modpath("playerz") .. "/freeze.lua")
-dofile(minetest.get_modpath("playerz") .. "/hunger.lua")
+local modname = minetest.get_current_modname()
+local modpath = minetest.get_modpath(modname)
+
+dofile(modpath .. "/api.lua")
+dofile(modpath .. "/base_texture.lua")
+dofile(modpath .. "/cloths.lua")
+dofile(modpath .. "/freeze.lua")
+dofile(modpath .. "/hunger.lua")
 
 -- Default player appearance
 playerz.register_model("character.b3d", {
@@ -26,7 +29,6 @@ playerz.register_model("character.b3d", {
 	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
 	stepheight = 0.6,
 	eye_height = 1.47,
-
 })
 
 -- Update appearance when the player joins

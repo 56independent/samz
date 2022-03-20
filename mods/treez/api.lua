@@ -7,7 +7,8 @@ local tree_grow_time = 5 --3600 by default
 function treez.register_tree(name, def)
 	--Fruit
 	if def.fruit then
-		minetest.register_node("treez:"..def.fruit.name, {
+		local fruit_name = "treez:"..def.fruit.name
+		minetest.register_node(fruit_name, {
 			description = S(def.fruit.description),
 			drawtype = "plantlike",
 			tiles = {"treez_"..def.fruit.name..".png"},
@@ -24,7 +25,10 @@ function treez.register_tree(name, def)
 				leafdecay = 3, leafdecay_drop = 1},
 			sounds = sound.leaves(),
 
-			on_use =  minetest.item_eat(2),
+			on_use = function(itemstack, user, pointed_thing)
+				eat.item_eat(itemstack, user, fruit_name, def.fruit.hp, def.fruit.hunger)
+				return itemstack
+			end,
 
 			after_place_node = function(pos, placer, itemstack)
 				minetest.set_node(pos, {name = "treez:"..def.fruit.name, param2 = 1})

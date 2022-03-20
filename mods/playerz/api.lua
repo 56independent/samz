@@ -36,6 +36,17 @@ function playerz.get_animation(player)
 	}
 end
 
+--Hp
+
+function playerz.change_hp(player, value, reason)
+	local hp = player:get_hp()
+	hp = hp + value
+	player:set_hp(hp, reason or "")
+	return hp
+end
+
+--Helper Functions
+
 function playerz.is_dead(player)
 	if player:get_hp() <= 0 then
 		return true
@@ -108,23 +119,37 @@ local function yaw_to_degrees(yaw)
 	return(yaw * 180.0 / math.pi)
 end
 
-local last_look_at_dir
+local last_look = {}
 
 local function move_head(player, on_water)
+	local pname = player:get_player_name()
 	local look_at_dir = player:get_look_dir()
+	local lastlook = last_look[pname]
+	local anim = player_anim[pname] or ""
+	local anim_base = string.sub(anim, 1, 4)
 	--apply change only if the pitch changed
-	if last_look_at_dir and look_at_dir.y == last_look_at_dir.y then
+	if lastlook and look_at_dir.y == lastlook.dir.y and
+	   anim_base == lastlook.anim then
 		return
 	else
-		last_look_at_dir = look_at_dir
+		last_look[pname] = {}
+		last_look[pname].dir = look_at_dir
+		last_look[pname].anim = anim_base
 	end
 	local pitch = yaw_to_degrees(math.asin(look_at_dir.y))
-	if on_water then
+	if pitch > 70 then pitch = 70 end
+	if pitch < -50 then pitch = -50 end
+	if anim_base == "swin" or on_water then
 		pitch = pitch + 70
 	end
 	local head_rotation = {x= pitch, y= 0, z= 0} --the head movement {pitch, yaw, roll}
-	local head_offset = 6.3
-	local head_position = {x=0, y=head_offset, z=0}
+	local head_offset
+	if minetest.get_modpath("3d_armor")~=nil then
+		head_offset = 6.75
+	else
+		head_offset = 6.3
+	end
+	local head_position = {x=0, y= head_offset, z=0}
 	player:set_bone_position("Head", head_position, head_rotation) --set the head movement
 end
 
@@ -302,7 +327,7 @@ minetest.register_globalstep(function(dtime)
 			if on_water and player_pos.y < 0 then
 				if timer > 1 then
 					player_pos.y = player_pos.y + 1
-					minetest.addadd_particlespawner({
+					minetest.add_particlespawner({
 						amount = 6,
 						time = 1,
 						minpos = player_pos,

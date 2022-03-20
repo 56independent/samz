@@ -1,7 +1,12 @@
 local player_hunger = {}
 
---Time to decrease Hunger
-local hunger_tick = 1500
+--Const: Max Hunger Points
+playerz.max_hunger = 20
+--Game Hours to hunger to 0
+playerz.starving_hours = 48
+--24 game hours = 20 real min
+--1 game hour = 50 real seconds
+local hunger_tick = (playerz.starving_hours * 50)/playerz.max_hunger
 --Time to produce health damage when starving
 local hunger_tick_damage = 4
 
@@ -36,15 +41,27 @@ function playerz.get_hunger(player)
 	return hunger
 end
 
+function playerz.change_hunger(player, value)
+	local hunger = playerz.get_hunger(player)
+	hunger = hunger +  value
+	if hunger < 0 then
+		hunger = 0
+	elseif hunger > playerz.max_hunger then
+		hunger = playerz.max_hunger
+	end
+	playerz.set_hunger(player, hunger)
+	return hunger
+end
+
 function playerz.reset_hunger(player)
 	local name = player:get_player_name()
-	local hunger = 20
+	local hunger = playerz.max_hunger
 	player_hunger[name].points = hunger
 	playerz.hb_change(player, hunger)
 end
 
 function playerz.init_hunger(player)
-	local hunger = playerz.save_hunger(player, 20)
+	local hunger = playerz.save_hunger(player, playerz.max_hunger)
 	local name = player:get_player_name()
 	player_hunger[name] = {
 		points = hunger,

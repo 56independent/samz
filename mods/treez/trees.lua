@@ -3,7 +3,9 @@ treez.register_tree("apple_tree", {
 	description = "Apple Tree",
 	fruit = {
 		name = "apple",
-		description = "Apple"
+		description = "Apple",
+		hp = 2,
+		hunger = 1.5
 	},
 	deco = {
 		biomes = {"forest"},
@@ -24,7 +26,9 @@ treez.register_tree("cherry_tree", {
 	description = "Cherry Tree",
 	fruit = {
 		name = "cherries",
-		description = "Cherries"
+		description = "Cherries",
+		hp = 1.5,
+		hunger = 1,
 	},
 	deco = {
 		biomes = {"forest"},
