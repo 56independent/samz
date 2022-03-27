@@ -27,6 +27,7 @@ minetest.register_node("nodez:water_source", {
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a = 64, r = 100, g = 100, b = 200},
 	groups = {water = 3, liquid = 3},
+	sounds = sound.water(),
 })
 
 minetest.register_node("nodez:water_flowing", {
@@ -56,6 +57,7 @@ minetest.register_node("nodez:water_flowing", {
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a = 64, r = 100, g = 100, b = 200},
 	groups = {water = 3, liquid = 3},
+	sounds = sound.water(),
 })
 
 minetest.register_node("nodez:river_water_source", {
@@ -84,6 +86,7 @@ minetest.register_node("nodez:river_water_source", {
 	liquid_range = 2,
 	post_effect_color = {a = 103, r = 30, g = 76, b = 90},
 	groups = {water = 3, liquid = 3, },
+	sounds = sound.water(),
 })
 
 minetest.register_node("nodez:river_water_flowing", {
@@ -115,6 +118,7 @@ minetest.register_node("nodez:river_water_flowing", {
 	liquid_range = 2,
 	post_effect_color = {a = 103, r = 30, g = 76, b = 90},
 	groups = {water = 3, liquid = 3, },
+	sounds = sound.water(),
 })
 
 minetest.register_node("nodez:ice", {

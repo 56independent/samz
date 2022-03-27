@@ -23,7 +23,7 @@ flowers.list = {
 		name = "rose",
 		def = {
 			desc = S("Rose"),
-			box = {-2/16, -0.5, -2/16, 2/16, 5/16, 2/16},
+			box = {-2/16, -0.5, -2/16, 2/16, 4/16, 2/16},
 			groups = {color_red = 1, flammable = 1},
 			inv_img = false,
 			deco = {

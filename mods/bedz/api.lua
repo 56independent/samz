@@ -118,6 +118,7 @@ local function awake(player, rest_hours)
 		if rest_hours then
 			rest_player(player, rest_hours)
 			playerz.change_hunger(player, -(rest_hours*(playerz.max_hunger/playerz.starving_hours))) --decrease hunger
+			sound.play("player", player, "bedz_yawn")
 		end
 		return true
 	else
@@ -229,6 +230,11 @@ local function use_bed(pos, player)
 				bedside = ""
 				unmark_bed(pos)
 		end
+	end
+
+	--Check if player is hungry
+	if playerz.is_starving(player) then
+		return false, "You are hungry"
 	end
 
 	if bedside == player_name then

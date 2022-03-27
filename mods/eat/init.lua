@@ -28,6 +28,7 @@ function eat.item_eat(itemstack, user, item_name, hp, hunger)
 		playerz.change_hp(user, hp or 1, "eat")
 		eat_particlespawner(user, item_name, itemstack)
 		playerz.change_hunger(user, hunger or 1)
+		sound.play("player", user, "eat_chewing")
 	end
 	itemstack:take_item()
 	return itemstack

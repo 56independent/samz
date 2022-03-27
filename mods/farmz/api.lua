@@ -95,20 +95,37 @@ function farmz.register_hoe(name, def)
 end
 
 function farmz.register_plant(name, def)
-	local plant_name = modname..":"..name
+	local product_name = modname..":"..name
+
+	minetest.register_craftitem(product_name , {
+		description = S(def.description),
+		inventory_image = modname.."_"..name..".png",
+		groups = {fleshy = 3, flammable = 2, wheat = 1},
+	})
+
 	for i = 1,2 do
 		local description
 		local _plant_name
 		local texture
+		local drop
+
 		if i == 1 then
-			_plant_name = plant_name.."_plant"
+			_plant_name = product_name.."_plant"
 			texture = modname.."_"..name.."_plant.png"
 			description = def.description.." "..S("Plant")
+			if not def.drop then
+				local drop_number = def.drop_number or 1
+				drop = product_name.." "..drop_number
+			else
+				drop = def.drop
+			end
 		else
-			_plant_name = plant_name.."_sprout"
+			_plant_name = product_name.."_sprout"
 			texture = modname.."_"..name.."_sprout.png"
 			description = def.description.." "..S("Plant").." ".."("..S("Sprout")..")"
+			drop = ""
 		end
+
 		minetest.register_node(_plant_name, {
 			description = description,
 			inventory_image = def.inventory_image or texture,
@@ -126,6 +143,7 @@ function farmz.register_plant(name, def)
 				type = "fixed",
 				fixed = def.box,
 			},
+			drop = drop,
 			buildable_to = true,
 			groups = {crumbly = 1, plant = 1, not_in_creative_inventory = 1},
 			sounds = sound.dirt(),
@@ -137,7 +155,7 @@ function farmz.register_plant(name, def)
 			end,
 
 			on_timer = function(pos)
-				minetest.set_node(pos, {name = plant_name.."_plant"})
+				minetest.set_node(pos, {name = product_name.."_plant"})
 				return false
 			end,
 
@@ -150,7 +168,8 @@ function farmz.register_plant(name, def)
 			end
 		})
 	end
-	local seed_name = plant_name.."_seed"
+
+	local seed_name = product_name.."_seed"
 	local seed_name_soil = seed_name.."_soil"
 	local seed_texture = modname.."_"..name.."_seed.png"
 
@@ -171,9 +190,9 @@ function farmz.register_plant(name, def)
 			end
 			if node.name == "farmz:plow" then
 				minetest.set_node(pos, {name = seed_name_soil})
+				itemstack:take_item(1)
 				start_grow(pos, def.grow_time)
 			end
-			itemstack:take_item(1)
 			return itemstack
 		end
 	})
@@ -194,7 +213,7 @@ function farmz.register_plant(name, def)
 		end,
 
 		on_timer = function(pos)
-			minetest.set_node(pos, {name = plant_name.."_sprout"})
+			minetest.set_node(pos, {name = product_name.."_sprout"})
 			start_grow(pos, def.grow_time)
 			return false
 		end,
@@ -207,4 +226,24 @@ function farmz.register_plant(name, def)
 			end
 		end
 	})
+
+	if def.craft then
+		local craft_name = modname..":"..def.craft.name
+
+		minetest.register_craftitem(craft_name, {
+			description = S(def.craft.description),
+			inventory_image = modname.."_"..def.craft.name..".png",
+			groups = {flour = 1},
+		})
+
+		local recipe = {}
+		for i = 1, (def.craft.input_amount or 1) do
+			recipe[#recipe+1] = product_name
+		end
+		minetest.register_craft({
+			output = craft_name,
+			type = "shapeless",
+			recipe = recipe,
+		})
+	end
 end

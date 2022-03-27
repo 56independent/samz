@@ -110,7 +110,6 @@ minetest.register_node("nodez:clay_bricks", {
 	sounds = sound.dirt(),
 })
 
-
 minetest.register_craft({
 	output = "nodez:clay_bricks 1",
 	type = "shapeless",

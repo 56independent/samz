@@ -28,5 +28,23 @@ minetest.register_node("nodez:gravel", {
 	tiles ={"nodez_gravel.png"},
 	groups = {crumbly=2},
 	sounds = sound.gravel(),
+	drop = {
+		max_items = 1,
+        items = {
+			{
+				rarity = 10,
+				items = {"nodez:silex"},
+			},
+			{
+				items = {"nodez:gravel"},
+			},
+		}
+	}
 })
 
+--Silex
+
+minetest.register_craftitem("nodez:silex", {
+	description = S("Silex"),
+	inventory_image = "nodez_silex.png"
+})

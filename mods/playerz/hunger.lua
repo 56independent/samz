@@ -10,6 +10,18 @@ local hunger_tick = (playerz.starving_hours * 50)/playerz.max_hunger
 --Time to produce health damage when starving
 local hunger_tick_damage = 4
 
+--Helper Funtions
+
+function playerz.is_starving(player)
+	if playerz.get_hunger(player) <= 0 then
+		return true
+	else
+		return false
+	end
+end
+
+--Save/Load Functions
+
 function playerz.save_hunger(player, value)
 	player:get_meta():set_int("hunger", value)
 	return value

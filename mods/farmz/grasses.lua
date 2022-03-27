@@ -20,4 +20,13 @@ minetest.register_node("farmz:grass", {
 		type = "fixed",
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, -5 / 16, 6 / 16},
 	},
+	drop = {
+		max_items = 1,
+		items = {
+			{
+				rarity = 5,
+				items = {"farmz:wheat_seed"},
+			},
+		}
+	}
 })

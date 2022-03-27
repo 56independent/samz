@@ -8,18 +8,25 @@ function treez.register_tree(name, def)
 	--Fruit
 	if def.fruit then
 		local fruit_name = "treez:"..def.fruit.name
+		local inventory_image
+		if def.fruit.inv_img then
+			inventory_image = "treez_"..def.fruit.name.."_inv.png"
+		else
+			inventory_image = "treez_"..def.fruit.name..".png"
+		end
+
 		minetest.register_node(fruit_name, {
 			description = S(def.fruit.description),
 			drawtype = "plantlike",
 			tiles = {"treez_"..def.fruit.name..".png"},
-			inventory_image = "treez_"..def.fruit.name.."_inv.png",
+			inventory_image = inventory_image,
 			paramtype = "light",
 			sunlight_propagates = true,
 			walkable = false,
 			is_ground_content = false,
 			selection_box = {
 				type = "fixed",
-				fixed = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
+				fixed = def.fruit.selection_box
 			},
 			groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
 				leafdecay = 3, leafdecay_drop = 1},
@@ -52,6 +59,26 @@ function treez.register_tree(name, def)
 				end
 			end,
 		})
+
+		if def.fruit.craft then
+			local craft_fruit_name = "treez:"..def.fruit.craft.name
+
+			minetest.register_craftitem(craft_fruit_name, {
+				description = S(def.fruit.craft.description),
+				inventory_image = "treez_"..def.fruit.craft.name..".png",
+				groups = {fleshy = 3, flammable = 2, food = 1},
+				on_use = function(itemstack, user, pointed_thing)
+					eat.item_eat(itemstack, user, craft_fruit_name, def.fruit.craft.hp, def.fruit.craft.hunger)
+					return itemstack
+				end,
+			})
+
+			minetest.register_craft({
+				output = craft_fruit_name,
+				type = "shapeless",
+				recipe = {fruit_name},
+			})
+		end
 	end
 
 	--Sapling

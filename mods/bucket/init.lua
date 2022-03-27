@@ -1,8 +1,13 @@
+bucket = {}
+
+local modname = minetest.get_current_modname()
+local modpath = minetest.get_modpath(modname)
+local S = minetest.get_translator(modname)
+
 -- Bucket: Punch liquid source or flowing liquid to collect it
 
 minetest.register_tool("bucket:bucket", {
-	description = "Bucket".."\n"..
-		"Picks up liquid nodes",
+	description = S("Bucket"),
 	inventory_image = "bucket.png",
 	stack_max = 1,
 	liquids_pointable = true,

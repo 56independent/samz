@@ -280,6 +280,54 @@ minetest.register_decoration({
 	flags = "place_center_x, place_center_z, force_placement",
 })
 
+--Gravel
+
+minetest.register_decoration({
+	decoration = "nodez:gravel",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass", "nodez:sand"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "forest_ocean", "beach"},
+	noise_params = {
+		offset = 0.005,
+		scale = 0.008,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 1630,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 0,
+	y_max = 1,
+	spawn_by = "nodez:water_source",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+minetest.register_decoration({
+	decoration = "nodez:gravel",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass", "nodez:sand"},
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"forest", "forest_ocean", "beach"},
+	noise_params = {
+		offset = 0.8,
+		scale = 0.9,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 1630,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 0,
+	y_max = 1,
+	spawn_by = "nodez:gravel",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
 minetest.register_decoration({
 	decoration = "nodez:ice",
 	deco_type = "simple",
