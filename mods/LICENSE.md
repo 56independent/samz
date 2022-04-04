@@ -19,3 +19,13 @@
 - Author: InspectorJ
 - License: This work is licensed under the Attribution License.
 - Site: https://freesound.org/people/InspectorJ/sounds/412068/
+
+## door_open.ogg
+- Author: amholma
+- License: This work is licensed under the Creative Commons 0 License.
+- Site: https://freesound.org/people/amholma/sounds/344360/
+
+## door_close.ogg
+- Author: BergsteinProd
+- License: This work is licensed under the Attribution License.
+- Site: https://freesound.org/people/BergsteinProd/sounds/577009/

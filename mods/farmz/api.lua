@@ -112,7 +112,7 @@ function farmz.register_plant(name, def)
 		if i == 1 then
 			_plant_name = product_name.."_plant"
 			texture = modname.."_"..name.."_plant.png"
-			description = def.description.." "..S("Plant")
+			description = S("@1 Plant", S(def.description))
 			if not def.drop then
 				local drop_number = def.drop_number or 1
 				drop = product_name.." "..drop_number
@@ -122,7 +122,7 @@ function farmz.register_plant(name, def)
 		else
 			_plant_name = product_name.."_sprout"
 			texture = modname.."_"..name.."_sprout.png"
-			description = def.description.." "..S("Plant").." ".."("..S("Sprout")..")"
+			description = S("@1 Plant", S(def.description)).." ".."("..S("Sprout")..")"
 			drop = ""
 		end
 
@@ -174,7 +174,7 @@ function farmz.register_plant(name, def)
 	local seed_texture = modname.."_"..name.."_seed.png"
 
 	minetest.register_craftitem(seed_name, {
-		description = def.description.." ".."("..S("Seed")..")",
+		description = S("@1 Seed", S(def.description)),
 		inventory_image = seed_texture,
 		groups = {seed = 1},
 		on_use = function(itemstack, user, pointed_thing)
@@ -198,7 +198,7 @@ function farmz.register_plant(name, def)
 	})
 
 	minetest.register_node(seed_name_soil, {
-		description = def.description.." ".."("..S("Seed Soil")..")",
+		description = S(def.description).." ".."("..S("Seed Soil")..")",
 		drawtype = "nodebox",
 		paramtype = "light",
 		walkable = false,

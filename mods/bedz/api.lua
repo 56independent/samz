@@ -250,16 +250,16 @@ end
 
 local function place_bed(bed_name, placer, pointed_thing)
 	local above_pos = pointed_thing.above
-	local placer_dir = vector.round(placer:get_look_dir())
+	local bed_dir = helper.dir_to_compass(placer:get_look_dir())
 	--minetest.chat_send_all("placer dir: "..minetest.pos_to_string(placer_dir))
-	if (placer_dir.x == 0) and (placer_dir.z == 0) then
-		return
-	end
-	local behind_pos = vector.offset(above_pos, placer_dir.x, 0.0, placer_dir.z)
+	local behind_pos = vector.offset(above_pos, bed_dir.x, bed_dir.y, bed_dir.z)
 	local node_behind = minetest.get_node_or_nil(behind_pos)
 	if node_behind and helper.get_nodedef_field(node_behind.name, "drawtype") == "airlike" then
 		local dir = minetest.dir_to_facedir(placer:get_look_dir()) or 0
 		minetest.set_node(above_pos, {name = bed_name, param2 = dir})
+		return true
+	else
+		return false
 	end
 end
 
@@ -284,7 +284,9 @@ function bedz.register_bed(name, def)
 			fixed = def.selectionbox,
 		},
 		on_place = function(itemstack, placer, pointed_thing)
-			place_bed(bed_name, placer, pointed_thing)
+			if place_bed(bed_name, placer, pointed_thing) then
+				itemstack:take_item()
+			end
 			return itemstack
 		end,
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)

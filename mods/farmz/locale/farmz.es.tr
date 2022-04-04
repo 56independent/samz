@@ -1,9 +1,9 @@
 # textdomain: farmz
 Bread=Pan
 Flour=Harina
-Plant=Planta
+@1 Plant=Planta de @1
 Plowed Soil=Tierra arada
-Seed=Semilla
+@1 Seed=Semilla de @1
 Seed Soil=Cultivo con semillas
 Sprout=brote
 Steel Hoe=Azada de hierro

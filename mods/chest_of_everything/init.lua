@@ -82,7 +82,9 @@ minetest.register_on_mods_loaded(function()
 	local items = {}
 	for itemstring,_ in pairs(minetest.registered_items) do
 		if itemstring ~= "" and itemstring ~= "unknown" and itemstring ~= "ignore" then
-			table.insert(items, itemstring)
+			if minetest.get_item_group(itemstring, "not_in_creative_inventory") == 0 then
+				table.insert(items, itemstring)
+			end
 		end
 	end
 	--[[ Sort items in this order:

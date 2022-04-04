@@ -40,6 +40,43 @@ function helper.what_hour(timeofday)
 	end
 end
 
+--Air
+
+function helper.node_is_air(pos, offset)
+	if offset then
+		if offset == "above" then
+			pos = vector.new(pos.x, pos.y+1, pos.z)
+		end
+	end
+	local node = minetest.get_node_or_nil(pos)
+	if node and helper.get_nodedef_field(node.name, "drawtype") == "airlike" then
+		return true
+	else
+		return false
+	end
+end
+
+--Direction
+
+function helper.dir_to_compass(dir)
+	local angle = math.round(math.deg(math.atan2(dir.z, dir.x)))
+	local compass_vector, compass_dir
+	if angle >= -45 and angle <= 45 then --East
+		compass_vector = vector.new(1, 0, 0)
+		compass_dir = "east"
+	elseif angle > 45 and angle <= 135 then -- North
+		compass_vector = vector.new(0, 0, 1)
+		compass_dir = "north"
+	elseif angle < -45 and angle >= -135 then -- South
+		compass_vector = vector.new(0, 0, -1)
+		compass_dir = "south"
+	else --West
+		compass_vector = vector.new(-1, 0, 0)
+		compass_dir = "west"
+	end
+	return compass_vector, compass_dir
+end
+
 -- Nodeboxes
 
 helper.nodebox.flat = {
