@@ -4,8 +4,7 @@ if minetest.settings:get_bool("creative_mode") then
 	local digtime = 42
 	local caps = {times = {digtime, digtime, digtime}, uses = 0, maxlevel = 256}
 
-	minetest.register_item(":", {
-		type = "none",
+	minetest.register_tool(":", {
 		wield_image = "wieldhand.png",
 		wield_scale = {x = 1, y = 1, z = 2.5},
 		range = 10,
@@ -26,8 +25,7 @@ if minetest.settings:get_bool("creative_mode") then
 		}
 	})
 else
-	minetest.register_item(":", {
-		type = "none",
+	minetest.register_tool(":", {
 		wield_image = "wieldhand.png",
 		wield_scale = {x = 1, y = 1, z = 2.5},
 		tool_capabilities = {

@@ -1,4 +1,4 @@
-local S, modname = ...
+local S = ...
 
 -- Grow Timer
 
@@ -81,7 +81,7 @@ farmz.hoe_use = function(itemstack, user, pointed_thing)
 end
 
 function farmz.register_hoe(name, def)
-	local hoe_name = modname..":"..name
+	local hoe_name = def.modname..":"..name
 	minetest.register_tool(hoe_name, {
 		description = def.description,
 		inventory_image = def.inventory_image,
@@ -94,87 +94,14 @@ function farmz.register_hoe(name, def)
 	})
 end
 
-function farmz.register_plant(name, def)
-	local product_name = modname..":"..name
-
-	minetest.register_craftitem(product_name , {
-		description = S(def.description),
-		inventory_image = modname.."_"..name..".png",
-		groups = {fleshy = 3, flammable = 2, wheat = 1},
-	})
-
-	for i = 1,2 do
-		local description
-		local _plant_name
-		local texture
-		local drop
-
-		if i == 1 then
-			_plant_name = product_name.."_plant"
-			texture = modname.."_"..name.."_plant.png"
-			description = S("@1 Plant", S(def.description))
-			if not def.drop then
-				local drop_number = def.drop_number or 1
-				drop = product_name.." "..drop_number
-			else
-				drop = def.drop
-			end
-		else
-			_plant_name = product_name.."_sprout"
-			texture = modname.."_"..name.."_sprout.png"
-			description = S("@1 Plant", S(def.description)).." ".."("..S("Sprout")..")"
-			drop = ""
-		end
-
-		minetest.register_node(_plant_name, {
-			description = description,
-			inventory_image = def.inventory_image or texture,
-			wield_image = def.wield_image or def.inventory_image or texture,
-			drawtype = "nodebox",
-			paramtype = "light",
-			walkable = false,
-			node_box = helper.nodebox.plant,
-			tiles = {
-				"farmz_plow.png",
-				"farmz_plow.png",
-				texture,
-			},
-			selection_box = {
-				type = "fixed",
-				fixed = def.box,
-			},
-			drop = drop,
-			buildable_to = true,
-			groups = {crumbly = 1, plant = 1, not_in_creative_inventory = 1},
-			sounds = sound.dirt(),
-
-			after_place_node = function(pos, placer, itemstack, pointed_thing)
-				if i == 2 then
-					start_grow(pos, def.grow_time)
-				end
-			end,
-
-			on_timer = function(pos)
-				minetest.set_node(pos, {name = product_name.."_plant"})
-				return false
-			end,
-
-			after_destruct = function(pos, oldnode)
-				--destroy the soil under
-				local node = minetest.get_node_or_nil(pos)
-				if node and node.name == "air" then
-					minetest.swap_node(pos, {name="farmz:plow"})
-				end
-			end
-		})
-	end
+function farmz.register_seed(modname, name, description, product_name, seed_name, grow_time, sprout)
 
 	local seed_name = product_name.."_seed"
 	local seed_name_soil = seed_name.."_soil"
 	local seed_texture = modname.."_"..name.."_seed.png"
 
 	minetest.register_craftitem(seed_name, {
-		description = S("@1 Seed", S(def.description)),
+		description = S("@1 Seed", S(description)),
 		inventory_image = seed_texture,
 		groups = {seed = 1},
 		on_use = function(itemstack, user, pointed_thing)
@@ -191,14 +118,14 @@ function farmz.register_plant(name, def)
 			if node.name == "farmz:plow" then
 				minetest.set_node(pos, {name = seed_name_soil})
 				itemstack:take_item(1)
-				start_grow(pos, def.grow_time)
+				start_grow(pos, grow_time)
 			end
 			return itemstack
 		end
 	})
 
 	minetest.register_node(seed_name_soil, {
-		description = S(def.description).." ".."("..S("Seed Soil")..")",
+		description = S(description).." ".."("..S("Seed Soil")..")",
 		drawtype = "nodebox",
 		paramtype = "light",
 		walkable = false,
@@ -213,8 +140,12 @@ function farmz.register_plant(name, def)
 		end,
 
 		on_timer = function(pos)
-			minetest.set_node(pos, {name = product_name.."_sprout"})
-			start_grow(pos, def.grow_time)
+			local node_name = product_name
+			if sprout then
+				node_name = node_name .. "_sprout"
+			end
+			minetest.set_node(pos, {name = node_name})
+			start_grow(pos, grow_time)
 			return false
 		end,
 
@@ -227,12 +158,107 @@ function farmz.register_plant(name, def)
 		end
 	})
 
+	return seed_name
+end
+
+function farmz.register_plant(name, def)
+	local product_name = def.modname..":"..name
+
+	for i = 1,2 do
+		local register
+		local description
+		local _plant_name
+		local texture
+		local drop
+
+		if i == 1 then
+			if not def.only_register_sprout then
+
+				minetest.register_craftitem(product_name , {
+					description = S(def.description),
+					inventory_image = def.modname.."_"..name..".png",
+					groups = def.groups,
+				})
+
+				_plant_name = product_name.."_plant"
+				texture = def.modname.."_"..name.."_plant.png"
+				description = S("@1 Plant", S(def.description))
+				if not def.drop then
+					local drop_number = def.drop_number or 1
+					drop = product_name.." "..drop_number
+				else
+					drop = def.drop
+				end
+				register = true
+			else
+				register = false
+			end
+		else
+			_plant_name = product_name.."_sprout"
+			texture = def.modname.."_"..name.."_sprout.png"
+			description = S("@1 Plant", S(def.description)).." ".."("..S("Sprout")..")"
+			drop = ""
+			register = true
+		end
+
+		if register then
+			minetest.register_node(_plant_name, {
+				description = description,
+				inventory_image = def.inventory_image or texture,
+				wield_image = def.wield_image or def.inventory_image or texture,
+				drawtype = "nodebox",
+				paramtype = "light",
+				walkable = false,
+				node_box = helper.nodebox.plant,
+				tiles = {
+					"farmz_plow.png",
+					"farmz_plow.png",
+					texture,
+				},
+				selection_box = {
+					type = "fixed",
+					fixed = def.box,
+				},
+				drop = drop,
+				buildable_to = true,
+				groups = {crumbly = 1, plant = 1, not_in_creative_inventory = 1},
+				sounds = sound.dirt(),
+
+				after_place_node = function(pos, placer, itemstack, pointed_thing)
+					if i == 2 then
+						start_grow(pos, def.grow_time)
+					end
+				end,
+
+				on_timer = function(pos)
+					local plant_name = product_name
+					if not def.only_register_sprout then
+						plant_name =  plant_name .. "_plant"
+					end
+					minetest.set_node(pos, {name = plant_name})
+					return false
+				end,
+
+				after_destruct = function(pos, oldnode)
+					--destroy the soil under
+					local node = minetest.get_node_or_nil(pos)
+					if node and node.name == "air" then
+						minetest.swap_node(pos, {name="farmz:plow"})
+					end
+				end
+			})
+		end
+	end
+
+	local seed_name = farmz.register_seed(def.modname, name, def.description, product_name, seed_name, def.grow_time,
+		true)
+
 	if def.craft then
-		local craft_name = modname..":"..def.craft.name
+		local craft_name = def.modname..":"..def.craft.name
 
 		minetest.register_craftitem(craft_name, {
 			description = S(def.craft.description),
-			inventory_image = modname.."_"..def.craft.name..".png",
+			inventory_image = def.modname.."_"..def.craft.name..".png",
 			groups = {flour = 1},
 		})
 
@@ -241,9 +267,22 @@ function farmz.register_plant(name, def)
 			recipe[#recipe+1] = product_name
 		end
 		minetest.register_craft({
-			output = craft_name,
+			output = craft_name.." "..tostring((def.craft.output_amount or 1)),
 			type = "shapeless",
 			recipe = recipe,
 		})
 	end
+
+	if def.craft_seed then
+		local recipe = {}
+		for i = 1, (def.craft_seed.input_amount or 1) do
+			recipe[#recipe+1] = product_name
+		end
+		minetest.register_craft({
+			output = seed_name.." "..tostring((def.craft_seed.output_amount or 1)),
+			type = "shapeless",
+			recipe = recipe,
+		})
+	end
+
 end

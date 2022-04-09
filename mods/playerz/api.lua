@@ -71,6 +71,22 @@ function playerz.get_gender(player)
 	return player:get_meta():get_string("gender")
 end
 
+function playerz.is_male(player)
+	if playerz.get_gender(player) == "male" then
+		return true
+	else
+		return false
+	end
+end
+
+function playerz.is_female(player)
+	if playerz.get_gender(player) == "female" then
+		return true
+	else
+		return false
+	end
+end
+
 function playerz.get_gender_model(gender)
 	local model = "character.b3d"
 	return model

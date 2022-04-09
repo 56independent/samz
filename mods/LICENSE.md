@@ -25,7 +25,12 @@
 - License: This work is licensed under the Creative Commons 0 License.
 - Site: https://freesound.org/people/amholma/sounds/344360/
 
-## door_close.ogg
+## door_close.ogg and door_blocked.ogg
 - Author: BergsteinProd
 - License: This work is licensed under the Attribution License.
 - Site: https://freesound.org/people/BergsteinProd/sounds/577009/
+
+## ouch.ogg
+- Author: Under7dude
+- License: This work is licensed under the Creative Commons 0 License.
+- Site: https://freesound.org/people/Under7dude/sounds/163441/

@@ -1,6 +1,7 @@
 helper = {}
 helper.vector = {}
 helper.nodebox = {}
+helper.table = {}
 
 function helper.in_group(pos, group)
 	local node = minetest.get_node_or_nil(pos)
@@ -56,6 +57,21 @@ function helper.node_is_air(pos, offset)
 	end
 end
 
+function helper.node_is_water(pos, offset)
+	if offset then
+		if offset == "above" then
+			pos = vector.new(pos.x, pos.y+1, pos.z)
+		end
+	end
+	local node = minetest.get_node_or_nil(pos)
+	if node and minetest.registered_nodes[node.name]["liquidtype"] == "source" or
+			minetest.registered_nodes[node.name]["liquidtype"] == "flowing" then
+				return true
+	else
+		return false
+	end
+end
+
 --Direction
 
 function helper.dir_to_compass(dir)
@@ -94,3 +110,29 @@ helper.nodebox.plant = {
 		{0, -0.5, -0.5, 0, 0.5, 0.5},
 	}
 }
+
+--Tables
+
+function helper.table_shallowcopy(original)
+	local copy = {}
+	for key, value in pairs(original) do
+		copy[key] = value
+	end
+	return copy
+end
+
+function helper.table_deepcopy(t) -- deep-copy a table
+    if type(t) ~= "table" then return t end
+    local meta = getmetatable(t)
+    local target = {}
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            target[k] = helper.table_deepcopy(v)
+        else
+            target[k] = v
+        end
+    end
+    setmetatable(target, meta)
+    return target
+end
+

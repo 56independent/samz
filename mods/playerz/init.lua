@@ -5,6 +5,7 @@ local modpath = minetest.get_modpath(modname)
 
 dofile(modpath .. "/api.lua")
 dofile(modpath .. "/base_texture.lua")
+dofile(modpath .. "/damage.lua")
 dofile(modpath .. "/cloths.lua")
 dofile(modpath .. "/freeze.lua")
 dofile(modpath .. "/hunger.lua")
@@ -26,7 +27,7 @@ playerz.register_model("character.b3d", {
 		swin_and_mine = {x = 306, y = 330},
 		swin_stand = {x = 232, y = 232},
 	},
-	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+	collisionbox = {-0.28125, 0.0, -0.28125, 0.28125, 1.5, 0.28125},
 	stepheight = 0.6,
 	eye_height = 1.47,
 })
@@ -65,4 +66,7 @@ minetest.register_on_joinplayer(function(player)
 	player:hud_set_hotbar_image("playerz_hotbar.png")
 	player:hud_set_hotbar_selected_image("playerz_hotbar_selected.png")
 	playerz.count = playerz.count + 1
+	--Set Sky
+	player:set_sky({sky_color={day_sky="#6ac4c4", day_horizon="#84d1d1"}})
+
 end)

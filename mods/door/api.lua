@@ -10,7 +10,7 @@ minetest.register_node("door:invisible_top", {
 		},
 	},
 	tiles = {"blank.png"},
-	use_texture_alpha = true,
+	use_texture_alpha = "clip",
 	is_ground_content = false,
 	groups = {not_in_creative_inventory = 1},
 })
@@ -21,7 +21,7 @@ local function destroy_inv_top(pos)
 end
 
 local function is_door_on_right(pos, door_dir)
-	local up_vector = vector.new(0, 1, 0)
+	local up_vector = vector.new(0, 1, 0) --vertical y vector
 	local right_vector = vector.cross(up_vector, door_dir)
 	--local left_vector = - right_vector
 	local right_pos = vector.add(pos, right_vector)
@@ -90,7 +90,12 @@ local function open_door(pos, node, clicker, door_name)
 				meta:set_int("door:facedir", node.param2)
 				meta:set_string("door:dir", open_dir_str)
 				meta:set_string("door:rotation", rotation)
+				return true
+			else
+				return false
 			end
+	else
+		return false
 	end
 end
 
@@ -118,6 +123,7 @@ function door.register_door(name, def)
 		wield_image = def.wield_image or def.inventory_image or "",
 		drawtype = "mesh",
 		paramtype = "light",
+		sunlight_propagates = true,
 		paramtype2 = "facedir",
 		mesh = "door.b3d",
 		selection_box = {
@@ -133,7 +139,7 @@ function door.register_door(name, def)
 			},
 		},
 		tiles = def.tiles,
-		use_texture_alpha = true,
+		use_texture_alpha = "clip",
 		is_ground_content = false,
 		groups = {choppy = 2, door = 1},
 		stack_max = 1,
@@ -152,7 +158,13 @@ function door.register_door(name, def)
 		end,
 
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			open_door(pos, node, clicker, door_name)
+			if not open_door(pos, node, clicker, door_name) then
+				if clicker and minetest.is_player(clicker) then
+					local player_name = clicker:get_player_name()
+					sound.play("pos", pos, "door_blocked")
+					minetest.chat_send_player(player_name, S("Obstructed door!"))
+				end
+			end
 		end,
 	})
 
@@ -189,7 +201,7 @@ function door.register_door(name, def)
 			drop = door_name,
 			tiles = def.tiles,
 			walkable = true,
-			use_texture_alpha = true,
+			use_texture_alpha = "clip",
 			is_ground_content = false,
 			groups = {choppy = 2, door = 1, not_in_creative_inventory = 1},
 			stack_max = 1,
@@ -204,6 +216,14 @@ function door.register_door(name, def)
 				destroy_inv_top(pos)
 			end
 
+		})
+	end
+
+	if def.recipe then
+		minetest.register_craft({
+			output = door_name,
+			type = "shaped",
+			recipe = def.recipe
 		})
 	end
 end

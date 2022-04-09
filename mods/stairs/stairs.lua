@@ -41,3 +41,11 @@ stairs.register_stair_and_slab("cherry_tree", {
 	desc_stair = S("Cherry Wood Stair"),
 	desc_slab = S("Cherry Wood Slab")
 })
+
+stairs.register_stair_and_slab("chestnut_tree", {
+	recipeitem = "treez:chestnut_tree_wood",
+	groups = {choppy = 2},
+	images = {"treez_chestnut_tree_wood.png"},
+	desc_stair = S("Chestnut Wood Stair"),
+	desc_slab = S("Chestnut Wood Slab")
+})

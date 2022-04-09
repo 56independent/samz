@@ -368,8 +368,8 @@ minetest.register_node("signs:sign", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-0.375, -0.125, -0.063, 0.375,  0.5,   0.063},
-			{-0.063, -0.5,   -0.063, 0.063, -0.125, 0.063}
+			{-6/16, -2/16, -1/16, 6/16,  8/16,   1/16},
+			{-1/16, -8/16, -1/16, 1/16, -2/16, 1/16}
 		}
 	},
 	groups = {oddly_breakable_by_hand = 1, choppy = 3, attached_node = 1},
@@ -381,13 +381,13 @@ minetest.register_node("signs:sign", {
 })
 
 minetest.register_node("signs:wall_sign", {
-	tiles = {"signs_wood.png"},
+	tiles = {"signs_wood_wall.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	node_box = {
 		type = "wallmounted",
-		wall_side = {-0.5, -0.313, -0.438, -0.438, 0.313, 0.438}
+		wall_side = {-8/16, -5/16, -7/16, -7/16, 5/16, 7/16}
 	},
 	drop = "signs:sign",
 	walkable = false,

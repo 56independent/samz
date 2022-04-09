@@ -14,7 +14,7 @@ minetest.register_tool("tools:pick_mese", {
 			choppy={times={[1]=0.0, [2]=0.0, [3]=0.0}, maxlevel=255},
 			dig_immediate={times={[1]=0.0, [2]=0.0, [3]=0.0}, maxlevel=255},
 		},
-		damage_groups = {fleshy=100},
+		damage_groups = {fleshy=3},
 	},
 })
 
@@ -30,5 +30,6 @@ minetest.register_tool("tools:pick_steel", {
 		groupcaps={
 			cracky={times={[1]=4.00, [2]=1.60, [3]=1.00}, uses=90, maxlevel=0}
 		},
+		damage_groups = {fleshy=2},
 	},
 })

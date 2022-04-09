@@ -18,7 +18,7 @@ minetest.register_node("farmz:grass", {
 	sounds = sound:leaves(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, -5 / 16, 6 / 16},
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, -5 / 16, 5 / 16},
 	},
 	drop = {
 		max_items = 1,

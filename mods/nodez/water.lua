@@ -1,6 +1,6 @@
 local S = ...
 
-local WATER_ALPHA = "^[opacity:" .. 210
+local WATER_ALPHA = "^[opacity:" .. 230
 local WATER_VISC = 1
 
 minetest.register_node("nodez:water_source", {
@@ -37,10 +37,26 @@ minetest.register_node("nodez:water_flowing", {
 	waving = 3,
 	tiles = {"nodez_water_flowing.png"},
 	special_tiles = {
-		{name = "nodez_water_flowing.png"..WATER_ALPHA,
-			backface_culling = false},
-		{name = "nodez_water_flowing.png"..WATER_ALPHA,
-			backface_culling = false},
+		{
+			name = "nodez_water_flowing.png"..WATER_ALPHA,
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 0.5,
+			},
+		},
+		{
+			name = "nodez_water_flowing.png"..WATER_ALPHA,
+			backface_culling = true,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 0.5,
+			},
+		},
 	},
 	use_texture_alpha = "blend",
 	paramtype = "light",
@@ -120,6 +136,8 @@ minetest.register_node("nodez:river_water_flowing", {
 	groups = {water = 3, liquid = 3, },
 	sounds = sound.water(),
 })
+
+--Ice
 
 minetest.register_node("nodez:ice", {
 	description = S("Ice"),

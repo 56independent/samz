@@ -203,7 +203,7 @@ local function sleep(pos, player)
 			await = true
 		end
 	end
-	minetest.show_formspec(player_name , "bedz:form", compose_formspec(player_name, await))
+	minetest.show_formspec(player_name, "bedz:form", compose_formspec(player_name, await))
 end
 
 local function use_bed(pos, player)
@@ -264,7 +264,9 @@ local function place_bed(bed_name, placer, pointed_thing)
 end
 
 function bedz.register_bed(name, def)
+
 	local bed_name = modname..":"..name
+
 	minetest.register_node(bed_name, {
 		description = def.description,
 		inventory_image = def.inventory_image or "",
@@ -310,6 +312,15 @@ function bedz.register_bed(name, def)
 			end
 		end
 	})
+
+	if def.recipe then
+		minetest.register_craft({
+			output = bed_name,
+			type = "shaped",
+			recipe = def.recipe
+		})
+	end
+
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)

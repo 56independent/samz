@@ -118,3 +118,21 @@ minetest.register_craft({
 		"nodez:clay_brick", "nodez:clay_brick",
 	}
 })
+
+--Adobe
+
+minetest.register_node("nodez:adobe", {
+	description = S("Adobe"),
+	tiles ={"nodez_adobe.png"},
+	groups = {crumbly=2},
+	sounds = sound.dirt(),
+})
+
+minetest.register_craft({
+	output = "nodez:adobe",
+	type = "shapeless",
+	recipe = {
+		"nodez:clay", "nodez:sand",
+		"farmz:wheat"
+	}
+})

@@ -4,7 +4,7 @@ local S = minetest.get_translator(modname)
 
 farmz = {}
 
-assert(loadfile(modpath .. "/api.lua"))(S,modname)
+assert(loadfile(modpath .. "/api.lua"))(S)
 assert(loadfile(modpath .. "/food.lua"))(S)
 assert(loadfile(modpath .. "/hoes.lua"))(S)
 assert(loadfile(modpath .. "/grasses.lua"))(S)
