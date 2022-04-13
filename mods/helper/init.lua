@@ -47,6 +47,8 @@ function helper.node_is_air(pos, offset)
 	if offset then
 		if offset == "above" then
 			pos = vector.new(pos.x, pos.y+1, pos.z)
+		elseif offset == "under" then
+			pos = vector.new(pos.x, pos.y-1, pos.z)
 		end
 	end
 	local node = minetest.get_node_or_nil(pos)
@@ -73,6 +75,22 @@ function helper.node_is_water(pos, offset)
 end
 
 --Direction
+
+function helper.get_look_yaw(pos)
+	local rotation = minetest.get_node(pos).param2
+	if rotation > 3 then
+		rotation = rotation % 4 -- Mask colorfacedir values
+	end
+	if rotation == 1 then
+		return math.pi / 2, rotation
+	elseif rotation == 3 then
+		return -math.pi / 2, rotation
+	elseif rotation == 0 then
+		return math.pi, rotation
+	else
+		return 0, rotation
+	end
+end
 
 function helper.dir_to_compass(dir)
 	local angle = math.round(math.deg(math.atan2(dir.z, dir.x)))

@@ -25,6 +25,8 @@ local player_textures = {}
 local player_anim = {}
 local player_sneak = {}
 playerz.player_attached = {}
+-- Localize for better performance.
+local player_attached = playerz.player_attached
 playerz.count = 0 --Total number of connected players
 
 function playerz.get_animation(player)
@@ -49,6 +51,14 @@ end
 
 function playerz.is_dead(player)
 	if player:get_hp() <= 0 then
+		return true
+	else
+		return false
+	end
+end
+
+function playerz.is_attached(player)
+	if player_attached[player:get_player_name()] then
 		return true
 	else
 		return false
@@ -224,13 +234,13 @@ end
 
 -- Localize for better performance.
 local player_set_animation = playerz.set_animation
-local player_attached = playerz.player_attached
 
 -- Prevent knockback for attached players
 local old_calculate_knockback = minetest.calculate_knockback
 function minetest.calculate_knockback(player, ...)
-	if player_attached[player:get_player_name()] or playerz.is_sleeping(player) then
-		return 0
+	if player_attached[player:get_player_name()] or playerz.is_sleeping(player)
+		or playerz.is_sit(player)then
+			return 0
 	end
 	return old_calculate_knockback(player, ...)
 end
@@ -306,7 +316,7 @@ minetest.register_globalstep(function(dtime)
 			--end
 
 			-- Apply animations based on what the player is doing
-			if playerz.is_dead(player) or playerz.get_status(player) == "sleep" then
+			if playerz.is_dead(player) then
 				player_set_animation(player, "lay")
 			-- Determine if the player is walking
 			elseif controls.up or controls.down or controls.left or controls.right then
@@ -361,6 +371,12 @@ minetest.register_globalstep(function(dtime)
 						texture = "bubble.png",
 					})
 				end
+			end
+		else
+			if playerz.get_status(player) == "sleep" then
+				player_set_animation(player, "lay")
+			elseif playerz.get_status(player) == "sit" then
+				player_set_animation(player, "sit")
 			end
 		end
 		if timer > 1 then
@@ -439,6 +455,14 @@ end
 
 function playerz.is_sleeping(player)
 	if playerz.get_status(player) == "sleep" then
+		return true
+	else
+		return false
+	end
+end
+
+function playerz.is_sit(player)
+	if playerz.get_status(player) == "sit" then
 		return true
 	else
 		return false

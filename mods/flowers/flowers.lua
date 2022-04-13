@@ -1,5 +1,21 @@
 flowers.list = {
 	{
+		name = "calla",
+		def = {
+			desc = "Calla",
+			box = {-4/16, -8/16, -4/16, 4/16, -2/16, 4/16},
+			groups = {color_red = 1, flammable = 1},
+			inv_img = false,
+			deco = {
+				type = "simple",
+				place_on = "nodez:dirt_with_grass",
+				seed = 560,
+				biomes = {"forest"},
+				height = {y_max = 128, y_min = 1}
+			}
+		}
+	},
+	{
 		name = "rose_bush",
 		def = {
 			desc = "Rose Bush",

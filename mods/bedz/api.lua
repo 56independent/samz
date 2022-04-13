@@ -62,22 +62,6 @@ local function compose_formspec(player_name, await)
 	return formspec
 end
 
-local function get_look_yaw(pos)
-	local rotation = minetest.get_node(pos).param2
-	if rotation > 3 then
-		rotation = rotation % 4 -- Mask colorfacedir values
-	end
-	if rotation == 1 then
-		return math.pi / 2, rotation
-	elseif rotation == 3 then
-		return -math.pi / 2, rotation
-	elseif rotation == 0 then
-		return math.pi, rotation
-	else
-		return 0, rotation
-	end
-end
-
 function bedz.check_bed(pos)
 	local node = minetest.get_node_or_nil(pos)
 	if (not node) or (minetest.get_node_group(node.name, "bed") == 0) then --not a bed
@@ -109,7 +93,7 @@ local function stop_sleep(player)
 	playerz.set_status(player, "normal")
 	player:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
 	minetest.close_formspec(player_name, "bedz:form")
-	--playerz.player_attached[player_name] = false
+	playerz.player_attached[player_name] = nil
 end
 
 local function awake(player, rest_hours)
@@ -172,10 +156,9 @@ local function sleep(pos, player)
 	local meta_bed = minetest.get_meta(pos)
 
 	meta_bed:set_string("bedside", player_name) --mark the bed
-	--playerz.player_attached[player_name] = true
 	-- physics, eye_offset, etc
 	player:set_eye_offset({x = 0, y = -13, z = 0}, {x = 0, y = 0, z = 0})
-	local yaw, param2 = get_look_yaw(pos)
+	local yaw, param2 = helper.get_look_yaw(pos)
 	player:set_look_horizontal(yaw)
 	local dir = minetest.facedir_to_dir(param2)
 	local player_pos = {
@@ -189,6 +172,7 @@ local function sleep(pos, player)
 	player:set_pos(player_pos)
 	player:get_meta():set_string("bedz:bed_pos", minetest.pos_to_string(pos))
 	playerz.set_status(player, "sleep")
+	playerz.player_attached[player_name] = true
 	local await
 	if singleplayer or (playerz.count == 1) then
 		await = false
@@ -210,7 +194,7 @@ local function use_bed(pos, player)
 	local player_name = player:get_player_name()
 
 	-- Check if player is moving
-	if vector.length(player:get_velocity()) > 0.001 then
+	if vector.length(player:get_velocity()) > 0.0001 then
 		return false, "You have to stop moving before going to bed!"
 	end
 
@@ -234,7 +218,7 @@ local function use_bed(pos, player)
 
 	--Check if player is hungry
 	if playerz.is_starving(player) then
-		return false, "You are hungry"
+		return false, S("You are hungry")
 	end
 
 	if bedside == player_name then

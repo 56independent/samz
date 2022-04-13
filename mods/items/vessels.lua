@@ -56,8 +56,9 @@ function items.register_vessel(name, def)
 	})
 
 	if def.craft then
-		minetest.register_craft( {
-			output = def.craft.output,
+		minetest.register_craft({
+			output = def.craft.output or vessel_name,
+			type = def.craft.type or "shapeless",
 			recipe = def.craft.recipe,
 		})
 	end
@@ -72,7 +73,19 @@ items.register_vessel("empty_flask", {
 	selection_box = {-3/16, -8/16, -3/16, 3/16, 5/16, 3/16},
 	drop = "",
 	replace_item = "items:flask_with_water"
+})
 
+items.register_vessel("flask_with_rose", {
+	description = "Flask with Rose",
+	tiles= {"items_flask_with_rose.png"},
+	inventory_image = "items_flask_with_rose.png",
+	selection_box = {-3/16, -8/16, -3/16, 3/16, 5/16, 3/16},
+	drop = "flowers:rose",
+	craft = {
+		recipe = {
+			"items:empty_flask", "flowers:rose",
+		}
+	}
 })
 
 items.register_vessel("flask_with_water", {
@@ -82,4 +95,33 @@ items.register_vessel("flask_with_water", {
 	selection_box = {-3/16, -8/16, -3/16, 3/16, 5/16, 3/16},
 	drop = ""
 })
+
+-- Bottle
+
+items.register_vessel("empty_bottle", {
+	description = "Empty Bottle",
+	tiles= {"items_empty_bottle.png"},
+	inventory_image = "items_empty_bottle_inv.png",
+	selection_box = {-3/16, -8/16, -3/16, 3/16, 5/16, 3/16},
+	drop = "",
+	replace_item = "items:water_bottle"
+})
+
+items.register_vessel("water_bottle", {
+	description = "Water Bottle",
+	tiles= {"items_water_bottle.png"},
+	inventory_image = "items_water_bottle_inv.png",
+	selection_box = {-3/16, -8/16, -3/16, 3/16, 5/16, 3/16},
+	drop = ""
+})
+
+items.register_vessel("empty_bottle", {
+	description = "Empty Bottle",
+	tiles= {"items_empty_bottle.png"},
+	inventory_image = "items_empty_bottle_inv.png",
+	selection_box = {-3/16, -8/16, -3/16, 3/16, 5/16, 3/16},
+	drop = "",
+	replace_item = "items:water_bottle"
+})
+
 
