@@ -94,7 +94,7 @@ function farmz.register_hoe(name, def)
 	})
 end
 
-function farmz.register_seed(modname, name, description, product_name, seed_name, grow_time, sprout)
+function farmz.register_seed(modname, name, description, product_name, grow_time, sprout)
 
 	local seed_name = product_name.."_seed"
 	local seed_name_soil = seed_name.."_soil"
@@ -136,7 +136,7 @@ function farmz.register_seed(modname, name, description, product_name, seed_name
 		sounds = sound.dirt(),
 
 		after_place_node = function(pos, placer, itemstack, pointed_thing)
-			start_grow(pos, def.grow_time)
+			start_grow(pos, grow_time)
 		end,
 
 		on_timer = function(pos)
@@ -250,7 +250,7 @@ function farmz.register_plant(name, def)
 		end
 	end
 
-	local seed_name = farmz.register_seed(def.modname, name, def.description, product_name, seed_name, def.grow_time,
+	local seed_name = farmz.register_seed(def.modname, name, def.description, product_name, def.grow_time,
 		true)
 
 	if def.craft then

@@ -1,5 +1,3 @@
-local S = ...
-
 farmz.register_plant("wheat", {
 	modname = "farmz",
 	description = "Wheat",

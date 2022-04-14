@@ -1,3 +1,6 @@
+local modname = minetest.get_current_modname()
+local S = minetest.get_translator(modname)
+
 local F = minetest.formspec_escape
 
 -- Create a detached inventory
@@ -43,8 +46,8 @@ local function get_chest_formspec(page)
 end
 
 minetest.register_node("chest_of_everything:chest", {
-	description = "Chest of Everything" .. "\n" ..
-		"Grants access to all items",
+	description = S("Chest of Everything") .. "\n" ..
+		S("Grants access to all items"),
 	tiles ={"chest_of_everything_chest.png^[sheet:2x2:0,0", "chest_of_everything_chest.png^[sheet:2x2:0,0",
 		"chest_of_everything_chest.png^[sheet:2x2:1,0", "chest_of_everything_chest.png^[sheet:2x2:1,0",
 		"chest_of_everything_chest.png^[sheet:2x2:1,0", "chest_of_everything_chest.png^[sheet:2x2:0,1"},
@@ -53,7 +56,7 @@ minetest.register_node("chest_of_everything:chest", {
 	is_ground_content = false,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Chest of Everything")
+		meta:set_string("infotext", S("Chest of Everything"))
 		meta:set_int("page", 1)
 		meta:set_string("formspec", get_chest_formspec(1))
 	end,

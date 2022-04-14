@@ -1,7 +1,7 @@
 S, modname = ...
 
 function items.register_vessel(name, def)
-	vessel_name = modname..":"..name
+	local vessel_name = modname..":"..name
 	minetest.register_node(vessel_name, {
 		description = S(def.description),
 		drawtype = "plantlike",

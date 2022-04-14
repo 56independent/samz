@@ -3,10 +3,10 @@ deco.register_table("simple_table", {
 	tiles = {
 		"treez_apple_tree_wood.png",
 		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
+		"deco_simple_table_side.png",
+		"deco_simple_table_side.png",
+		"deco_simple_table_side.png",
+		"deco_simple_table_side.png",
 	},
 	node_box =	{
 		{-0.5, 0.3125, -0.5, 0.5, 0.5, 0.5}, -- NodeBox14

@@ -81,6 +81,14 @@ function kitz.register_egg(name, def)
 	})
 end
 
+function kitz.on_step_timer(self, seconds) -- returns true approx every s seconds
+	local t1 = math.floor(self.active_time)
+	local t2 = math.floor(self.active_time + self.dtime)
+	if t2 > t1 and t2 % seconds == 0 then
+		return true
+	end
+end
+
 function kitz.register_mob(name, def)
 	local _name = modname..":"..name
 	local __name = modname.."_"..name
@@ -130,13 +138,15 @@ function kitz.register_mob(name, def)
         -- the entity is re-activated from static state
         end,
 
-		vars = {
+		vars = { --memory
 			name = _name,
 			status = nil,
 			tamed = false,
+			lifetime = 0,
 			textures = def.textures or {},
 			texture_no = 1,
 			type = name,
+			view_range = def.view_range or 5,
 		},
 
 		clear_path = function(self)
@@ -218,6 +228,7 @@ function kitz.activate(self, staticdata, dtime_s)
 	if dtime_s == 0 then --very first time created
 		kitz.init(self, staticdata, dtime_s)
 	end
+	self.active_time = 0
 	--Apply properties
 	self.object:set_properties{
 		textures = {self:get_texture()}
@@ -272,12 +283,58 @@ function kitz.roam(self, pos, vel)
 	return vel
 end
 
-local impulse = 2.5
+local function is_inside_range(p1, p2, pos)
+	if (p1.x <= pos.x) and (pos.x <= p2.x)
+			and (p1.y <= pos.y) and (pos.y <= p2.y)
+				and (p1.z <= pos.z) and (pos.z <= p2.z) then
+					return true
+	else
+		return false
+	end
+end
 
-function kitz.step(self)
+local function sensors(self)
+	local pos = self.object:get_pos()
+	local view_range = self.vars.view_range
+	local p1 = {
+		x = pos.x - view_range,
+		y = pos.y - view_range,
+		z = pos.z - view_range,
+	}
+	local p2 = {
+		x = pos.x + view_range,
+		y = pos.y + view_range,
+		z = pos.z + view_range,
+	}
+	local nearby_mobs = {}
+	for key, value in pairs(kitz.active_mobs) do
+		local mob_pos = value.object:get_pos()
+		if is_inside_range(p1, p2, mob_pos) then
+			nearby_mobs[#nearby_mobs+1] = key
+		end
+	end
+	local nearby_players = {}
+	for _, player in pairs(minetest.get_connected_players()) do
+		local player_pos = player:get_pos()
+		if is_inside_range(p1, p2, player_pos) then
+			nearby_players[#nearby_players+1] = player:get_player_name()
+		end
+	end
+	return nearby_mobs, nearby_players
+end
+
+local impulse = 5
+
+function kitz.step(self, dtime)
+	self.dtime = math.min(dtime, 0.1)
 	local pos = self.object:get_pos()
 	local vel = self.object:get_velocity()
 	local new_vel
+
+	if kitz.on_step_timer(self, 1) then
+		sensors(self)
+	end
+
 	local status = self:get_status()
 	if not(status) then
 		status = self:set_status("roam")
@@ -288,18 +345,28 @@ function kitz.step(self)
 	elseif status == "jump" then
 		--status = self:set_status("roam")
 		minetest.chat_send_all("jump")
+	elseif status == "stand" then
+
 	end
 	if new_vel then
 		self.object:set_velocity(new_vel)
 		self.object:set_yaw(minetest.dir_to_yaw(new_vel))
 	else
-		self.object:set_velocity(vel)
+		--self.object:set_velocity(vel)
 	end
-	if not(status == "jump") then
+	if status == "roam" then
 		self.object:set_acceleration({x=0, y= gravity, z=0})
-	else
-		self.object:set_acceleration({x=1, y= impulse, z=1})
-		impulse = 0
+	elseif status == "jump" then
+		self.object:set_velocity({x=2, y= 4, z=2})
+		self.object:set_acceleration({x=1, y= 3, z=1})
+		minetest.after(0.3, function(self)
+			status = self:set_status("stand")
+			self:stop()
+		end, self)
+	elseif status == "stand" then
+		self.object:set_acceleration({x=0, y= gravity, z=0})
 	end
 	--minetest.chat_send_all(tostring(new_vel) or "")
+	self.vars.lifetime = self.vars.lifetime + dtime
+	self.active_time = self.active_time + dtime
 end

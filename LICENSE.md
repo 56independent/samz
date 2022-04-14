@@ -8,44 +8,55 @@
 This applies to textures and sounds contained in the games/devtest Minetest
 distribution.
 
--License: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+- License: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 http://creativecommons.org/licenses/by-sa/3.0/
 
 - Link to the complete Minetest License:
 https://github.com/minetest/minetest/blob/master/LICENSE.txt
 
-### MinetestTextures used
+### Minetest textures used
 
-chest_of_everything_chest.png
+- chest_of_everything_chest.png
+- tools_irondagger.png
+
+# License of The Samz Code
+
+- GPLv3.0
+- Site: https://www.gnu.org/licenses/gpl-3.0.html
 
 # License of The Samz textures
 
 - Author: Juanchi
 - License: CC BY 4.0 (Attribution 4.0 International)
 
-# License of The Samz specific sounds
+# License of The Samz sounds
 
 ## bedz_yawn.ogg
+- Mod: bedz
 - Author: ArrowheadProductions
 - License: This work is licensed under the Creative Commons 0 License.
 - Site: https://freesound.org/people/ArrowheadProductions/sounds/564231/
 
 ## eat_chewing.ogg
+- Mod: eat
 - Author: InspectorJ
 - License: This work is licensed under the Attribution License.
 - Site: https://freesound.org/people/InspectorJ/sounds/412068/
 
 ## door_open.ogg
+- Mod: door
 - Author: amholma
 - License: This work is licensed under the Creative Commons 0 License.
 - Site: https://freesound.org/people/amholma/sounds/344360/
 
 ## door_close.ogg and door_blocked.ogg
+- Mod: door
 - Author: BergsteinProd
 - License: This work is licensed under the Attribution License.
 - Site: https://freesound.org/people/BergsteinProd/sounds/577009/
 
 ## ouch.ogg
+- Mod: playerz
 - Author: Under7dude
 - License: This work is licensed under the Creative Commons 0 License.
 - Site: https://freesound.org/people/Under7dude/sounds/163441/

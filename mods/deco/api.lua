@@ -117,7 +117,7 @@ function deco.register_chair(name, def)
 		},
 		selection_box = {
 			type = "fixed",
-			fixed = def.selection_box,
+			fixed = def.selection_box or def.node_box,
 		},
 		sounds = sound.wood(),
 		is_ground_content = false,
@@ -172,7 +172,7 @@ function deco.register_table(name, def)
 		},
 		selection_box = {
 			type = "fixed",
-			fixed = def.selection_box
+			fixed = def.selection_box or def.node_box
 		},
 		sounds = sound.wood(),
 		is_ground_content = false,

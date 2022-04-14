@@ -3,10 +3,10 @@ deco.register_chair("simple_chair", {
 	tiles = {
 		"treez_apple_tree_wood.png",
 		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
-		"treez_apple_tree_wood.png",
+		"deco_simple_chair_right.png",
+		"deco_simple_chair_left.png",
+		"deco_simple_chair_front.png",
+		"deco_simple_chair_front.png",
 	},
 	node_box =	{
 		{-0.3125, -0.5, 0.1875, -0.1875, 0, 0.3125}, -- NodeBox13
