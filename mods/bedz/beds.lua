@@ -11,8 +11,8 @@ bedz.register_bed("simple_bed", {
 	},
 	inventory_image = "bedz_simple_bed_inv.png",
 	recipe = {
-		{"group:wood",  "",
-		 "treez:stick"},{"treez:stick", "", ""},
+		{"group:wood_planks",  "",
+		 "group:stick"},{"group:stick", "", ""},
 		{"", "", ""},
 	}
 })

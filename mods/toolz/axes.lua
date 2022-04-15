@@ -1,0 +1,29 @@
+S = ...
+
+--
+-- Axes (dig choppy)
+--
+
+minetest.register_tool("toolz:axe_stone", {
+	description = S("Stone Axe"),
+	inventory_image = "toolz_stoneaxe.png",
+	tool_capabilities = {
+		max_drop_level=0,
+		groupcaps={
+			choppy={times={[2]=1.00, [3]=0.60}, uses=60, maxlevel=0},
+		},
+		damage_groups = {fleshy=3},
+	},
+})
+
+minetest.register_tool("toolz:axe_steel", {
+	description = S("Iron Axe"),
+	inventory_image = "toolz_ironaxe.png",
+	tool_capabilities = {
+		max_drop_level=1,
+		groupcaps={
+			choppy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=90, maxlevel=0},
+		},
+		damage_groups = {fleshy=5},
+	},
+})

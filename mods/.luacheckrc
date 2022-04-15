@@ -3,16 +3,16 @@ allow_defined_top = false
 max_line_length = false
 
 globals = {
-	"eat",
+	"eatz",
 	"bedz",
-	"bucket",
-	"deco",
-	"door",
+	"bucketz",
+	"decoz",
+	"doorz",
 	"farmz",
-	"flowers",
-    "furn",
+	"flowerz",
+    "furnz",
     "helper",
-    "items",
+    "itemz",
     "kitz",
 	"minetest",
 	"modname",
@@ -23,12 +23,13 @@ globals = {
 	"samz",
 	"sfinv",
     "sound",
-    "stairs",
+    "stairz",
     "svrz",
-    "tools",
+    "toolz",
+    "torchz",
     "treez",
     "wield3d",
-	"mapgen",
+	"mapgenz",
 }
 
 read_globals = {

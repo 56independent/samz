@@ -33,7 +33,7 @@ function treez.register_tree(name, def)
 			sounds = sound.leaves(),
 
 			on_use = function(itemstack, user, pointed_thing)
-				eat.item_eat(itemstack, user, fruit_name, def.fruit.hp, def.fruit.hunger)
+				eatz.item_eat(itemstack, user, fruit_name, def.fruit.hp, def.fruit.hunger)
 				return itemstack
 			end,
 
@@ -68,7 +68,7 @@ function treez.register_tree(name, def)
 				inventory_image = "treez_"..def.fruit.craft.name..".png",
 				groups = {fleshy = 3, flammable = 2, food = 1},
 				on_use = function(itemstack, user, pointed_thing)
-					eat.item_eat(itemstack, user, craft_fruit_name, def.fruit.craft.hp, def.fruit.craft.hunger)
+					eatz.item_eat(itemstack, user, craft_fruit_name, def.fruit.craft.hp, def.fruit.craft.hunger)
 					return itemstack
 				end,
 			})
@@ -134,7 +134,7 @@ function treez.register_tree(name, def)
 		paramtype2 = "facedir",
 		place_param2 = 0,
 		is_ground_content = false,
-		groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3},
+		groups = {wood = 1, wood_planks = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3},
 		sounds = sound.wood(),
 	})
 
@@ -188,7 +188,7 @@ function treez.register_tree(name, def)
 			noise_params = def.deco.noise_params,
 			biomes = def.deco.biomes,
 			y_min = 1,
-			y_max = mapgen.biomes.peaky_mountain_height,
+			y_max = mapgenz.biomes.peaky_mountain_height,
 			place_offset_y = 1,
 			schematic = modpath.."/schematics/"..name..".mts",
 			flags = "place_center_x, place_center_z, force_placement",

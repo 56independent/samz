@@ -5,7 +5,7 @@ helper.table = {}
 
 function helper.in_group(pos, group)
 	local node = minetest.get_node_or_nil(pos)
-	if (not node) or (minetest.get_node_group(node.name, group) == 0) then
+	if (not node) or (minetest.get_item_group(node.name, group) == 0) then
 		return false
 	else
 		return true
