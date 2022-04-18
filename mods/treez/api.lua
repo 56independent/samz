@@ -29,7 +29,7 @@ function treez.register_tree(name, def)
 				fixed = def.fruit.selection_box
 			},
 			groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
-				leafdecay = 3, leafdecay_drop = 1},
+				leafdecay = 3, leafdecay_drop = 1, food=1},
 			sounds = sound.leaves(),
 
 			on_use = function(itemstack, user, pointed_thing)
@@ -73,8 +73,13 @@ function treez.register_tree(name, def)
 				end,
 			})
 
+			local output = craft_fruit_name
+			if def.fruit.craft.output_no then
+				output = output .. " ".. tostring(def.fruit.craft.output_no)
+			end
+
 			minetest.register_craft({
-				output = craft_fruit_name,
+				output = output,
 				type = "shapeless",
 				recipe = {fruit_name},
 			})
@@ -118,7 +123,10 @@ function treez.register_tree(name, def)
 		tiles = {
 			"treez_"..name.."_trunk_top.png",
 			"treez_"..name.."_trunk_top.png",
-			"treez_"..name.."_trunk.png"
+			"treez_"..name.."_trunk.png",
+			"treez_"..name.."_trunk.png",
+			"treez_"..name.."_trunk.png",
+			"treez_"..name.."_trunk.png",
 		},
 		groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 		paramtype2 = "facedir",
@@ -134,7 +142,7 @@ function treez.register_tree(name, def)
 		paramtype2 = "facedir",
 		place_param2 = 0,
 		is_ground_content = false,
-		groups = {wood = 1, wood_planks = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3},
+		groups = {wood = 1, planks = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3, build=1},
 		sounds = sound.wood(),
 	})
 

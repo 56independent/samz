@@ -2,6 +2,7 @@ helper = {}
 helper.vector = {}
 helper.nodebox = {}
 helper.table = {}
+helper.string = {}
 
 function helper.in_group(pos, group)
 	local node = minetest.get_node_or_nil(pos)
@@ -153,4 +154,18 @@ function helper.table_deepcopy(t) -- deep-copy a table
     setmetatable(target, meta)
     return target
 end
+
+--Strings
+
+function helper.string.split(inputstr, sep)
+	if sep == nil then
+		sep = "%s"
+	end
+	local t = {}
+	for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+		table.insert(t, str)
+	end
+	return t
+end
+
 

@@ -10,7 +10,7 @@ minetest.register_tool("bucketz:bucket", {
 	inventory_image = "bucketz.png",
 	stack_max = 1,
 	liquids_pointable = true,
-	groups = { disable_repair = 1 },
+	groups = {bucket = 1, disable_repair = 1, vessel = 1},
 	on_use = function(itemstack, user, pointed_thing)
 		-- Must be pointing to node
 		if pointed_thing.type ~= "node" then
@@ -27,4 +27,14 @@ minetest.register_tool("bucketz:bucket", {
 			end
 		end
 	end,
+})
+
+minetest.register_craft({
+	output = "bucketz:bucket",
+	type = "shaped",
+	recipe = {
+		{"",  "",
+		 ""},{"nodez:iron_ingot", "", ""},
+		{"", "", ""},
+	}
 })

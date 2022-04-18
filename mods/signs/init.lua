@@ -359,6 +359,7 @@ end)
 -- Sign nodes
 minetest.register_node("signs:sign", {
 	description = S"Sign",
+	inventory_image = "signs_wood_inv.png",
 	tiles = {"signs_wood.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -403,7 +404,7 @@ minetest.register_node("signs:wall_sign", {
 minetest.register_craft({
 	output = "signs:sign 3",
 	recipe = {
-		{"group:wood_planks",  "",
+		{"group:planks",  "",
 		 "group:stick"},{"", "", ""},
 		{"", "", ""},
 	}

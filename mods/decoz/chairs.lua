@@ -1,5 +1,6 @@
 decoz.register_chair("simple_chair", {
 	description = "Simple Chair",
+	inventory_image = "decoz_simple_chair_inv.png",
 	tiles = {
 		"treez_apple_tree_wood.png",
 		"treez_apple_tree_wood.png",

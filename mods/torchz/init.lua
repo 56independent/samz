@@ -43,7 +43,7 @@ minetest.register_node("torchz:torch", {
 	walkable = false,
 	liquids_pointable = false,
 	light_source = 12,
-	groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1},
+	groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1, deco=1, tool=1},
 	drop = "torchz:torch",
 	selection_box = {
 		type = "wallmounted",

@@ -10,6 +10,7 @@ farmz.register_plant("wheat", {
 		description = "Flour",
 		input_amount = 4,
 		output_amount = 1,
+		groups = {food = 1}
 	},
 	only_register_sprout = false,
 })

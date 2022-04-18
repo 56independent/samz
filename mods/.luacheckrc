@@ -30,6 +30,7 @@ globals = {
     "treez",
     "wield3d",
 	"mapgenz",
+	"wikiz"
 }
 
 read_globals = {

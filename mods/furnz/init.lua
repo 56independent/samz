@@ -354,7 +354,7 @@ minetest.register_node("furnz:furnace", {
 		"furnz_furnace_side.png", "furnz_furnace_front.png"
 	},
 	paramtype2 = "facedir",
-	groups = {cracky=2},
+	groups = {cracky=2, deco=1, tool=1},
 	legacy_facedir_simple = true,
 	is_ground_content = false,
 	sounds = sound.stone(),

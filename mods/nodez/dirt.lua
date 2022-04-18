@@ -59,12 +59,13 @@ minetest.register_node("nodez:dirt_with_snow", {
 minetest.register_node("nodez:clay", {
 	description = S("Clay"),
 	tiles ={"nodez_clay.png"},
-	groups = {crumbly=2},
+	groups = {crumbly=2, pottery =1},
 	sounds = sound.dirt(),
 })
 
 minetest.register_craftitem("nodez:clay_lump", {
 	description = S("Clay Lump"),
+	groups = {pottery =1},
 	inventory_image = "nodez_clay_lump.png"
 })
 
@@ -93,7 +94,8 @@ minetest.register_craft({
 
 minetest.register_craftitem("nodez:clay_brick", {
 	description = S("Clay Brick"),
-	inventory_image = "nodez_clay_brick.png"
+	inventory_image = "nodez_clay_brick.png",
+	groups = {pottery=1, build=1},
 })
 
 minetest.register_craft({
@@ -106,8 +108,8 @@ minetest.register_craft({
 minetest.register_node("nodez:clay_bricks", {
 	description = S("Clay Bricks"),
 	tiles ={"nodez_clay_bricks.png"},
-	groups = {crumbly=2},
-	sounds = sound.dirt(),
+	groups = {cracky = 3, pottery =1, build=1},
+	sounds = sound.stone(),
 })
 
 minetest.register_craft({
@@ -124,7 +126,7 @@ minetest.register_craft({
 minetest.register_node("nodez:adobe", {
 	description = S("Adobe"),
 	tiles ={"nodez_adobe.png"},
-	groups = {crumbly=2},
+	groups = {crumbly=2, pottery=1, build=1},
 	sounds = sound.dirt(),
 })
 

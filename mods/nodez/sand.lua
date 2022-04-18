@@ -3,21 +3,21 @@ local S = ...
 minetest.register_node("nodez:sand", {
 	description = S("Sand"),
 	tiles ={"nodez_sand.png"},
-	groups = {crumbly=3, sand=1},
+	groups = {crumbly=3, sand=1, build=1},
 	sounds = sound.sand()
 })
 
 minetest.register_node("nodez:desert_sand", {
 	description = S("Desert Sand"),
 	tiles ={"nodez_desert_sand.png"},
-	groups = {crumbly=3, sand=1},
+	groups = {crumbly=3, sand=1, build=1},
 	sounds = sound.sand()
 })
 
 minetest.register_node("nodez:sandstone", {
 	description = S("Sandstone"),
 	tiles ={"nodez_sandstone.png"},
-	groups = {crumbly=3, sandstone=1},
+	groups = {crumbly=3, sandstone=1, stone =1, build=1},
 	sounds = sound.stone()
 })
 
@@ -33,7 +33,7 @@ minetest.register_node("nodez:glass", {
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky= 3, glass= 1},
+	groups = {cracky=3, glass=1, deco=1, build=1},
 	oddly_breakable_by_hand = 3,
 	sounds = sound.glass()
 })

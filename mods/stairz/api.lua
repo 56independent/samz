@@ -5,8 +5,10 @@ function stairz.register_stair(subname, recipeitem, groups, images, description)
 	local stairs_name = modname..":stair_" .. subname
 
 	groups.stair = 1
+	groups.build = 1
 
 	minetest.register_node(stairs_name, {
+
 		description = S(description),
 		drawtype = "nodebox",
 		tiles = images,
@@ -23,7 +25,7 @@ function stairz.register_stair(subname, recipeitem, groups, images, description)
 		},
 	})
 	minetest.register_craft({
-		output = stairs_name,
+		output = stairs_name.." 6",
 		type = "shaped",
 		recipe = {
 			{recipeitem, "",
@@ -39,6 +41,7 @@ function stairz.register_slab(subname, recipeitem, groups, images, description)
 	local slab_name = modname..":slab_" .. subname
 
 	groups.slab = 1
+	groups.build = 1
 
 	minetest.register_node(slab_name, {
 		description = S(description),
@@ -57,7 +60,7 @@ function stairz.register_slab(subname, recipeitem, groups, images, description)
 		},
 	})
 	minetest.register_craft({
-		output = slab_name,
+		output = slab_name.." 4",
 		type = "shaped",
 		recipe = {
 			{"", "",

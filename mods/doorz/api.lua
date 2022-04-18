@@ -141,7 +141,7 @@ function doorz.register_door(name, def)
 		tiles = def.tiles,
 		use_texture_alpha = "clip",
 		is_ground_content = false,
-		groups = {choppy = 2, door = 1},
+		groups = {choppy = 2, door = 1, deco =1},
 		stack_max = 1,
 		buildable_to = false,
 		sounds = sound.wood(),

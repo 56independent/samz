@@ -48,7 +48,7 @@ treez.register_tree("cherry_tree", {
 	}
 })
 
---Oak Tree
+--Chestnut Tree
 treez.register_tree("chestnut_tree", {
 	description = "Chestnut Tree",
 	fruit = {
@@ -62,7 +62,8 @@ treez.register_tree("chestnut_tree", {
 			name= "chestnut",
 			description = "Chestnut",
 			hp = 2,
-			hunger = 3
+			hunger = 3,
+			output_no = 3,
 		}
 	},
 	deco = {

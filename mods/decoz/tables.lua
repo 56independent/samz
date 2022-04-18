@@ -1,5 +1,6 @@
 decoz.register_table("simple_table", {
 	description = "Simple Table",
+	inventory_image = "decoz_simple_table_inv.png",
 	tiles = {
 		"treez_apple_tree_wood.png",
 		"treez_apple_tree_wood.png",
@@ -19,7 +20,7 @@ decoz.register_table("simple_table", {
 		{-0.4375, -0.5, -0.4375, 0.4375, 0.5, 0.4375},
 	},
 	recipe = {
-		{"group:wood_planks","group:wood_planks",
+		{"group:planks","group:planks",
 		 "group:stick"},{"group:stick", "", ""},
 		{"", "", ""},
 	}

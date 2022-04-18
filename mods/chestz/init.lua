@@ -5,11 +5,12 @@ local S = minetest.get_translator(modname)
 
 minetest.register_node("chestz:chest", {
 	description = S("Chest"),
-	tiles ={"chestz_chest.png^[sheet:2x2:0,0", "chestz_chest.png^[sheet:2x2:0,0",
-		"chestz_chest.png^[sheet:2x2:1,0", "chestz_chest.png^[sheet:2x2:1,0",
-		"chestz_chest.png^[sheet:2x2:1,0", "chestz_chest.png^[sheet:2x2:0,1"},
+	inventory_image = "chestz_chest_inv.png",
+	tiles ={"chestz_chest_top.png", "chestz_chest_top.png",
+		"chestz_chest_side.png", "chestz_chest_side.png",
+		"chestz_chest_side.png", "chestz_chest_front.png"},
 	paramtype2 = "facedir",
-	groups = {dig_immediate=2,choppy=3},
+	groups = {dig_immediate=2, choppy=3, vessel=1},
 	is_ground_content = false,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)

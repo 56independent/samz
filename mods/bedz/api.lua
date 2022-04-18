@@ -263,7 +263,7 @@ function bedz.register_bed(name, def)
 		paramtype2 = "facedir",
 		is_ground_content = false,
 		stack_max = 1,
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1},
+		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, deco = 1},
 		sounds = sound.wood(),
 		selection_box = {
 			type = "fixed",

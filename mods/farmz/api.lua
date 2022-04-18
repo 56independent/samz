@@ -81,7 +81,9 @@ farmz.hoe_use = function(itemstack, user, pointed_thing)
 end
 
 function farmz.register_hoe(name, def)
+
 	local hoe_name = def.modname..":"..name
+
 	minetest.register_tool(hoe_name, {
 		description = def.description,
 		inventory_image = def.inventory_image,
@@ -89,9 +91,17 @@ function farmz.register_hoe(name, def)
 		on_use = function(itemstack, user, pointed_thing)
 			return farmz.hoe_use(itemstack, user, pointed_thing)
 		end,
-		groups = def.groups,
+		groups = {hoe = 1, tool = 4},
 		sound = {breaks = "default_tool_breaks"},
 	})
+
+	if def.recipe then
+		minetest.register_craft({
+			output = hoe_name,
+			type = "shaped",
+			recipe = def.recipe
+		})
+	end
 end
 
 function farmz.register_seed(modname, name, description, product_name, grow_time, sprout)
@@ -259,7 +269,7 @@ function farmz.register_plant(name, def)
 		minetest.register_craftitem(craft_name, {
 			description = S(def.craft.description),
 			inventory_image = def.modname.."_"..def.craft.name..".png",
-			groups = {flour = 1},
+			groups = def.craft.groups,
 		})
 
 		local recipe = {}
