@@ -1,5 +1,7 @@
 local S, farmz_mod = ...
 
+local dirt_grass_time = 1200
+
 local function remove_plow(pos)
 	if helper.in_group(pos, "plow") or helper.in_group(pos, "plant") then
 		minetest.swap_node(pos, {name="air"})
@@ -18,8 +20,22 @@ minetest.register_node("nodez:dirt", {
 	tiles = {"nodez_dirt.png"},
 	groups = {crumbly=3, dirt=1, soil=1},
 	sounds = sound.dirt(),
+
 	on_destruct = function(pos)
 		destroy_plow(pos)
+	end,
+
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		local node = minetest.get_node_or_nil(pos)
+		if node then
+			node.param2 = 1
+		end
+		minetest.get_node_timer(pos):start(dirt_grass_time)
+	end,
+
+	on_timer = function(pos, elapsed)
+		minetest.swap_node(pos, {name = "nodez:dirt_with_grass"})
+		return false
 	end
 })
 

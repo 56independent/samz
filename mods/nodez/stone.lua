@@ -49,3 +49,10 @@ minetest.register_craftitem("nodez:silex", {
 	groups = {silex=1, ore=1},
 	inventory_image = "nodez_silex.png"
 })
+
+minetest.register_node("nodez:marble", {
+	description = S("Marble"),
+	tiles ={"nodez_marble.png"},
+	groups = {cracky=3, stone=1, build=1},
+	sounds = sound.stone(),
+})

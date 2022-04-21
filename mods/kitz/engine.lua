@@ -191,8 +191,8 @@ function kitz.register_mob(name, def)
 			self:set_var("tamed", nil)
 		end,
 
-		roam = function(self, pos, vel)
-			return kitz.roam(self, pos, vel)
+		roam = function(self, pos, vel, dtime)
+			return kitz.roam(self, pos, vel, dtime)
 		end,
 
 		set_owner = function(self, owner)
@@ -253,7 +253,7 @@ function kitz.is_near_2d(p1, p2, threshold)
 	end
 end
 
-function kitz.roam(self, pos, vel)
+function kitz.roam(self, pos, vel, dtime)
 	if self.path then
 		local dist = kitz.distance_2d(pos, self.path[1])
 		if kitz.is_near_2d(pos, self.path[1], 0.0625) or
@@ -270,7 +270,13 @@ function kitz.roam(self, pos, vel)
 			pos.z + math.random(-1, 1)
 		)
 		if helper.node_is_air(new_pos, "under") then
-			vel = vector.subtract(new_pos, pos)
+			local dir = vector.subtract(new_pos, pos)
+			local frame = 0.07
+			vel = {
+				x = math.round(dir.x * (1 - math.sin(frame*0.7, 1)), 4),
+				y = vel.y,
+				z = math.round(dir.z * (1 - math.sin(frame*0.7, 1)), 4)
+			}
 			self:create_path()
 			self.distance_2d = kitz.distance_2d(pos, new_pos)
 			self.path[#self.path+1] = new_pos
@@ -340,7 +346,7 @@ function kitz.step(self, dtime)
 		status = self:set_status("roam")
 	end
 	if status == "roam" then
-		new_vel = self:roam(pos, vel)
+		new_vel = self:roam(pos, vel, dtime)
 		--minetest.chat_send_all(tostring(new_vel))
 	elseif status == "jump" then
 		--status = self:set_status("roam")
@@ -352,7 +358,7 @@ function kitz.step(self, dtime)
 		self.object:set_velocity(new_vel)
 		self.object:set_yaw(minetest.dir_to_yaw(new_vel))
 	else
-		--self.object:set_velocity(vel)
+		self.object:set_velocity(vel)
 	end
 	if status == "roam" then
 		self.object:set_acceleration({x=0, y= gravity, z=0})

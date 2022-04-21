@@ -4,7 +4,8 @@ local S = ...
 
 minetest.register_craftitem("nodez:iron_ingot", {
 	description = S("Iron Ingot"),
-	inventory_image = "nodez_iron_ingot.png"
+	inventory_image = "nodez_iron_ingot.png",
+	groups = {ore = 1}
 })
 
 minetest.register_craft({

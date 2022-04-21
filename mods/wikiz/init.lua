@@ -1,4 +1,4 @@
-wikiz = {}
+wwikiz = {}
 
 local modname = minetest.get_current_modname()
 local S = minetest.get_translator(modname)
@@ -61,13 +61,21 @@ local function create_inv_cube(tiles)
 	return inv_cube
 end
 
+local recipes_cache = {}
+
 local function render_recipes(item_name, recipe_no)
 	local render = ""
 	local row = 0
 	local col = 0
 	local row_offset = 6
 	local col_offset = 3
-	local recipes = minetest.get_all_craft_recipes(item_name)
+	local recipes
+	if recipes_cache[item_name] then
+		recipes = recipes_cache[item_name]
+	else
+		recipes = minetest.get_all_craft_recipes(item_name)
+		recipes_cache[item_name] = recipes
+	end
 	if recipes then
 		local recipe = recipes[recipe_no]
 		local items = recipe.items
@@ -118,8 +126,8 @@ local function render_recipes(item_name, recipe_no)
 			render = render .."image["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.5)..";1,1;"..output_img
 				.."]"
 		else
-			render = render .."label["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.75)..";"..item_name
-				.."]"
+			render = render .."label["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.75)..";"
+				..craft_items[item_name].description.."]"
 		end
 		if output_no then
 			render = render .."label["..tostring(col+col_offset+3+0.25)..","..tostring(row+row_offset+0.5+1)
@@ -215,6 +223,8 @@ local function get_crafts(group)
 	return crafts
 end
 
+local crafts_cache = {}
+
 sfinv.register_page("wiki", {
 	title = S("Wiki"),
 	get = function(self, player, context)
@@ -262,7 +272,12 @@ sfinv.register_page("wiki", {
 						_context.group = group
 						_context.craft_page = 1
 					end
-					local crafts = get_crafts(group)
+					local crafts
+					if crafts_cache[group] then
+						crafts = crafts_cache[group]
+					else
+						crafts = get_crafts(group)
+					end
 					if crafts then
 						_context.crafts = render_crafts(crafts, _context.craft_page)
 					end
