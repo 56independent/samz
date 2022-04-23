@@ -60,6 +60,24 @@ function helper.node_is_air(pos, offset)
 	end
 end
 
+function helper.node_is_buildable(pos)
+	local node = minetest.get_node_or_nil(pos)
+	if node and (helper.node_is_air(pos) or node.buildable_to) then
+		return true
+	else
+		return false
+	end
+end
+
+function helper.node_is_soil(pos)
+	local node = minetest.get_node_or_nil(pos)
+	if node and minetest.get_item_group(node.name, "soil") >= 1 then
+		return true
+	else
+		return false
+	end
+end
+
 function helper.node_is_water(pos, offset)
 	if offset then
 		if offset == "above" then
@@ -132,7 +150,7 @@ helper.nodebox.plant = {
 
 --Tables
 
-function helper.table_shallowcopy(original)
+function helper.table.shallowcopy(original)
 	local copy = {}
 	for key, value in pairs(original) do
 		copy[key] = value
@@ -140,13 +158,13 @@ function helper.table_shallowcopy(original)
 	return copy
 end
 
-function helper.table_deepcopy(t) -- deep-copy a table
+function helper.table.deepcopy(t) -- deep-copy a table
     if type(t) ~= "table" then return t end
     local meta = getmetatable(t)
     local target = {}
     for k, v in pairs(t) do
         if type(v) == "table" then
-            target[k] = helper.table_deepcopy(v)
+            target[k] = helper.table.deepcopy(v)
         else
             target[k] = v
         end
@@ -154,6 +172,16 @@ function helper.table_deepcopy(t) -- deep-copy a table
     setmetatable(target, meta)
     return target
 end
+
+function helper.table.shuffle(t) -- suffles numeric indices
+    local len, random = #t, math.random
+    for i = len, 2, -1 do
+        local j = random(1, i)
+        t[i], t[j] = t[j], t[i]
+    end
+    return t
+end
+
 
 --Strings
 

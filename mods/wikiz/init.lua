@@ -1,4 +1,4 @@
-wwikiz = {}
+wikiz = {}
 
 local modname = minetest.get_current_modname()
 local S = minetest.get_translator(modname)
@@ -200,7 +200,8 @@ local function create_form(player)
 	return [[
 		image_button[0,0;1,1;;btn_build;]]..S("Build")..[[;;]
 		image_button[1,0;1,1;;btn_deco;]]..S("Deco")..[[;;]
-		image_button[2,0;1,1;;btn_food;]]..S("Food")..[[;;]
+		image_button[2,0;1,0.5;;btn_food;]]..S("Food")..[[;;]
+		image_button[2,0.5;1,0.5;;btn_farming;]]..S("Farming")..[[;;]
 		image_button[3,0;1,1;;btn_ore;]]..S("Ores")..[[;;]
 		image_button[4,0;1,1;;btn_pottery;]]..S("Pottery")..[[;;]
 		image_button[5,0;1,1;;btn_tool;]]..S("Tools")..[[;;]
@@ -208,6 +209,7 @@ local function create_form(player)
 		image_button[7,0;1,1;;btn_weapon;]]..S("Weapons")..[[;;]
 		]]..(context.recipes or "")..[[
 		]]..(context.crafts or "")..[[
+		]]..(context.info or "")..[[
 	]]
 end
 
@@ -221,6 +223,30 @@ local function get_crafts(group)
 		end
 	end
 	return crafts
+end
+
+local function compose_info(lines)
+	local text = ""
+	for _, line in ipairs(lines) do
+		text = text.."-".." "..S(line).."\n"
+	end
+	return text
+end
+
+local info = {
+	farming = compose_info({
+		"Plow the soil with a hoe.",
+		"Plant seeds.",
+		"Seeds are obtained by collecting grass or sunflower seeds.",
+		"Wait for them to grow.",
+		"Mushrooms also spread if you plant them."
+	})
+}
+
+local function get_info(group)
+	return [[
+		textarea[0.5,2;8,5;;;]]..info[group]..[[]
+	]]
 end
 
 local crafts_cache = {}
@@ -256,7 +282,7 @@ sfinv.register_page("wiki", {
 					end
 					_context.recipes = render_recipes(_context.item_name, _context.recipe_no)
 				else
-					local group
+					local group, crafts
 					if not _context.craft_page then
 						_context.craft_page = 1
 					end
@@ -267,19 +293,30 @@ sfinv.register_page("wiki", {
 							_context.craft_page = _context.craft_page + 1
 						end
 						group = _context.group
+						crafts = true
 					else
 						group = string.sub(key, 5, string.len(key))
-						_context.group = group
-						_context.craft_page = 1
-					end
-					local crafts
-					if crafts_cache[group] then
-						crafts = crafts_cache[group]
-					else
-						crafts = get_crafts(group)
+						if group == "farming" then
+							_context.info = get_info(group)
+							_context.crafts = ""
+							_context.recipes = ""
+							crafts = false
+						else
+							_context.group = group
+							_context.craft_page = 1
+							crafts = true
+						end
 					end
 					if crafts then
-						_context.crafts = render_crafts(crafts, _context.craft_page)
+						_context.info = ""
+						if crafts_cache[group] then
+							crafts = crafts_cache[group]
+						else
+							crafts = get_crafts(group)
+						end
+						if crafts then
+							_context.crafts = render_crafts(crafts, _context.craft_page)
+						end
 					end
 				end
 			end

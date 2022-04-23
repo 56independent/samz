@@ -1,13 +1,14 @@
 S, modname = ...
 
+--Constants
+mushroom_spread_time = 5
+
 -- Flower registration
 
 local function register_flower_deco(name, deco)
 
 	if not(deco.noise_params) then
-		deco.noise_params = {
-			scale = 0.04
-		}
+		deco.noise_params = {}
 	end
 
 	local flower_name = modname..":"..name
@@ -19,7 +20,7 @@ local function register_flower_deco(name, deco)
 		place_on = deco.place_on,
 		sidelen = 16,
 		noise_params = {
-			offset = -0.02,
+			offset = deco.noise_params.offset or -0.02,
 			scale = deco.noise_params.scale or 0.04,
 			spread = {x = 200, y = 200, z = 200},
 			seed = deco.seed,
@@ -36,7 +37,7 @@ local function register_flower_deco(name, deco)
 end
 
 function flowerz.register_flower(name, def)
-	-- Common flowers' groups
+	-- Common flowers groups
 	def.groups.snappy = 3
 	def.groups.flower = 1
 	def.groups.flora = 1
@@ -71,6 +72,85 @@ function flowerz.register_flower(name, def)
 	end
 end
 
+--Mushrooms
+
+local function spread_mushroom(pos, mushroom_name)
+	local node = minetest.get_node_or_nil(pos)
+	if not(node) or not(node.name == mushroom_name) then
+		return
+	end
+	--check for an empty node to spread
+	local cells = {{x=0, y=0, z=-1}, {x=-1, y=0, z=0}, {x=-1, y=0, z=-1}, {x=0, y=0, z=1},
+		{x=1, y=0, z=0}, {x=1, y=0, z=1}}
+	_cells = helper.table.shuffle(cells)
+	local new_pos = vector.add(pos, _cells[1])
+	local under_pos = vector.add(new_pos, {x=0, y=-1, z=0})
+	if helper.node_is_buildable(new_pos) and helper.node_is_soil(under_pos) then
+		minetest.swap_node(new_pos, {name = mushroom_name, param2 = 1})
+		minetest.get_node_timer(new_pos):start(mushroom_spread_time)
+	end
+end
+
+function flowerz.register_mushroom(name, def)
+	-- Common mushroom groups
+	def.groups.snappy = 3
+	def.groups.mushroom = 1
+	def.groups.flora = 1
+	def.groups.food = 1
+	def.groups.attached_node = 1
+
+	local mushroom_name = modname..":" .. name
+
+	local inventory_image, tiles
+	tiles = modname.."_mushroom_" .. name .. ".png"
+	if def.inv_img then
+		inventory_image = modname.."_mushroom_" .. name .."_inv.png"
+	else
+		inventory_image =  tiles
+	end
+
+	minetest.register_node(mushroom_name, {
+		description = S(def.desc),
+		drawtype = "plantlike",
+		waving = 1,
+		tiles = {tiles},
+		inventory_image = inventory_image,
+		wield_image =  def.wield_image or inventory_image,
+		sunlight_propagates = true,
+		paramtype = "light",
+		paramtype2 = "none",
+		place_param2 = 1,
+		walkable = false,
+		buildable_to = true,
+		groups = def.groups,
+		sounds = sound.leaves(),
+		selection_box = {
+			type = "fixed",
+			fixed = def.box
+		},
+
+		on_use = function(itemstack, user, pointed_thing)
+			eatz.item_eat(itemstack, user, mushroom_name, def.hp or 1, def.hunger or 2)
+			return itemstack
+		end,
+
+		after_place_node = function(pos, placer, itemstack, pointed_thing)
+			minetest.get_node_timer(pos):start(mushroom_spread_time)
+		end,
+
+		on_timer = function(pos, elapsed)
+			spread_mushroom(pos, mushroom_name)
+			return false
+		end
+	})
+
+	if def.deco then
+		register_flower_deco(name, def.deco)
+	end
+end
+
+--Tall Flower
+
 function flowerz.register_tall_flower(name, def)
 
 	local flower_name = modname .. ":" .. name
@@ -82,7 +162,7 @@ function flowerz.register_tall_flower(name, def)
 	def.groups.flora = 1
 	def.groups.attached_node = 1
 
-	local groups_top = helper.table_shallowcopy(def.groups)
+	local groups_top = helper.table.shallowcopy(def.groups)
 	groups_top.not_in_creative_inventory = 1
 
 	minetest.register_node(flower_name_top, {

@@ -1,4 +1,4 @@
-flowerz.list = {
+flowerz.flowers_list = {
 	{
 		name = "calla",
 		def = {
@@ -186,7 +186,7 @@ flowerz.list = {
 	}
 }
 
-for _, item in pairs(flowerz.list) do
+for _, item in pairs(flowerz.flowers_list) do
 	flowerz.register_flower(item.name, item.def)
 end
 

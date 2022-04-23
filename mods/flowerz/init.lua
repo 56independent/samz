@@ -6,3 +6,4 @@ local S = minetest.get_translator(modname)
 
 assert(loadfile(modpath .. "/api.lua"))(S, modname)
 assert(loadfile(modpath .. "/flowers.lua"))()
+assert(loadfile(modpath .. "/mushrooms.lua"))()

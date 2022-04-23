@@ -4,6 +4,7 @@ cooking=hornear
 Deco=Deco
 dirt=tierra
 empty=vacío
+Farming=Cultivo
 Food=Comida
 group:=grupo:
 ordered=ordenado
@@ -18,3 +19,9 @@ unordered=desordenado
 Vessels=Envases
 water=agua
 Weapons=Armas
+#Info Farming
+Plow the soil with a hoe.=Ara la tierra con una azada.
+Plant seeds.=Planta semillas.
+Seeds are obtained by collecting grass or sunflower seeds.=Obtén semillas recolectando hierba o de los girasoles.
+Wait for them to grow.=Espera a que crezcan.
+Mushrooms also spread if you plant them.=Los hongos también se expanden si los plantas.

@@ -72,10 +72,7 @@ farmz.hoe_use = function(itemstack, user, pointed_thing)
 
 	-- put the above node into soil and play sound
 	minetest.set_node(pos_above, {name = "farmz:plow"})
-	minetest.sound_play("default_dig_crumbly", {
-		pos = pointed_thing.under,
-		gain = 0.5,
-	}, true)
+	sound.play("pos", pos_above, "sound_dig_crumbly", 7, 0.3)
 
 	return itemstack
 end

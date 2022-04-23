@@ -3,6 +3,11 @@
 - The engine to use with this game is Minetest.
 - Site: http://www.minetest.net
 
+## Devtest
+
+- The Samz game is based on the "Devtest" game, Minetest's default game for testing purposes.
+- The same license as for Minetest applies.
+
 ## License of Minetest textures and sounds
 
 This applies to textures and sounds contained in the games/devtest Minetest
