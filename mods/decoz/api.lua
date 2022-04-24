@@ -111,7 +111,7 @@ function decoz.register_chair(name, def)
 	minetest.register_node(chair_name, {
 		description = S(def.description),
 		inventory_image = def.inventory_image or "",
-		wield_image = def.wield_image or inventory_image,
+		wield_image = def.wield_image or def.inventory_image,
 		tiles = def.tiles,
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -179,7 +179,7 @@ function decoz.register_table(name, def)
 	minetest.register_node(table_name, {
 		description = S(def.description),
 		inventory_image = def.inventory_image or "",
-		wield_image = def.wield_image or inventory_image,
+		wield_image = def.wield_image or def.inventory_image,
 		tiles = def.tiles,
 		drawtype = "nodebox",
 		paramtype = "light",

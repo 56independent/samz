@@ -1,7 +1,7 @@
 S, modname = ...
 
 --Constants
-mushroom_spread_time = 5
+local mushroom_spread_time = 5
 
 -- Flower registration
 
@@ -82,7 +82,7 @@ local function spread_mushroom(pos, mushroom_name)
 	--check for an empty node to spread
 	local cells = {{x=0, y=0, z=-1}, {x=-1, y=0, z=0}, {x=-1, y=0, z=-1}, {x=0, y=0, z=1},
 		{x=1, y=0, z=0}, {x=1, y=0, z=1}}
-	_cells = helper.table.shuffle(cells)
+	local _cells = helper.table.shuffle(cells)
 	local new_pos = vector.add(pos, _cells[1])
 	local under_pos = vector.add(new_pos, {x=0, y=-1, z=0})
 	if helper.node_is_buildable(new_pos) and helper.node_is_soil(under_pos) then

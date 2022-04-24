@@ -10,6 +10,7 @@ globals = {
 	"doorz",
 	"farmz",
 	"flowerz",
+	"foodz",
     "furnz",
     "helper",
     "itemz",
