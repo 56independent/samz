@@ -154,3 +154,58 @@ minetest.register_craft({
 		"farmz:wheat"
 	}
 })
+
+--Mud
+
+minetest.register_node("nodez:silt_with_grass", {
+	description = S("Silt with Grass"),
+	tiles = {"nodez_swamp_grass.png", "nodez_silt.png",
+		{name = "nodez_silt.png^nodez_silt_with_grass_side.png",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1},
+	drop = "nodez:mud",
+	sounds = sound.dirt({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})
+
+minetest.register_node("nodez:limestone", {
+	description = S("Limestone"),
+	tiles = {"nodez_limestone.png"},
+	groups = {cracky = 3, stone = 1},
+	drop = "nodez:limestone",
+	sounds = sound.stone(),
+})
+
+minetest.register_node("nodez:mud", {
+	description = S("Mud"),
+	tiles = {"nodez_mud.png"},
+	groups = {crumbly = 3, soil = 1},
+	sounds = sound.dirt(),
+})
+
+minetest.register_node("nodez:mud_with_moss", {
+	description = S("Mud with Moss"),
+	tiles = {"nodez_mud.png^(nodez_mud_moss.png^[makealpha:50,50,50)", "nodez_mud.png",
+		{name = "nodez_mud.png^(nodez_mud_with_moss_side.png^[makealpha:50,50,50)",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1},
+	drop = "nodez:mud",
+	sounds = sound.dirt({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})
+
+minetest.register_node("nodez:silt", {
+	description = S("Silt"),
+	tiles = {"nodez_silt.png"},
+	groups = {crumbly = 3, soil = 1},
+	sounds = sound.dirt(),
+})
+
+minetest.register_craft({
+	output = "nodez:silt",
+	type = "shapeless",
+	recipe = {"group:soil", "bucket:bucket_water"},
+	replacements = {{"bucket:bucket_water", "bucket:bucket_empty"}}
+})

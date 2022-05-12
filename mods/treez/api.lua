@@ -112,8 +112,10 @@ function treez.register_tree(name, def)
 			attached_node = 1, sapling = 1},
 
 		on_construct = function(pos)
-			minetest.get_node_timer(pos):start(math.random(tree_grow_time - (tree_grow_time * variability),
+			if helper.node_is_soil(pos, "under") then
+				minetest.get_node_timer(pos):start(math.random(tree_grow_time - (tree_grow_time * variability),
 					tree_grow_time + (tree_grow_time * variability)))
+			end
 		end,
 	})
 

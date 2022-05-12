@@ -159,6 +159,45 @@ minetest.register_biome({
 	humidity_point = 15,
 })
 
+--Swampz
+
+minetest.register_biome({
+	name = "swamp",
+	node_top = "nodez:silt_with_grass",
+	depth_top = 1,
+	node_filler = "nodez:silt",
+	depth_filler = 3,
+	node_riverbed = "nodez:sand",
+	depth_riverbed = 2,
+	node_water = "nodez:water_source",
+	depth_water_top = 5,
+	node_water_top = "nodez:water_source",
+	node_stone = "nodez:limestone",
+	y_max = 7,
+	y_min = 1,
+	heat_point = 80.1,
+	humidity_point = 89.1,
+	vertical_blend = 0,
+})
+
+minetest.register_biome({
+	name = "nodez_shore",
+	node_top = "nodez:mud",
+	depth_top = 1,
+	node_filler = "nodez:mud",
+	depth_filler = 3,
+	node_riverbed = "nodez:sand",
+	depth_riverbed = 2,
+	node_water = "nodez:water_source",
+	depth_water_top = 5,
+	node_water_top = "nodez:water_source",
+	y_max = 0,
+	y_min = -5,
+	heat_point = 79.1,
+	humidity_point = 90.1,
+	vertical_blend = 0,
+})
+
 -- Register Ores
 
 --Coal
@@ -417,3 +456,143 @@ minetest.register_decoration({
 	y_max = mapgenz.biomes.peaky_mountain_height,
 	y_min = 1,
 })
+
+-- Swamp Biome
+-- IMPORTANT!
+-- THE ORDER OF THE DECORATION MATTERS!
+-- DO NOT SORT
+
+--Water Source (4x4)
+
+minetest.register_decoration({
+	deco_type = "schematic",
+	place_on = {"nodez:silt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.05,
+		scale = 0.05,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 2,
+		octaves = 3,
+		persist = 0.66
+	},
+	biomes = {"swamp"},
+	height = 2,
+	y_min = 0,
+	y_max = 1000,
+	place_offset_y = -1,
+	schematic = {
+		size = {x = 4, y = 2, z = 4},
+		data = {
+			{name = "nodez:silt"}, {name = "nodez:silt"}, {name = "nodez:silt"},{name = "nodez:silt"},
+			{name = "nodez:silt_with_grass"}, {name = "nodez:silt_with_grass"}, {name = "nodez:silt_with_grass"},{name = "nodez:silt_with_grass"},
+			{name = "nodez:silt"}, {name = "nodez:silt"}, {name = "nodez:silt"},{name = "nodez:silt"},
+			{name = "nodez:silt_with_grass"}, {name = "nodez:muddy_water_source"}, {name = "nodez:muddy_water_source"},{name = "nodez:silt_with_grass"},
+			{name = "nodez:silt"}, {name = "nodez:silt"}, {name = "nodez:silt"},{name = "nodez:silt"},
+			{name = "nodez:silt_with_grass"}, {name = "nodez:muddy_water_source"}, {name = "nodez:muddy_water_source"},{name = "nodez:silt_with_grass"},
+			{name = "nodez:silt"}, {name = "nodez:silt"}, {name = "nodez:silt"},{name = "nodez:silt"},
+			{name = "nodez:silt_with_grass"}, {name = "nodez:silt_with_grass"}, {name = "nodez:silt_with_grass"},{name = "nodez:silt_with_grass"},
+			}
+	},
+	spawn_by = "nodez:silt_with_grass",
+	num_spawn_by = 5,
+	flags = "place_center_x, place_center_z, force_placement",
+	rotation = "random",
+})
+
+--Water Source (1x1) --this goes after the 4x4 deco of swamp water
+
+minetest.register_decoration({
+	deco_type = "simple",
+	decoration = "nodez:muddy_water_source",
+	place_on = {"nodez:silt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.8,
+		scale = 0.8,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 2,
+		octaves = 3,
+		persist = 0.66
+	},
+	biomes = {"swamp"},
+	height = 2,
+	y_min = 0,
+	y_max = 1000,
+	place_offset_y = -2,
+	spawn_by = "nodez:muddy_water_source",
+	num_spawn_by = 6,
+	flags = "place_center_x, place_center_z, force_placement",
+	rotation = "random",
+})
+
+--Mud with moss --this goes after water (depends on it)
+
+minetest.register_decoration({
+	decoration = "nodez:mud_with_moss",
+	deco_type = "simple",
+	place_on = "nodez:silt_with_grass",
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"swamp"},
+	noise_params = {
+		offset = 0.5,
+		scale = 0.008,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 2,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 1,
+	y_max = 80,
+	spawn_by = "nodez:muddy_water_source",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+	--Mud  --this goes after mud with moss (depends on it)
+
+minetest.register_decoration({
+	decoration = "nodez:mud",
+	deco_type = "simple",
+	place_on = "nodez:silt_with_grass",
+	sidelen = 16,
+	fill_ratio = 0.1,
+	biomes = {"swamp"},
+	noise_params = {
+		offset = 0.5,
+		scale = 0.008,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 2,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 1,
+	y_max = 80,
+	spawn_by = "nodez:mud_with_moss",
+	num_spawn_by = 1,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+--Swamp Grass --this goes after water (depends on it)
+minetest.register_decoration({
+	name = "farmz:swamp_grass",
+	decoration = "farmz:swamp_grass",
+	deco_type = "simple",
+	place_on = {"nodez:silt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.015,
+		scale = 0.045,
+		spread = {x = 200, y = 200, z = 200},
+		seed = 467,
+		octaves = 3,
+		persist = 0.6
+	},
+	biomes = {"swamp"},
+	y_max = mapgenz.biomes.peaky_mountain_height,
+	y_min = 1,
+})
+

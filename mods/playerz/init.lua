@@ -52,7 +52,7 @@ minetest.register_on_joinplayer(function(player)
 		hunger = playerz.load_hunger(player)
 		local cloth = playerz.compose_cloth(player)
 		playerz.registered_models[playerz.get_gender_model(gender)].textures[1] = cloth
-		playerz.set_model(player, playerz.get_gender_model(gender))
+		playerz.update_model(player, playerz.get_gender_model(gender), true)
 	end
 	--Set Hunger Hudbar
 	playerz.hb_add(player, hunger)

@@ -79,3 +79,20 @@ treez.register_tree("chestnut_tree", {
 		},
 	}
 })
+
+--Birch
+treez.register_tree("birch", {
+	description = "Birch",
+	deco = {
+		biomes = {"forest"},
+		place_on = "nodez:dirt_with_grass",
+		noise_params = {
+			offset = -0.005,
+			scale = 0.008,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 3828,
+			octaves = 3,
+			persist = 0.66
+		},
+	}
+})

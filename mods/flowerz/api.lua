@@ -84,8 +84,7 @@ local function spread_mushroom(pos, mushroom_name)
 		{x=1, y=0, z=0}, {x=1, y=0, z=1}}
 	local _cells = helper.table.shuffle(cells)
 	local new_pos = vector.add(pos, _cells[1])
-	local under_pos = vector.add(new_pos, {x=0, y=-1, z=0})
-	if helper.node_is_buildable(new_pos) and helper.node_is_soil(under_pos) then
+	if helper.node_is_buildable(new_pos) and helper.node_is_soil(new_pos, "under") then
 		minetest.swap_node(new_pos, {name = mushroom_name, param2 = 1})
 		minetest.get_node_timer(new_pos):start(mushroom_spread_time)
 	end

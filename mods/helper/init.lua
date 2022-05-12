@@ -69,7 +69,12 @@ function helper.node_is_buildable(pos)
 	end
 end
 
-function helper.node_is_soil(pos)
+function helper.node_is_soil(pos, offset)
+	if offset then
+		if offset == "under" then
+			pos = vector.new(pos.x, pos.y-1, pos.z)
+		end
+	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and minetest.get_item_group(node.name, "soil") >= 1 then
 		return true
@@ -195,5 +200,3 @@ function helper.string.split(inputstr, sep)
 	end
 	return t
 end
-
-

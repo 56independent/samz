@@ -10,7 +10,7 @@ playerz = {}
 -- Note: This is currently broken due to a bug in Irrlicht, leave at 0
 local animation_blend = 0
 
-playerz.registered_models = { }
+playerz.registered_models = {}
 
 -- Local for speed.
 local models = playerz.registered_models
@@ -20,7 +20,6 @@ function playerz.register_model(name, def)
 end
 
 -- Player stats and animations
-local player_model = {}
 local player_textures = {}
 local player_anim = {}
 local player_sneak = {}
@@ -32,7 +31,7 @@ playerz.count = 0 --Total number of connected players
 function playerz.get_animation(player)
 	local name = player:get_player_name()
 	return {
-		model = player_model[name],
+		model = playerz.get_model(player),
 		textures = player_textures[name],
 		animation = player_anim[name],
 	}
@@ -129,7 +128,7 @@ minetest.register_chatcommand("toggle_gender", {
 				new_gender = "male"
 			end
 			meta:set_string("gender", new_gender)
-			playerz.set_model(player, playerz.get_gender_model(new_gender))
+			playerz.update_model(player, playerz.get_gender_model(new_gender), true)
 			local gender_model = playerz.get_gender_model(new_gender)
 			local cloth = playerz.compose_cloth(player)
 			playerz.registered_models[gender_model].textures[1] = cloth
@@ -170,7 +169,7 @@ local function move_head(player, on_water)
 	end
 	local head_rotation = {x= pitch, y= 0, z= 0} --the head movement {pitch, yaw, roll}
 	local head_offset
-	if minetest.get_modpath("3d_armor")~=nil then
+	if minetest.get_modpath("3d_armor") ~= nil then
 		head_offset = 6.75
 	else
 		head_offset = 6.3
@@ -179,12 +178,21 @@ local function move_head(player, on_water)
 	player:set_bone_position("Head", head_position, head_rotation) --set the head movement
 end
 
+--Save/grab Model
+function playerz.get_model(player)
+	return player:get_meta():get_string("playerz:model")
+end
+
+function playerz.set_model(player, model)
+	return player:get_meta():set_string("playerz:model", model)
+end
+
 -- Called when a player's appearance needs to be updated
-function playerz.set_model(player, model_name)
+function playerz.update_model(player, model_name, force)
 	local name = player:get_player_name()
 	local model = models[model_name]
 	if model then
-		if player_model[name] == model_name then
+		if playerz.get_model(player) == model_name and not force then
 			return
 		end
 		player:set_properties({
@@ -207,12 +215,12 @@ function playerz.set_model(player, model_name)
 			eye_height = 1.625,
 		})
 	end
-	player_model[name] = model_name
+	playerz.set_model(player, model_name)
 end
 
 function playerz.set_textures(player, textures)
 	local name = player:get_player_name()
-	local model = models[player_model[name]]
+	local model = models[playerz.get_model(player)]
 	local model_textures = model and model.textures or nil
 	player_textures[name] = textures or model_textures
 	player:set_properties({textures = textures or model_textures})
@@ -223,7 +231,8 @@ function playerz.set_animation(player, anim_name, speed)
 	if player_anim[name] == anim_name then
 		return
 	end
-	local model = player_model[name] and models[player_model[name]]
+	local player_model = playerz.get_model(player)
+	local model = player_model and models[player_model]
 	if not (model and model.animations[anim_name]) then
 		return
 	end
@@ -251,7 +260,7 @@ minetest.register_globalstep(function(dtime)
 	timer = timer + dtime
 	for _, player in pairs(minetest.get_connected_players()) do
 		local name = player:get_player_name()
-		local model_name = player_model[name]
+		local model_name = playerz.get_model(player)
 		local model = model_name and models[model_name]
 		if model and not player_attached[name] then
 			local controls = player:get_player_control()
@@ -412,7 +421,7 @@ function playerz.set_texture(player)
 	local gender = playerz.get_gender(player)
 	local gender_model = playerz.get_gender_model(gender)
 	playerz.registered_models[gender_model].textures[1] = cloth
-	playerz.set_model(player, gender_model)
+	playerz.update_model(player, gender_model, false)
 	playerz.set_textures(player, models[gender_model].textures)
 end
 
@@ -510,7 +519,6 @@ end)
 
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
-	player_model[name] = nil
 	player_anim[name] = nil
 	player_textures[name] = nil
 	player_sneak[name] = nil
@@ -544,4 +552,3 @@ minetest.register_on_shutdown(function()
 		playerz.shutdown_hunger(player)
 	end
 end)
-
