@@ -14,6 +14,8 @@ else
 	mapgenz.biomes.peaky_mountain_height = 55
 end
 
+mapgenz.biomes.swamp_height = 7
+
 --
 -- Aliases for map generator outputs
 --
@@ -169,11 +171,11 @@ minetest.register_biome({
 	depth_filler = 3,
 	node_riverbed = "nodez:sand",
 	depth_riverbed = 2,
-	node_water = "nodez:water_source",
+	node_water = "nodez:muddy_water_source",
 	depth_water_top = 5,
-	node_water_top = "nodez:water_source",
+	node_water_top = "nodez:muddy_water_source",
 	node_stone = "nodez:limestone",
-	y_max = 7,
+	y_max = mapgenz.biomes.swamp_height,
 	y_min = 1,
 	heat_point = 80.1,
 	humidity_point = 89.1,

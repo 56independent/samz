@@ -250,3 +250,28 @@ function flowerz.register_tall_flower(name, def)
 		register_flower_deco(name, def.deco)
 	end
 end
+
+
+--Liana
+
+function flowerz.register_liana(name, def)
+
+	local liana_name = modname .. ":" .. name .. "_liana"
+
+	minetest.register_node(liana_name, {
+		description = S(def.desc),
+		drawtype = "nodebox",
+		walkable = false,
+		paramtype = "light",
+		paramtype2 = "facedir",
+		tiles = {modname.."_"..name.."_liana.png"},
+		inventory_image = def.inventory_image or def.tile,
+		wield_image = def.wield_imagew or def.inventory_image or def.tile,
+		use_texture_alpha = "clip",
+		node_box = helper.nodebox.flat_v,
+		groups = {
+			snappy = 2, flammable = 3, oddly_breakable_by_hand = 3, choppy = 2, carpet = 1, leafdecay = 3, leaves = 1,
+		},
+		sounds = sound:leaves(),
+	})
+end

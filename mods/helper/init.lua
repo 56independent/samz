@@ -140,17 +140,24 @@ end
 helper.nodebox.flat = {
 	type = "fixed",
 	fixed = {
-		{-0.5, -0.5, -0.5, 0.5, -0.499, 0.5}, -- Flat Plane
+		{-0.5, -0.5, -0.5, 0.5, -0.499, 0.5}, -- Flat Plane (Ground)
 	},
 }
 
 helper.nodebox.plant = {
 	type = "fixed",
 	fixed = {
-		{-0.5, -0.5, -0.5, 0.5, -0.499, 0.5}, -- Flat Plane
+		{-0.5, -0.5, -0.5, 0.5, -0.499, 0.5}, -- Flat Plane (Ground)
 		{-0.5, -0.5, 0.0, 0.5, 0.5, 0.0},
 		{0, -0.5, -0.5, 0, 0.5, 0.5},
 	}
+}
+
+helper.nodebox.flat_v = {
+	type = "fixed",
+	fixed = {
+		{-0.5, -0.5, 0.0, 0.5, 0.5, 0.0}, -- Flat Plane Vertical
+	},
 }
 
 --Tables

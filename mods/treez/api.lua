@@ -5,6 +5,7 @@ local fruit_grow_time = 1200 --1200 by default
 local tree_grow_time = 5 --3600 by default
 
 function treez.register_tree(name, def)
+
 	--Fruit
 	if def.fruit then
 		local fruit_name = "treez:"..def.fruit.name
@@ -139,9 +140,13 @@ function treez.register_tree(name, def)
 	})
 
 	--Wood
-	minetest.register_node("treez:"..name.."_wood", {
+
+	local wood_name = "treez:"..name.."_wood"
+	local wood_texture = "treez_"..name.."_wood.png"
+
+	minetest.register_node(wood_name, {
 		description = S("@1 Wood", S(def.description)),
-		tiles = {"treez_"..name.."_wood.png"},
+		tiles = {wood_texture},
 		paramtype2 = "facedir",
 		place_param2 = 1,
 		is_ground_content = false,
@@ -191,7 +196,7 @@ function treez.register_tree(name, def)
 	})
 
 	--Decoration
-	if mg_name ~= "v6" and mg_name ~= "singlenode" then
+	if mg_name ~= "v6" and mg_name ~= "singlenode" and def.deco then
 		minetest.register_decoration({
 			name = "treez:"..name,
 			deco_type = "schematic",
@@ -200,11 +205,24 @@ function treez.register_tree(name, def)
 			noise_params = def.deco.noise_params,
 			biomes = def.deco.biomes,
 			y_min = 1,
-			y_max = mapgenz.biomes.peaky_mountain_height,
-			place_offset_y = 1,
+			y_max = def.deco.y_max or mapgenz.biomes.peaky_mountain_height,
+			place_offset_y = def.deco.place_offset_y or 1,
 			schematic = modpath.."/schematics/"..name..".mts",
 			flags = "place_center_x, place_center_z, force_placement",
 			rotation = "random",
+		})
+	end
+
+	--Fence
+	if def.fence then
+		fencez.register_fence(name, {
+			default_modname =  true,
+			type = def.fence,
+			description = S(def.description),
+			texture = wood_texture,
+			material = wood_name,
+			groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+			sounds = sound.wood(),
 		})
 	end
 end

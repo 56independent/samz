@@ -20,7 +20,8 @@ treez.register_tree("apple_tree", {
 			octaves = 3,
 			persist = 0.66
 		},
-	}
+	},
+	fence = "normal",
 })
 
 --Cherry Tree
@@ -45,7 +46,8 @@ treez.register_tree("cherry_tree", {
 			octaves = 3,
 			persist = 0.66
 		},
-	}
+	},
+	fence = "picket",
 })
 
 --Chestnut Tree
@@ -77,7 +79,8 @@ treez.register_tree("chestnut_tree", {
 			octaves = 3,
 			persist = 0.66
 		},
-	}
+	},
+	fence = "normal",
 })
 
 --Birch
@@ -94,5 +97,26 @@ treez.register_tree("birch", {
 			octaves = 3,
 			persist = 0.66
 		},
-	}
+	},
+	fence = "picket",
+})
+
+--Willow
+treez.register_tree("willow", {
+	description = "Willow",
+	fence = "normal",
+	deco = {
+		biomes = {"swamp"},
+		place_on = "nodez:silt_with_grass",
+		noise_params = {
+			offset = 0.01,
+			scale = 0.01,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 3828,
+			octaves = 3,
+			persist = 0.66
+		},
+		y_max = mapgenz.biomes.swamp_height,
+		place_offset_y = 0,
+	},
 })
