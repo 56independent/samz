@@ -75,7 +75,7 @@ local function open_door(pos, node, clicker, doorz_name)
 		helper.get_nodedef_field(node_open.name, "buildable_to") or
 		helper.node_is_air(node_open_pos)
 		) then
-			if helper.node_is_air(node_open_pos, "above") then
+			if helper.node_is_air(node_open_pos, 1) then
 				local facedir = minetest.dir_to_facedir(open_dir)
 				local doorz_name_opened = doorz_name.."_opened"
 				local rotation = meta:get_string("doorz:rotation")

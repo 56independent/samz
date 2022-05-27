@@ -269,7 +269,7 @@ function kitz.roam(self, pos, vel, dtime)
 			pos.y,
 			pos.z + math.random(-1, 1)
 		)
-		if helper.node_is_air(new_pos, "under") then
+		if helper.node_is_air(new_pos, -1) then
 			local dir = vector.subtract(new_pos, pos)
 			local frame = 0.07
 			vel = {

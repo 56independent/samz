@@ -138,7 +138,7 @@ local function render_recipes(item_name, recipe_no)
 		for i= 1, 4 do
 			local item = items[i]
 			local element_render, prefix, name
-			if not item then
+			if not item or not craft_items[item] then
 				prefix = "empty"
 			else
 				prefix = string.sub(item, 1, 6)
@@ -239,7 +239,8 @@ local info = {
 		"Plant seeds.",
 		"Seeds are obtained by collecting grass or sunflower seeds.",
 		"Wait for them to grow.",
-		"Mushrooms also spread if you plant them."
+		"Mushrooms also spread if you plant them.",
+		"You can plant cacti and have them grow."
 	})
 }
 

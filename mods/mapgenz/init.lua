@@ -598,3 +598,32 @@ minetest.register_decoration({
 	y_min = 1,
 })
 
+--Cactus
+
+minetest.register_decoration({
+	deco_type = "schematic",
+	place_on = {"nodez:desert_sand"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.0005,
+		scale = 0.0005,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 2341,
+		octaves = 3,
+		persist = 0.66
+	},
+	biomes = {"desert"},
+	height = 2,
+	y_min = 0,
+	y_max = 1000,
+	place_offset_y = 1,
+	schematic = {
+		size = {x = 1, y = 3, z = 1},
+		data = {
+			{name = "floraz:cactus"}, {name = "floraz:cactus"}, {name = "floraz:cactus"},
+			}
+	},
+	flags = "place_center_x, place_center_z, force_placement",
+	rotation = "random",
+})
+

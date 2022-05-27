@@ -46,11 +46,7 @@ end
 
 function helper.node_is_air(pos, offset)
 	if offset then
-		if offset == "above" then
-			pos = vector.new(pos.x, pos.y+1, pos.z)
-		elseif offset == "under" then
-			pos = vector.new(pos.x, pos.y-1, pos.z)
-		end
+		pos = vector.new(pos.x, pos.y + offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and helper.get_nodedef_field(node.name, "drawtype") == "airlike" then
@@ -60,8 +56,11 @@ function helper.node_is_air(pos, offset)
 	end
 end
 
-function helper.node_is_buildable(pos)
+function helper.node_is_buildable(pos, offset)
 	local node = minetest.get_node_or_nil(pos)
+	if offset then
+		pos = vector.new(pos.x, pos.y + offset, pos.z)
+	end
 	if node and (helper.node_is_air(pos) or node.buildable_to) then
 		return true
 	else
@@ -71,9 +70,7 @@ end
 
 function helper.node_is_soil(pos, offset)
 	if offset then
-		if offset == "under" then
-			pos = vector.new(pos.x, pos.y-1, pos.z)
-		end
+		pos = vector.new(pos.x, pos.y + offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and minetest.get_item_group(node.name, "soil") >= 1 then
@@ -85,9 +82,7 @@ end
 
 function helper.node_is_water(pos, offset)
 	if offset then
-		if offset == "above" then
-			pos = vector.new(pos.x, pos.y+1, pos.z)
-		end
+		pos = vector.new(pos.x, pos.y + offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and minetest.registered_nodes[node.name]["liquidtype"] == "source" or
