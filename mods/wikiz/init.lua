@@ -138,11 +138,15 @@ local function render_recipes(item_name, recipe_no)
 		for i= 1, 4 do
 			local item = items[i]
 			local element_render, prefix, name
-			if not item or not craft_items[item] then
+			if not item then
 				prefix = "empty"
 			else
 				prefix = string.sub(item, 1, 6)
-				name = string.sub(item, 7, string.len(item))
+				if not(craft_items[item]) and not(prefix=="group:") then
+					prefix = "empty"
+				else
+					name = string.sub(item, 7, string.len(item))
+				end
 			end
 			if prefix == "empty" then
 				if not(type=="cooking") and not(width_str == "unordered") then

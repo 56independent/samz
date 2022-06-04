@@ -1,3 +1,18 @@
+foodz.register_food("sugar", {
+	type = "craft",
+	description = "Sugar",
+	inventory_image = "foodz_sugar.png",
+	hp = 1,
+	hunger = 3,
+	groups = {sugar = 1},
+	recipe = {
+		type = "cooking",
+		items = "floraz:reed",
+		cooktime = 3
+	}
+})
+
+--Cherry Cake
 foodz.register_food("cherry_cake", {
 	type = "block",
 	node_box = {
@@ -20,5 +35,8 @@ foodz.register_food("cherry_cake", {
     hp = 12,
     hunger = 16,
     groups = {cake = 1, oddly_breakable_by_hand = 1},
-    recipe = {"treez:cherries", "farmz:flour"},
+	recipe = {
+		type = "shapeless",
+		items = {"treez:cherries", "farmz:flour", "foodz:sugar"},
+	}
 })

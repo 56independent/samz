@@ -7,7 +7,7 @@ if minetest.settings:get_bool("creative_mode") then
 	minetest.register_tool(":", {
 		wield_image = "wieldhand.png",
 		wield_scale = {x = 1, y = 1, z = 2.5},
-		range = 10,
+		range = 4,
 		tool_capabilities = {
 			full_punch_interval = 0.5,
 			max_drop_level = 3,

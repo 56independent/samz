@@ -1,4 +1,4 @@
-S, modname = ...
+ S, modname = ...
 
 function foodz.register_food(name, def)
 	def.groups.food = 1
@@ -40,10 +40,13 @@ function foodz.register_food(name, def)
 		})
 	end
 
-	minetest.register_craft({
-		type = "shapeless",
-		output = food_name,
-		recipe = def.recipe,
-	})
+	if def.recipe then
+		minetest.register_craft({
+			type = def.recipe.type,
+			output = food_name,
+			recipe = def.recipe.items,
+			cooktime = def.recipe.cooktime or 1,
+		})
+	end
 end
 

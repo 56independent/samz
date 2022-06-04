@@ -3,6 +3,7 @@ helper.vector = {}
 helper.nodebox = {}
 helper.table = {}
 helper.string = {}
+helper.array = {}
 
 function helper.in_group(pos, group)
 	local node = minetest.get_node_or_nil(pos)
@@ -201,4 +202,16 @@ function helper.string.split(inputstr, sep)
 		table.insert(t, str)
 	end
 	return t
+end
+
+--Arrays
+
+
+function helper.array.search(array, value)
+   for index, _value in ipairs(array) do
+        if _value == value then
+            return true
+        end
+    end
+    return false
 end

@@ -66,17 +66,36 @@ local function can_grow(pos, plant_name, extra_soil_group)
 	end
 end
 
+--Dig Up
+
+local function dig_up(pos, node, digger)
+	if digger == nil then
+		return
+	end
+	local up_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+	local up_node = minetest.get_node_or_nil(up_pos)
+	if up_node and (up_node.name == node.name) then
+		minetest.node_dig(up_pos, up_node, digger)
+	end
+end
+
+--Growing Plant Register
+
 function floraz.register_growing_plant(name, def)
 
 	local plant_name = modname .. ":" .. name
 
 	minetest.register_node(plant_name, {
 		description = S(def.desc),
+		inventory_image = def.inventory_image or "",
+		drawtype = def.drawtype or "normal",
 		tiles = def.tiles,
+		selection_box = def.selection_box or {},
 		paramtype2 = "none",
 		place_param2 = 1,
 		groups = def.groups,
 		sounds = def.sounds,
+		walkable = def.walkable,
 
 		after_place_node = function(pos, placer, itemstack, pointed_thing)
 			if can_grow(pos, plant_name, def.extra_soil_group) then --check if soil or the same plant
@@ -87,7 +106,13 @@ function floraz.register_growing_plant(name, def)
 		on_timer = function(pos, elapsed)
 			grow_plant(pos, plant_name, def.extra_soil_group)
 			return false
-		end
+		end,
+
+		after_dig_node = function(pos, node, metadata, digger)
+			if def.dig_up then
+				dig_up(pos, node, digger)
+			end
+		end,
 
 	})
 end

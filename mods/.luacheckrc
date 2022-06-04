@@ -5,6 +5,7 @@ max_line_length = false
 globals = {
 	"eatz",
 	"bedz",
+	"boomz",
 	"bucketz",
 	"chestz",
 	"decoz",
@@ -31,6 +32,7 @@ globals = {
     "sound",
     "stairz",
     "svrz",
+    "throwz",
     "toolz",
     "torchz",
     "treez",

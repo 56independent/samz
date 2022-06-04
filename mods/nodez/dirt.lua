@@ -164,9 +164,7 @@ minetest.register_node("nodez:silt_with_grass", {
 			tileable_vertical = false}},
 	groups = {crumbly = 3, soil = 1},
 	drop = "nodez:mud",
-	sounds = sound.dirt({
-		footstep = {name = "default_grass_footstep", gain = 0.25},
-	}),
+	sounds = sound.dirt(),
 })
 
 minetest.register_node("nodez:limestone", {
@@ -191,9 +189,7 @@ minetest.register_node("nodez:mud_with_moss", {
 			tileable_vertical = false}},
 	groups = {crumbly = 3, soil = 1},
 	drop = "nodez:mud",
-	sounds = sound.dirt({
-		footstep = {name = "default_grass_footstep", gain = 0.25},
-	}),
+	sounds = sound.dirt(),
 })
 
 minetest.register_node("nodez:silt", {
@@ -206,6 +202,5 @@ minetest.register_node("nodez:silt", {
 minetest.register_craft({
 	output = "nodez:silt",
 	type = "shapeless",
-	recipe = {"group:soil", "bucket:bucket_water"},
-	replacements = {{"bucket:bucket_water", "bucket:bucket_empty"}}
+	recipe = {"group:soil", "group:water"},
 })

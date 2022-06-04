@@ -50,23 +50,31 @@ minetest.register_tool("toolz:sword_ice", {
 --
 -- Dagger: Low damage, fast punch interval
 --
-minetest.register_tool("toolz:dagger_steel", {
-	description = S("Iron Dagger"),
-	inventory_image = "toolz_irondagger.png",
-	groups = {dagger = 1, weapon = 2},
-	tool_capabilities = {
-		full_punch_interval = 0.5,
-		max_drop_level=0,
-		damage_groups = {fleshy=2},
-	}
-})
 
-minetest.register_craft({
-	output = "toolz:dagger_steel",
-	type = "shaped",
+throwz.register_throw("toolz:dagger_steel", {
+	type = "tool",
+	description = S("Iron Dagger"),
+	inventory_image = "toolz_irondagger_inv.png",
+	wield_image = "toolz_irondagger.png",
+	strength = 10,
+	throw_damage = 4,
+	throw_uses = 20,
+	throw_sounds = {
+		max_hear_distance = 10,
+		gain = 0.6,
+	},
 	recipe = {
 		{"", "",
 		 "nodez:iron_ingot"},{"", "", ""},
 		{"", "", ""},
-	}
+	},
+	primary_use = {
+		tool_capabilities = {
+			full_punch_interval = 0.5,
+			max_drop_level=0,
+			damage_groups = {fleshy=2},
+		},
+		groups = {dagger = 1, weapon = 2},
+		sound = {breaks = "default_tool_breaks"},
+	},
 })

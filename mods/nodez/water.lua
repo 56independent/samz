@@ -167,3 +167,18 @@ minetest.register_node("nodez:ice", {
 	groups = {cracky = 3, cools_lava = 1, slippery = 3},
 	sounds = sound.ice(),
 })
+
+--Salt
+
+minetest.register_craftitem("nodez:salt", {
+	description = S("Salt"),
+	inventory_image = "nodez_salt.png",
+	groups = {food=1, salt=1}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "nodez:salt",
+	recipe = "group:water",
+	burntime = 4,
+})

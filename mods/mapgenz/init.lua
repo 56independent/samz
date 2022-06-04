@@ -614,7 +614,7 @@ minetest.register_decoration({
 	},
 	biomes = {"desert"},
 	height = 2,
-	y_min = 0,
+	y_min = 1,
 	y_max = 1000,
 	place_offset_y = 1,
 	schematic = {

@@ -66,6 +66,12 @@ https://github.com/minetest/minetest/blob/master/LICENSE.txt
 - License: This work is licensed under the Creative Commons 0 License.
 - Site: https://freesound.org/people/Under7dude/sounds/163441/
 
+## boomz_explosion.ogg
+- Mod: boomz
+- Author: eardeer
+- License: This work is licensed under the Attribution 4.0 License.
+- Site: https://freesound.org/people/eardeer/sounds/402005/
+
 # Other Licenses
 
 Read inside the mods to further info.
