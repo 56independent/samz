@@ -91,6 +91,8 @@ function floraz.register_growing_plant(name, def)
 		drawtype = def.drawtype or "normal",
 		tiles = def.tiles,
 		selection_box = def.selection_box or {},
+		paramtype = "light",
+		sunlight_propagates = true,
 		paramtype2 = "none",
 		place_param2 = 1,
 		groups = def.groups,

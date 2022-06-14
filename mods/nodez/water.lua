@@ -156,6 +156,16 @@ minetest.register_node("nodez:muddy_water_flowing", {
 
 --Ice
 
+minetest.register_node("nodez:snow_block", {
+	description = S("Snow Block"),
+	tiles = {"nodez_snow.png"},
+	is_ground_content = false,
+	drawtype = "normal",
+	paramtype = "light",
+	groups = {cracky = 3, cools_lava = 1, slippery = 2},
+	sounds = sound.ice(),
+})
+
 minetest.register_node("nodez:ice", {
 	description = S("Ice"),
 	tiles = {"nodez_ice.png"},

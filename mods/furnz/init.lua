@@ -125,7 +125,7 @@ local function start_smoke(pos)
 		maxsize = 2.0,
 		collisiondetection = false,
 		vertical = true,
-		texture = "furnz_smoke.png",
+		texture = "smoke.png",
 		glow = 14
 	})
 	return id
