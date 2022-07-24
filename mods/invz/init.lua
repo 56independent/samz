@@ -41,6 +41,7 @@ end
 local function get_frmspc_stats(player)
 	local meta = player:get_meta()
 	local level = meta:get_int("level")
+	local class = meta:get_string("class")
 	local died = meta:get_int("invz:died")
 	local died_player = meta:get_int("invz:died_player")
 	local died_creature = meta:get_int("invz:died_creature")
@@ -54,6 +55,7 @@ local function get_frmspc_stats(player)
 	local play_time = get_play_time(player)
 	return [[
 		label[0.25,0.25;]]..S("Level")..": "..tostring(level)..[[]
+		label[0.25,0.5;]]..S("Class")..": "..playerz.classes[class].description..[[]
 		label[0.25,1.0;]]..tostring(died).." "..S("times died")..[[]
 		label[0.5,1.25;]]..tostring(died_player).." "..S("times died by player")..[[]
 		label[0.5,1.5;]]..tostring(died_creature).." "..S("times died by creature")..[[]

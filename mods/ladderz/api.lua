@@ -36,7 +36,7 @@ function ladderz.register_ladder(name, def)
 		wield_image = def.wield_image or def.inventory_image or def.tiles,
 		paramtype2 = "wallmounted",
 		sunlight_propagates = true,
-		walkable = false,
+		walkable = true,
 		climbable = true,
 		is_ground_content = false,
 		groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2, ladder =1, deco = 1, build = 1},

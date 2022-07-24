@@ -54,6 +54,12 @@ minetest.register_on_joinplayer(function(player)
 		playerz.registered_models[playerz.get_gender_model(gender)].textures[1] = cloth
 		playerz.update_model(player, playerz.get_gender_model(gender), true)
 	end
+	-->REMOVE ON THE FIRST RELEASE
+	local class = playerz.get_class(player)
+	if not class then
+		playerz.apply_class(player, playerz.set_class(player))
+	end
+	--<
 	--Set Hunger Hudbar
 	playerz.hb_add(player, hunger)
 	-- Set formspec prepend

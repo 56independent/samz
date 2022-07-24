@@ -25,9 +25,9 @@ function itemz.register_vessel(name, def)
 		sounds = sound.glass(),
 
 		on_use = function(itemstack, user, pointed_thing)
-			if def.replace_item then
+			if def.replace_item and (pointed_thing.type == "node") then
 				local pos = pointed_thing.above
-				if helper.node_is_water(pos) then
+				if pos and helper.node_is_water(pos) then
 					local inv = user:get_inventory()
 					if inv:room_for_item("main", def.replace_item) then
 						itemstack:take_item(1)

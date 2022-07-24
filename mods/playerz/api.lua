@@ -6,6 +6,42 @@ local S = minetest.get_translator("playerz")
 
 playerz = {}
 
+playerz.classes = {
+	quarreling = {
+		description = S("Quarreling"),
+		icon = "class_quarreling.png",
+		attack_damage = 1.4,
+		defense = 1.5,
+		lucky = 0,
+		magic_attack = 1,
+		magic_defense = 1,
+		speed = 1,
+		jump = 1,
+	},
+	cunning = {
+		description = S("Cunning"),
+		icon = "toolz_irondagger_inv.png",
+		attack_damage = 0.8,
+		defense = 1.3,
+		lucky = 1.5,
+		magic_attack = 1,
+		magic_defense = 1,
+		speed = 1.3,
+		jump = 1.2,
+	},
+	magician = {
+		description = S("Magician"),
+		icon = "class_magician.png",
+		attack_damage = 1,
+		defense = 1,
+		lucky = 1,
+		magic_attack = 1.8,
+		magic_defense = 1.5,
+		speed = 1,
+		jump = 1,
+	}
+}
+
 -- Player animation blending
 -- Note: This is currently broken due to a bug in Irrlicht, leave at 0
 local animation_blend = 0
@@ -64,6 +100,8 @@ function playerz.is_attached(player)
 	end
 end
 
+--Gender
+
 function playerz.set_gender(player, gender)
 	if not(gender) or gender == "random" then
 		if math.random(2) == 1 then
@@ -101,19 +139,6 @@ function playerz.get_gender_model(gender)
 	return model
 end
 
-function playerz.get_status(player)
-	return player:get_meta():get_string("playerz:status")
-end
-
-function playerz.set_status(player, status)
-	return player:get_meta():set_string("playerz:status", status)
-end
-
-function playerz.set_base_texture(player, gender)
-	local meta = player:get_meta()
-	meta:set_string("base_texture", gender)
-end
-
 minetest.register_chatcommand("toggle_gender", {
 	description = S("Change the gender, from male to female or viceversa"),
     func = function(name, param)
@@ -138,6 +163,137 @@ minetest.register_chatcommand("toggle_gender", {
 		end
     end,
 })
+
+function playerz.get_gender_formspec(name)
+	local text = S("Select your gender")
+
+	local formspec = {
+		"formspec_version[3]",
+		"size[3.2,2.476]",
+		"label[0.375,0.5;", minetest.formspec_escape(text), "]",
+		"image_button_exit[0.375,1;1,1;player_male_face.png;btn_male;"..S("Male").."]",
+		"image_button_exit[1.7,1;1,1;player_female_face.png;btn_female;"..S("Female").."]"
+	}
+
+	-- table.concat is faster than string concatenation - `..`
+	return table.concat(formspec, "")
+end
+
+function playerz.select_gender(player_name)
+    minetest.show_formspec(player_name, "playerz:gender", playerz.get_gender_formspec(player_name))
+end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "playerz:gender" then
+		return
+	end
+	local gender
+	if fields.btn_male or fields.btn_female then
+		if fields.btn_male then
+			gender = "male"
+		else
+			gender = "female"
+		end
+		playerz.set_gender(player, gender)
+	else
+		playerz.set_gender(player, "random")
+	end
+	playerz.set_base_textures(player) --set the default base_texture
+	playerz.set_cloths(player) --set the default clothes
+	playerz.set_texture(player)
+	playerz.select_class(player:get_player_name()) --select the character class
+end)
+
+--Class
+
+function playerz.apply_class(player, class)
+	--Agility
+	playerphysics.add_physics_factor(player, "speed", "class", playerz.classes[class].speed or 1)
+	playerphysics.add_physics_factor(player, "jump", "class", playerz.classes[class].jump or 1)
+end
+
+function playerz.set_class(player, class)
+	if not(class) or class == "random" then
+		local _random = math.random(3)
+		if _random == 2 then
+			class = "cunning"
+		elseif _random == 1 then
+			class = "quarreling"
+		else
+			class = "magician"
+		end
+	end
+	player:get_meta():set_string("class", class)
+	return class
+end
+
+function playerz.get_class(player)
+	local class = player:get_meta():get_string("class")
+	if class == "" or not playerz.classes[class] then
+		class = nil
+	end
+	return class
+end
+
+function playerz.get_class_formspec(name)
+	local text = S("Select your Character Class")
+
+	local formspec = {
+		"formspec_version[3]",
+		"size[4.45,2.476]",
+		"label[0.375,0.5;", minetest.formspec_escape(text), "]",
+		"image_button_exit[0.375,1;1,1;"..playerz.classes["cunning"].icon..";btn_cunning;"
+			..playerz.classes["cunning"].description.."]",
+		"image_button_exit[1.7,1;1,1;"..playerz.classes["magician"].icon..";btn_magician;"
+			..playerz.classes["magician"].description.."]",
+		"image_button_exit[3.025,1;1,1;"..playerz.classes["quarreling"].icon..";btn_quarreling;"
+			..playerz.classes["quarreling"].description.."]"
+	}
+
+	-- table.concat is faster than string concatenation - `..`
+	return table.concat(formspec, "")
+end
+
+function playerz.select_class(player_name)
+    minetest.show_formspec(player_name, "playerz:class", playerz.get_class_formspec(player_name))
+end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "playerz:class" then
+		return
+	end
+	local class
+	if fields.btn_cunning or fields.btn_quarreling or fields.btn_magician then
+		if fields.btn_cunning then
+			class = "cunning"
+		elseif fields.btn_quarreling then
+			class = "quarreling"
+		else
+			class = "magician"
+		end
+		playerz.set_class(player, class)
+	else
+		class = playerz.set_class(player, "random")
+	end
+	playerz.apply_class(player, class)
+end)
+
+--Status
+
+function playerz.get_status(player)
+	return player:get_meta():get_string("playerz:status")
+end
+
+function playerz.set_status(player, status)
+	return player:get_meta():set_string("playerz:status", status)
+end
+
+--Base texture
+
+function playerz.set_base_texture(player, gender)
+	local meta = player:get_meta()
+	meta:set_string("base_texture", gender)
+end
 
 --converts yaw to degrees
 local function yaw_to_degrees(yaw)
@@ -397,25 +553,6 @@ minetest.register_globalstep(function(dtime)
 	end
 end)
 
-function playerz.get_gender_formspec(name)
-	local text = S("Select your gender")
-
-	local formspec = {
-		"formspec_version[3]",
-		"size[3.2,2.476]",
-		"label[0.375,0.5;", minetest.formspec_escape(text), "]",
-		"image_button_exit[0.375,1;1,1;player_male_face.png;btn_male;"..S("Male").."]",
-		"image_button_exit[1.7,1;1,1;player_female_face.png;btn_female;"..S("Female").."]"
-	}
-
-	-- table.concat is faster than string concatenation - `..`
-	return table.concat(formspec, "")
-end
-
-function playerz.select_gender(player_name)
-    minetest.show_formspec(player_name, "playerz:gender", playerz.get_gender_formspec(player_name))
-end
-
 function playerz.set_texture(player)
 	local cloth = playerz.compose_cloth(player)
 	local gender = playerz.get_gender(player)
@@ -525,26 +662,6 @@ minetest.register_on_leaveplayer(function(player)
 	playerz.player_attached[name] = nil
 	playerz.remove_hunger(player)
 	playerz.count = playerz.count - 1
-end)
-
-minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if formname ~= "playerz:gender" then
-		return
-	end
-	local gender
-	if fields.btn_male or fields.btn_female then
-		if fields.btn_male then
-			gender = "male"
-		else
-			gender = "female"
-		end
-		playerz.set_gender(player, gender)
-	else
-		playerz.set_gender(player, "random")
-	end
-	playerz.set_base_textures(player) --set the default base_texture
-	playerz.set_cloths(player) --set the default clothes
-	playerz.set_texture(player)
 end)
 
 minetest.register_on_shutdown(function()
