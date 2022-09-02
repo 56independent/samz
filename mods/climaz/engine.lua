@@ -243,11 +243,17 @@ local function get_player_climate_id(player)
 end
 
 local function set_player_climate_id(player_name, value)
-	minetest.get_player_by_name(player_name):get_meta():set_int("climaz:climate_id", value)
+	local player = minetest.get_player_by_name(player_name)
+	if player then
+		player:get_meta():set_int("climaz:climate_id", value)
+	end
 end
 
 local function reset_player_climate_id(player_name)
-	minetest.get_player_by_name(player_name):get_meta():set_int("climaz:climate_id", 0)
+	local player = minetest.get_player_by_name(player_name)
+	if player then
+		player:get_meta():set_int("climaz:climate_id", 0)
+	end
 end
 
 --CLIMATE FUNCTIONS
@@ -619,7 +625,7 @@ minetest.register_globalstep(function(dtime)
 			if minetest.get_player_by_name(_player_name) then
 				_climate:apply(_player_name)
 			else --remove player from climate
-				remove_player(player_name, _id)
+				climaz.climates[_id]:remove_player(_player_name)
 			end
 		end
 	end
