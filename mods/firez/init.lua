@@ -5,7 +5,7 @@ local S = minetest.get_translator(modname)
 
 --Config Vars
 local timing = 1
-local extinguish_time = 2
+local extinguish_time = 20
 local node_range = 60
 
 --Some Helper Functions
