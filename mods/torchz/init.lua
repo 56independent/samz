@@ -86,8 +86,8 @@ minetest.register_node("torchz:torchz_wall", {
 	drawtype = "mesh",
 	mesh = "torchz_wall.obj",
 	tiles = {{
-		    name = "torchz_on_floor_animated.png",
-		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1}
+		name = "torchz_on_floor_animated.png",
+		animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1}
 	}},
 	use_texture_alpha = "clip",
 	paramtype = "light",

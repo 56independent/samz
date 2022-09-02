@@ -46,12 +46,51 @@ minetest.register_node("nodez:dirt_with_grass", {
 		"nodez_dirt.png",
 		{name = "nodez_dirt.png^nodez_grass_side.png",
 		tileable_vertical = false}},
-	groups = {crumbly=3, dirt=1, soil=1},
-	sounds = sound.dirt(),
+	groups = {crumbly=3, dirt=1, soil=1, flammable=1},
+	sounds = sound.leaves(),
 	on_destruct = function(pos)
 		destroy_plow(pos)
 	end
 })
+
+if minetest.get_modpath("firez") ~= nil then
+	minetest.register_node("nodez:dirt_with_burnt_grass", {
+		description = S("Dirt with Burnt Grass"),
+		tiles ={"nodez_burnt_grass.png",
+			"nodez_dirt.png",
+			{name = "nodez_dirt.png^nodez_burnt_grass_side.png",
+			tileable_vertical = false}},
+		groups = {crumbly=3, dirt=1},
+		sounds = sound.leaves(),
+
+		on_timer = function(pos, elapsed)
+			local node_above = helper.get_node(pos, "above")
+			if node_above.name == "firez:fire" then
+				return true
+			end
+			local new_node_name
+			if node_above and node_above.name == "air" then
+				new_node_name = "nodez:dirt_with_grass"
+			else
+				new_node_name = "nodez:dirt"
+			end
+			minetest.add_node(pos, {name= new_node_name})
+			return false
+		end,
+
+		on_construct = function(pos)
+			local timer = minetest.get_node_timer(pos)
+			timer:set(60, 0)
+		end,
+
+		after_dig_node = function(pos, oldnode, oldmetadata, digger)
+			local node_above = helper.get_node(pos, "above")
+			if node_above.name == "firez:fire" then
+				minetest.set_node(vector.new(pos.x, pos.y+1, pos.z), {name = "air"})
+			end
+		end
+	})
+end
 
 --Snow
 
@@ -153,6 +192,26 @@ minetest.register_craft({
 		"nodez:clay", "nodez:sand",
 		"farmz:wheat"
 	}
+})
+
+minetest.register_craftitem("nodez:adobe_brick", {
+	description = S("Adobe Brick"),
+	inventory_image = "nodez_adobe_brick.png",
+	groups = {pottery=1, build=1},
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "nodez:adobe_brick",
+	recipe = "nodez:adobe",
+	cooktime = 3.5,
+})
+
+minetest.register_node("nodez:adobe_bricks", {
+	description = S("Adobe Bricks"),
+	tiles ={"nodez_adobe_bricks.png"},
+	groups = {crumbly = 3, pottery =1, build=1},
+	sounds = sound.dirt(),
 })
 
 --Mud

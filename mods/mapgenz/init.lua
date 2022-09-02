@@ -68,6 +68,6 @@ if minetest.settings:get_bool("devtest_dungeon_stairs", false) then
 	end
 end
 
-assert(loadfile(modpath .. "/biomes.lua"))()
+assert(loadfile(modpath .. "/biomes.lua"))(mg_name)
 assert(loadfile(modpath .. "/ores.lua"))()
 assert(loadfile(modpath .. "/deco.lua"))()

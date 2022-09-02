@@ -29,4 +29,6 @@ devtest_dungeon_stairs (Generate dungeon stairs) bool false
 devtest_dungeon_mossycobble (Generate mossy cobblestone) bool false
 
 # If enabled, some very basic biomes will be registered.
-devtest_register_biomes (Register biomes) bool true
+climate_enabled (Enable/disable climate) bool true
+
+

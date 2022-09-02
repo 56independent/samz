@@ -72,6 +72,12 @@ https://github.com/minetest/minetest/blob/master/LICENSE.txt
 - License: This work is licensed under the Attribution 4.0 License.
 - Site: https://freesound.org/people/eardeer/sounds/402005/
 
+## sound_grass_footstep.1.ogg
+- Mod: sound
+- Author: Nox_Sound
+- License: This work is licensed under the Creative Commons 0 License.
+- Site: https://freesound.org/people/Nox_Sound/sounds/546604/
+
 # Other Licenses
 
 Read inside the mods to further info.
@@ -95,3 +101,5 @@ Read inside the mods to further info.
 ## "playerphysics" mod
 
 - License: This mod is free software, released under the MIT License.
+
+

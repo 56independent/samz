@@ -13,7 +13,7 @@ minetest.register_node("flowerz:reed", {
 		type = "fixed",
 		fixed = {-1 / 16, -0.5, -1 / 16, 1 / 16, 0.5, 1 / 16},
 	},
-	groups = {snappy = 3, flammable = 2},
+	groups = {snappy = 3, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
 
 	after_dig_node = function(pos, node, metadata, digger)

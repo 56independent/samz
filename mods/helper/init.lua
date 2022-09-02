@@ -5,6 +5,8 @@ helper.table = {}
 helper.string = {}
 helper.array = {}
 
+--Node Helpers
+
 function helper.in_group(pos, group)
 	local node = minetest.get_node_or_nil(pos)
 	if (not node) or (minetest.get_item_group(node.name, group) == 0) then
@@ -19,6 +21,20 @@ function helper.get_nodedef_field(nodename, fieldname)
 		return nil
 	end
 	return minetest.registered_nodes[nodename][fieldname]
+end
+
+function helper.get_node(pos, where)
+	if where == "above" then
+		pos = vector.new(pos.x, pos.y + 1, pos.z)
+	elseif where == "under" then
+		pos = vector.new(pos.x, pos.y - 1, pos.z)
+	end
+	local node = minetest.get_node_or_nil(pos)
+	if node then
+		return node
+	else
+		return nil
+	end
 end
 
 function helper.to_clock(timeofday)
@@ -43,11 +59,11 @@ function helper.what_hour(timeofday)
 	end
 end
 
---Air
+--Node
 
-function helper.node_is_air(pos, offset)
+function helper.node_is_air(pos, y_offset)
 	if offset then
-		pos = vector.new(pos.x, pos.y + offset, pos.z)
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and helper.get_nodedef_field(node.name, "drawtype") == "airlike" then
@@ -57,21 +73,21 @@ function helper.node_is_air(pos, offset)
 	end
 end
 
-function helper.node_is_buildable(pos, offset)
+function helper.node_is_buildable(pos, y_offset)
 	local node = minetest.get_node_or_nil(pos)
 	if offset then
-		pos = vector.new(pos.x, pos.y + offset, pos.z)
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
-	if node and (helper.node_is_air(pos) or node.buildable_to) then
+	if node and (helper.get_nodedef_field(node.name, "buildable_to") or helper.node_is_air(pos)) then
 		return true
 	else
 		return false
 	end
 end
 
-function helper.node_is_soil(pos, offset)
+function helper.node_is_soil(pos, y_offset)
 	if offset then
-		pos = vector.new(pos.x, pos.y + offset, pos.z)
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and minetest.get_item_group(node.name, "soil") >= 1 then
@@ -81,9 +97,9 @@ function helper.node_is_soil(pos, offset)
 	end
 end
 
-function helper.node_is_water(pos, offset)
+function helper.node_is_water(pos, y_offset)
 	if offset then
-		pos = vector.new(pos.x, pos.y + offset, pos.z)
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
 	if node and minetest.registered_nodes[node.name]["liquidtype"] == "source" or
@@ -92,6 +108,31 @@ function helper.node_is_water(pos, offset)
 	else
 		return false
 	end
+end
+
+function helper.node_is_walkable(pos)
+	local node = minetest.get_node_or_nil(pos)
+	if node and helper.get_nodedef_field(node.name, "walkable") then
+		return true
+	else
+		return false
+	end
+end
+
+function helper.node_is_fire(pos, y_offset)
+	if offset then
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
+	end
+	local node = minetest.get_node_or_nil(pos)
+	if node and node.name == "firez:fire" then
+		return true
+	else
+		return false
+	end
+end
+
+function helper.set_to_air(pos)
+	minetest.set_node(pos, {name="air"})
 end
 
 --Direction
@@ -144,6 +185,14 @@ helper.nodebox.plant = {
 	type = "fixed",
 	fixed = {
 		{-0.5, -0.5, -0.5, 0.5, -0.499, 0.5}, -- Flat Plane (Ground)
+		{-0.5, -0.5, 0.0, 0.5, 0.5, 0.0},
+		{0, -0.5, -0.5, 0, 0.5, 0.5},
+	}
+}
+
+helper.nodebox.fire = {
+	type = "fixed",
+	fixed = {
 		{-0.5, -0.5, 0.0, 0.5, 0.5, 0.0},
 		{0, -0.5, -0.5, 0, 0.5, 0.5},
 	}
@@ -206,7 +255,6 @@ end
 
 --Arrays
 
-
 function helper.array.search(array, value)
    for index, _value in ipairs(array) do
         if _value == value then
@@ -215,3 +263,18 @@ function helper.array.search(array, value)
     end
     return false
 end
+
+--Conversions
+
+function helper.bool_to_number(value)
+	return value == true and 1 or value == false and 0
+end
+
+function helper.number_to_bool(value)
+	if value > 0 then
+		return true
+	else
+		return false
+	end
+end
+

@@ -1,10 +1,18 @@
+local modname = minetest.get_current_modname()
+local modpath = minetest.get_modpath(modname)
+
 local translator = minetest.get_translator
 local S = translator and translator("signs") or function(s) return s end
 
 local floor, pi = math.floor, math.pi
+local upper = string.upper
+local tconcat = table.concat
 local vadd = vector.add
-local objects_inside_radius = minetest.get_objects_inside_radius
 local b = "blank.png"
+local esc = minetest.formspec_escape
+local function objects_inside_radius(p)
+	return minetest.get_objects_inside_radius(p, 0.5)
+end
 
 -- Cyrillic transliteration library
 local slugify = dofile(minetest.get_modpath("signs") .. "/slugify.lua")
@@ -23,10 +31,29 @@ local wall_sign_positions = {
 	[3] = {{x =  0,    y = -0.005, z = -0.43}, 0}
 }
 
+local colors_list = {
+	"Black", "Silver", "Gray", "White",
+	"Maroon", "Red", "Purple", "Fuchsia",
+	"Green", "Lime", "Olive", "Yellow",
+	"Navy", "Blue", "Teal", "Aqua"
+}
+
+local textures_dir_list = minetest.get_dir_list(modpath.."/textures")
+
+local function file_exists(filename)
+	for _, fn in pairs(textures_dir_list) do
+		if fn == filename then
+			return true
+		end
+	end
+	return false
+end
+
 local function generate_sign_line_texture(str, row)
 	local leftover = floor((20 - #str) * 16 / 2) or 0
 	local texture = ""
 	local i = 1
+	local texture_file
 	for char in string.gmatch(str, ".[\128-\191]*") do
 		local char_byte_1 = char:byte(1)
 		local char_byte_2 = char:byte(2)
@@ -34,8 +61,12 @@ local function generate_sign_line_texture(str, row)
 			char_byte_1 = char_byte_2
 		end
 		if char_byte_1 then
+			texture_file = "signs_" .. char_byte_1 .. ".png"
+			if not file_exists(texture_file) then
+				texture_file = "blank.png"
+			end
 			texture = texture .. ":" .. (i - 1) * 16 + leftover .. ","
-				.. row * 20 .. "=signs_" .. char_byte_1 .. ".png"
+				.. row * 20 .. "="..texture_file
 		end
 		i = i + 1
 		if i == 20 then
@@ -67,7 +98,7 @@ local wrap_chars = {
 	"\n", "\r", "\t", " ", "-", "/", ";", ":", ",", ".", "?", "!"
 }
 
-local function generate_sign_texture(str)
+local function generate_sign_texture(str, color)
 	local row = 0
 	local texture = "[combine:" .. 16 * 20 .. "x100"
 	local result = {}
@@ -139,6 +170,10 @@ local function generate_sign_texture(str)
 		texture = texture .. generate_sign_line_texture(s, r + empty)
 	end
 
+	if color and color ~= "" then
+		texture = texture .. "^[colorize:" .. color
+	end
+
 	return texture
 end
 
@@ -146,7 +181,7 @@ minetest.register_entity("signs:sign_text", {
 	visual = "upright_sprite",
 	visual_size = {x = 0.7, y = 0.6},
 	collisionbox = {0},
-	pointable = false,
+	physical = false,
 	on_activate = function(self)
 		local ent = self.object
 		local pos = ent:get_pos()
@@ -168,7 +203,8 @@ minetest.register_entity("signs:sign_text", {
 		else
 			local meta_text = meta:get_string("sign_text")
 			if meta_text and meta_text ~= "" then
-				texture = generate_sign_texture(meta_text)
+				local meta_color = meta:get_string("sign_color")
+				texture = generate_sign_texture(meta_text, meta_color)
 			else
 				texture = b
 			end
@@ -209,8 +245,8 @@ local function place(itemstack, placer, pointed_thing)
 			end
 		end
 		if result then
-			minetest.sound_play({name = "sound_place_node_hard"},
-					{pos = pointed_thing.above})
+			minetest.sound_play({name = "default_place_node_hard"},
+				{pos = result})
 		end
 	end
 
@@ -218,7 +254,7 @@ local function place(itemstack, placer, pointed_thing)
 end
 
 local function destruct(pos)
-	for _, obj in pairs(objects_inside_radius(pos, 0.5)) do
+	for _, obj in pairs(objects_inside_radius(pos)) do
 		local ent = obj:get_luaentity()
 		if ent and ent.name == "signs:sign_text" then
 			obj:remove()
@@ -229,7 +265,7 @@ end
 local function check_text(pos)
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("sign_text")
-	local objects = objects_inside_radius(pos, 0.5)
+	local objects = objects_inside_radius(pos)
 
 	if text and text ~= "" then
 		local count = 0
@@ -267,24 +303,45 @@ local function check_text(pos)
 	-- Remove old on_construct fs
 	local fs = meta:get_string("formspec")
 	if fs and fs ~= "" then
-		meta:set_string("")
+		meta:set_string("formspec", "")
 	end
 end
 
 local function edit_text(pos, _, clicker)
 	local player_name = clicker:get_player_name()
 
-	if minetest.is_protected(pos, player_name) then
-		return
+	local meta = minetest.get_meta(pos)
+	local text = esc(meta:get_string("sign_text"))
+
+	local edit_fs = "size[5,3.4]"
+	if not minetest.is_protected(pos, player_name) then
+		local ccolor = meta:get_string("sign_color")
+		if ccolor then
+			ccolor = ccolor:gsub("^%l", upper)
+		end
+
+		local clist = {}
+		local csel = 1
+		for i, clr in pairs(colors_list) do
+			if ccolor == clr then
+				csel = i
+			end
+			clist[#clist + 1] = clr
+		end
+		clist = tconcat(clist, ",")
+
+		edit_fs = edit_fs ..
+			"textarea[1.15,0.2;3.3,2;Dtext;" ..
+			S("Enter your text:") .. ";" .. text .. "]" ..
+			"dropdown[0.86,1.93;3.36;color;" .. clist .. ";" .. csel .. "]" ..
+			"button_exit[0.86,2.66;3.3,1;;" .. S("Save") .. "]" ..
+			"field[0,0;0,0;spos;;" .. minetest.pos_to_string(pos) .. "]"
+	else
+		edit_fs = edit_fs ..
+			"textarea[1.15,0.2;3.3,2.7;read_only;" ..
+			S("Sign") .. ":;" .. text .. "]" ..
+			"button_exit[0.86,2.66;3.3,1;;" .. S("Close") .. "]"
 	end
-
-	local text = minetest.get_meta(pos):get_string("sign_text")
-
-	local edit_fs = "size[5,3]" ..
-		"textarea[1.15,0.3;3.3,2;Dtext;" .. S("Enter your text:") ..
-		";" .. text .. "]" ..
-		"button_exit[0.85,2;3.3,1;;" .. S("Save") .. "]" ..
-		"field[0,0;0,0;spos;;" .. minetest.pos_to_string(pos) .. "]"
 
 	minetest.show_formspec(player_name, "signs:edit_text", edit_fs)
 end
@@ -294,11 +351,25 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return
 	end
 
-	local text = fields.Dtext
 	local pos = fields.spos and minetest.string_to_pos(fields.spos)
 
-	if not text or not pos then
+	if not pos then
 		return
+	end
+
+	local meta = minetest.get_meta(pos)
+
+	local text = fields.Dtext
+	local color = fields.color
+
+	if not text and not color then
+		return
+	elseif not text then
+		text = meta:get_string("sign_text")
+	end
+
+	if color then
+		color = color:lower()
 	end
 
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -318,7 +389,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	local sign
-	for _, obj in pairs(objects_inside_radius(pos, 0.5)) do
+	for _, obj in pairs(objects_inside_radius(pos)) do
 		local ent = obj:get_luaentity()
 		if ent and ent.name == "signs:sign_text" then
 			sign = obj
@@ -336,12 +407,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	local texture = b
-	if text ~= "" then
+	if text and text ~= "" then
 		-- Serialization longer values may cause a crash
 		-- because we are serializing the texture too
 		text = text:sub(1, 256)
 
-		texture = generate_sign_texture(text)
+		texture = generate_sign_texture(text, color)
 		sign:set_properties({
 			textures = {texture, b}
 		})
@@ -349,17 +420,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	sign:set_yaw(sign_pos[p2][2])
 
-	local meta = minetest.get_meta(pos)
 	meta:set_string("sign_text", text)
 	meta:set_string("sign_texture", texture)
+	meta:set_string("sign_color", color)
 	meta:set_string("infotext", text)
 end)
 
 
 -- Sign nodes
 minetest.register_node("signs:sign", {
-	description = S"Sign",
-	inventory_image = "signs_wood_inv.png",
+	description = S("Sign"),
 	tiles = {"signs_wood.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -369,11 +439,33 @@ minetest.register_node("signs:sign", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-6/16, -2/16, -1/16, 6/16,  8/16,   1/16},
-			{-1/16, -8/16, -1/16, 1/16, -2/16, 1/16}
+			{-0.375, -0.125, -0.063, 0.375,  0.5,   0.063},
+			{-0.063, -0.5,   -0.063, 0.063, -0.125, 0.063}
 		}
 	},
 	groups = {oddly_breakable_by_hand = 1, choppy = 3, attached_node = 1},
+	on_rotate = function(pos, node, user, mode)
+		local pn = user and user:get_player_name() or ""
+		if not minetest.is_protected(pos, pn) and mode == 1 then
+			node.param2 = (node.param2 % 8) + 1
+			if node.param2 > 3 then
+				node.param2 = 0
+			end
+			minetest.swap_node(pos, node)
+
+			-- Checks can be skipped if there is no text
+			local meta = minetest.get_meta(pos)
+			local text = meta:get_string("sign_text")
+			if text and text ~= "" then
+				destruct(pos)
+				check_text(pos)
+			end
+
+			return true
+		end
+
+		return false
+	end,
 
 	on_place = place,
 	on_destruct = destruct,
@@ -388,12 +480,13 @@ minetest.register_node("signs:wall_sign", {
 	paramtype2 = "wallmounted",
 	node_box = {
 		type = "wallmounted",
-		wall_side = {-8/16, -5/16, -7/16, -7/16, 5/16, 7/16}
+		wall_side = {-0.5, -0.313, -0.438, -0.438, 0.313, 0.438}
 	},
 	drop = "signs:sign",
 	walkable = false,
 	groups = {oddly_breakable_by_hand = 1, choppy = 3,
 		not_in_creative_inventory = 1, attached_node = 1},
+	on_rotate = false,
 
 	on_destruct = destruct,
 	on_punch = check_text,
@@ -404,9 +497,9 @@ minetest.register_node("signs:wall_sign", {
 minetest.register_craft({
 	output = "signs:sign 3",
 	recipe = {
-		{"group:planks",  "",
-		 "group:stick"},{"", "", ""},
-		{"", "", ""},
+		{"group:wood", "group:wood", "group:wood"},
+		{"group:wood", "group:wood", "group:wood"},
+		{"", "group:stick", ""}
 	}
 })
 

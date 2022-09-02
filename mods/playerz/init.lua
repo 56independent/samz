@@ -9,11 +9,12 @@ dofile(modpath .. "/damage.lua")
 dofile(modpath .. "/cloths.lua")
 dofile(modpath .. "/freeze.lua")
 dofile(modpath .. "/hunger.lua")
+dofile(modpath .. "/preview.lua")
 
 -- Default player appearance
 playerz.register_model("character.b3d", {
 	animation_speed = 30,
-	textures = {"character.png"},
+	textures = {"character.png", "blank.png"},
 	animations = {
 		-- Standard animations.
 		stand = {x = 0,   y = 79},
@@ -50,8 +51,7 @@ minetest.register_on_joinplayer(function(player)
 		playerz.select_gender(player_name) --select the gender
 	else
 		hunger = playerz.load_hunger(player)
-		local cloth = playerz.compose_cloth(player)
-		playerz.registered_models[playerz.get_gender_model(gender)].textures[1] = cloth
+		playerz.compose_model_textures(player)
 		playerz.update_model(player, playerz.get_gender_model(gender), true)
 	end
 	-->REMOVE ON THE FIRST RELEASE

@@ -9,8 +9,26 @@ minetest.register_node("nodez:lava_flowing", {
 	drawtype = "flowingliquid",
 	tiles = {"nodez_lava_flowing.png"},
 	special_tiles = {
-		{name="nodez_lava_flowing.png", backface_culling = false},
-		{name="nodez_lava_flowing.png", backface_culling = false},
+		{
+			name="nodez_lava_flowing.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 10,
+			},
+		},
+		{
+			name="nodez_lava_flowing.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 10,
+			},
+		},
 	},
 	paramtype = "light",
 	light_source = minetest.LIGHT_MAX,

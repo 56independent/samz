@@ -109,7 +109,7 @@ function treez.register_tree(name, def)
 			fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
 		},
 
-		groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		groups = {snappy = 2, dig_immediate = 3, flammable = 1,
 			attached_node = 1, sapling = 1},
 
 		on_construct = function(pos)
@@ -163,7 +163,7 @@ function treez.register_tree(name, def)
 		place_param2 = 1,
 		walkable = true,
 		waving = 1,
-		groups = {snappy = 3, leafdecay = 3, leaves = 1, flammable = 2},
+		groups = {snappy = 3, leafdecay = 3, leaves = 1, flammable = 1},
 		drop = {
 			max_items = 1,
 			items = {
@@ -221,7 +221,7 @@ function treez.register_tree(name, def)
 			description = S(def.description),
 			texture = wood_texture,
 			material = wood_name,
-			groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+			groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 1},
 			sounds = sound.wood(),
 		})
 	end

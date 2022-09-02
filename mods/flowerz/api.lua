@@ -42,6 +42,7 @@ function flowerz.register_flower(name, def)
 	def.groups.flower = 1
 	def.groups.flora = 1
 	def.groups.attached_node = 1
+	def.groups.flammable = 1
 
 	local inventory_image =  modname.."_" .. name
 	if def.inv_img then
@@ -98,6 +99,7 @@ function flowerz.register_mushroom(name, def)
 	def.groups.flora = 1
 	def.groups.food = 1
 	def.groups.attached_node = 1
+	def.groups.flammable = 1
 
 	local mushroom_name = modname..":" .. name
 

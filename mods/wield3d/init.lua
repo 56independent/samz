@@ -37,6 +37,7 @@ end
 minetest.register_item("wield3d:hand", {
 	type = "none",
 	wield_image = "blank.png",
+	groups = {not_in_creative_inventory = 1}
 })
 
 minetest.register_entity("wield3d:wield_entity", {

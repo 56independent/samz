@@ -154,9 +154,8 @@ minetest.register_chatcommand("toggle_gender", {
 			end
 			meta:set_string("gender", new_gender)
 			playerz.update_model(player, playerz.get_gender_model(new_gender), true)
+			playerz.compose_model_textures(player)
 			local gender_model = playerz.get_gender_model(new_gender)
-			local cloth = playerz.compose_cloth(player)
-			playerz.registered_models[gender_model].textures[1] = cloth
 			playerz.set_textures(player, models[gender_model].textures)
 			local new_gender_cap = new_gender:gsub("^%l", string.upper)
 			minetest.chat_send_player(name, S("Your gender is changed to").." "..S(new_gender_cap)..".")
@@ -374,6 +373,13 @@ function playerz.update_model(player, model_name, force)
 	playerz.set_model(player, model_name)
 end
 
+function playerz.compose_model_textures(player)
+	local cloth, hat = playerz.compose_cloth(player)
+	local model = playerz.get_gender_model(playerz.get_gender(player))
+	playerz.registered_models[model].textures[1] = cloth
+	playerz.registered_models[model].textures[2] = hat or "blank.png"
+end
+
 function playerz.set_textures(player, textures)
 	local name = player:get_player_name()
 	local model = models[playerz.get_model(player)]
@@ -554,10 +560,8 @@ minetest.register_globalstep(function(dtime)
 end)
 
 function playerz.set_texture(player)
-	local cloth = playerz.compose_cloth(player)
-	local gender = playerz.get_gender(player)
-	local gender_model = playerz.get_gender_model(gender)
-	playerz.registered_models[gender_model].textures[1] = cloth
+	playerz.compose_model_textures(player)
+	local gender_model = playerz.get_gender_model(playerz.get_gender(player))
 	playerz.update_model(player, gender_model, false)
 	playerz.set_textures(player, models[gender_model].textures)
 end

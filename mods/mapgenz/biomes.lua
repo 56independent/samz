@@ -1,3 +1,5 @@
+mg_name = ...
+
 --
 -- Register mapgenz.biomes.for biome API
 --
@@ -40,8 +42,8 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = 0,
 	y_min = -255,
-	heat_point = 45.5,
-	humidity_point = 55.5,
+	heat_point = 45,
+	humidity_point = 55,
 })
 
 minetest.register_biome({
@@ -58,8 +60,8 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = 3,
 	y_min = -255,
-	heat_point = 55.2,
-	humidity_point = 56.2,
+	heat_point = 55,
+	humidity_point = 60,
 })
 
 minetest.register_biome({
@@ -70,8 +72,8 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = -256,
 	y_min = -31000,
-	heat_point = 43.7,
-	humidity_point = 40.7,
+	heat_point = 43,
+	humidity_point = 40,
 })
 
 --Desert Biome
@@ -110,8 +112,8 @@ minetest.register_biome({
 	node_stone = "nodez:limestone",
 	y_max = mapgenz.biomes.swamp_height,
 	y_min = 1,
-	heat_point = 80.1,
-	humidity_point = 89.1,
+	heat_point = 80,
+	humidity_point = 89,
 	vertical_blend = 0,
 })
 
@@ -128,7 +130,7 @@ minetest.register_biome({
 	node_water_top = "nodez:water_source",
 	y_max = 0,
 	y_min = -5,
-	heat_point = 79.1,
-	humidity_point = 90.1,
+	heat_point = 79,
+	humidity_point = 90,
 	vertical_blend = 0,
 })

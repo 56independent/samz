@@ -203,7 +203,8 @@ local function create_form(player)
 	local context = sfinv.get_or_create_context(player)
 	return [[
 		image_button[0,0;1,1;;btn_build;]]..S("Build")..[[;;]
-		image_button[1,0;1,1;;btn_deco;]]..S("Deco")..[[;;]
+		image_button[1,0;1,0.5;;btn_deco;]]..S("Deco")..[[;;]
+		image_button[1,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[;;]
 		image_button[2,0;1,0.5;;btn_food;]]..S("Food")..[[;;]
 		image_button[2,0.5;1,0.5;;btn_farming;]]..S("Farming")..[[;;]
 		image_button[3,0;1,1;;btn_ore;]]..S("Ores")..[[;;]
@@ -221,9 +222,10 @@ local function get_crafts(group)
 	local crafts = {}
 	--minetest.get_all_craft_recipes(query_item)
 	for name, def in pairs(craft_items) do
-		if minetest.get_item_group(name, group) > 0 then
-			local recipe = minetest.get_all_craft_recipes(name)
-			crafts[#crafts+1] = {name = name, def = def, recipe = recipe}
+		if (minetest.get_item_group(name, group) > 0)
+			and (minetest.get_item_group(name, "not_in_creative_inventory") <= 0) then
+				local recipe = minetest.get_all_craft_recipes(name)
+				crafts[#crafts+1] = {name = name, def = def, recipe = recipe}
 		end
 	end
 	return crafts
