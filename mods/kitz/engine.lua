@@ -216,7 +216,6 @@ function kitz.register_mob(name, def)
     kitz.register_egg(_name, {desc = def.desc, egg_inv_img = def.egg_inv_img, tamed = true})
 end
 
-
 function kitz.init(self, staticdata, dtime_s)
 	local textures = self.get_var("textures")
 	if #textures > 1 then

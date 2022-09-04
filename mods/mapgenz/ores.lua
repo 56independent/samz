@@ -24,6 +24,18 @@ minetest.register_ore({
 	y_min          = -512,
 })
 
+--Copper
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:copper_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 11 * 11 * 11,
+	clust_num_ores = 5,
+	clust_size     = 4,
+	y_max          = -64,
+	y_min          = -512,
+})
+
 --Gems
 minetest.register_ore({
 	ore_type       = "scatter",

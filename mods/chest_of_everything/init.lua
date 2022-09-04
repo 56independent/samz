@@ -35,11 +35,11 @@ local function get_chest_formspec(page)
 	return "size[8,9]"..
 	"list[detached:everything;main;0,0;8,4;"..start.."]"..
 	"list[current_player;main;0,5;8,4;]" ..
-	"label[6,4;Trash:]" ..
+	"label[6,4.25;"..S("Trash")..":]" ..
 	"list[detached:trash;main;7,4;1,1]" ..
 	"button[0,4;1,1;chest_of_everything_prev;"..F("<").."]"..
 	"button[1,4;1,1;chest_of_everything_next;"..F(">").."]"..
-	"label[2,4;"..F("Page: "..page).."]"..
+	"label[2,4.25;"..F(S("Page")..": "..page).."]"..
 	"listring[detached:everything;main]"..
 	"listring[current_player;main]"..
 	"listring[detached:trash;main]"

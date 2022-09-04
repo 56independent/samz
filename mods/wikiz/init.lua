@@ -204,13 +204,14 @@ local function create_form(player)
 	return [[
 		image_button[0,0;1,1;;btn_build;]]..S("Build")..[[;;]
 		image_button[1,0;1,0.5;;btn_deco;]]..S("Deco")..[[;;]
-		image_button[1,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[;;]
+		image_button[1,0.5;1,0.5;;btn_lighting;]]..S("Lighting")..[[;;]
 		image_button[2,0;1,0.5;;btn_food;]]..S("Food")..[[;;]
 		image_button[2,0.5;1,0.5;;btn_farming;]]..S("Farming")..[[;;]
 		image_button[3,0;1,1;;btn_ore;]]..S("Ores")..[[;;]
 		image_button[4,0;1,1;;btn_pottery;]]..S("Pottery")..[[;;]
 		image_button[5,0;1,1;;btn_tool;]]..S("Tools")..[[;;]
-		image_button[6,0;1,1;;btn_vessel;]]..S("Vessels")..[[;;]
+		image_button[6,0;1,0.5;;btn_vessel;]]..S("Vessels")..[[;;]
+		image_button[6,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[;;]
 		image_button[7,0;1,1;;btn_weapon;]]..S("Weapons")..[[;;]
 		]]..(context.recipes or "")..[[
 		]]..(context.crafts or "")..[[

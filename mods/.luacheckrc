@@ -14,6 +14,7 @@ globals = {
 	"decoz",
 	"doorz",
 	"farmz",
+	"firez",
 	"fencez",
 	"floraz",
 	"flowerz",

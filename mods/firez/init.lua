@@ -27,8 +27,7 @@ local function spread_fire(pos)
 	local spread_cells = {}
 	--check if node is empty
 	for _, value in ipairs(cells) do
-		local _value = {}
-		_value = vector.add(pos, value)
+		local _value = vector.add(pos, value)
 		local inflamed = false
 		if node_can_inflamed(_value) then
 			inflamed = true
@@ -88,7 +87,7 @@ minetest.register_node("firez:fire", {
 	walkable = false,
 	liquids_pointable = false,
 	light_source = 12,
-	groups = {fire=1, igniter=1, deco = 1, float=1},
+	groups = {fire=1, igniter=1, lighting=1, float=1},
 	drop = "torchz:torch",
 	selection_box = {
 		type = "fixed",
@@ -109,7 +108,7 @@ minetest.register_node("firez:fire", {
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		local node_range = meta:set_int("firez:node_range", node_range)
+		meta:set_int("firez:node_range", node_range)
 		meta:set_int("firez:spread", 0)
 		meta:set_int("firez:spread_time", extinguish_time * 0.3)
 		local node_under = helper.get_node(pos, "under")

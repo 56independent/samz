@@ -110,7 +110,7 @@ playerz.register_cloth("playerz:cloth_male_upper_default", {
 })
 
 playerz.register_cloth("playerz:cloth_male_lower_default", {
-	description = S("Fine Blue Pants"),
+	description = S("Fine Brown Pants"),
 	inventory_image = "cloth_male_lower_default_inv.png",
 	wield_image = "cloth_male_lower_default_inv.png",
 	texture = "cloth_male_lower_default.png",
