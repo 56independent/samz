@@ -44,7 +44,7 @@ minetest.register_node("nodez:copper_ore", {
 	description = S("Copper Ore"),
 	tiles = {"nodez_stone.png^nodez_copper_ore.png"},
 	groups = {cracky=2, ore=1},
-	drop = "nodez:iron_copper 4",
+	drop = "nodez:copper_lump 4",
 	sounds = sound.stone(),
 })
 

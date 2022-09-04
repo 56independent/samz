@@ -174,7 +174,7 @@ function flowerz.register_tall_flower(name, def)
 		tiles = {modname.."_"..name.."_top.png"},
 		inventory_image = "flowers_"..name.."_top_inv.png",
 		paramtype = "light",
-		walkable = true,
+		walkable = false,
 		waving = 1,
 		groups = groups_top,
 		sounds = sound.leaves(),
