@@ -1,7 +1,6 @@
 lampz = {}
 
 local modname = minetest.get_current_modname()
-local modpath = minetest.get_modpath(modname)
 local S = minetest.get_translator(modname)
 
 minetest.register_node("lampz:oil_lamp", {

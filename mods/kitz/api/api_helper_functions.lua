@@ -38,3 +38,30 @@ function kitz.remove_mob(self)
 	kitz.clear_queue_low(self)
 	self.object:remove()
 end
+
+function kitz.remove_table_by_key(tab, key)
+	local i = 0
+	local keys, values = {},{}
+	for k, v in pairs(tab) do
+		i = i + 1
+		keys[i] = k
+		values[i] = v
+	end
+
+	while i > 0 do
+		if keys[i] == key then
+			table.remove(keys, i)
+			table.remove(values, i)
+			break
+		end
+		i = i - 1
+	end
+
+	local new_tab = {}
+
+	for j = 1, #keys do
+		new_tab[keys[j]] = values[j]
+	end
+
+	return new_tab
+end

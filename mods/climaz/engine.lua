@@ -406,11 +406,12 @@ local climate = {
 		local _player = minetest.get_player_by_name(_player_name)
 
 		local _player_pos = _player:get_pos()
+		local _player_vel = _player:get_player_velocity()
 
 		local downfall = climaz.registered_downfalls[self.downfall_type]
 		local wind_pos = vector.multiply(self.wind, -1)
-		local minp = vector.add(vector.add(_player_pos, downfall.min_pos), wind_pos)
-		local maxp = vector.add(vector.add(_player_pos, downfall.max_pos), wind_pos)
+		local minp = vector.add(vector.add(vector.add(_player_pos, _player_vel), downfall.min_pos), wind_pos)
+		local maxp = vector.add(vector.add(vector.add(_player_pos, _player_vel), downfall.max_pos), wind_pos)
 
 		--Check if in player in interiors or not
 		if not has_light(minp, maxp) then
@@ -543,7 +544,7 @@ local climate = {
 		end
 
 		if downfall_type == "sand" and climaz.settings.dust_effect then
-			player:hud_remove(self[player_name].hud_id)
+			player:hud_remove(self.players[player_name].hud_id)
 		end
 
 		local lightning = player:get_meta():get_int("climaz:lightning")

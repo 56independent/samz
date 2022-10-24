@@ -29,18 +29,35 @@ minetest.register_biome({
 })
 
 minetest.register_biome({
-	name = "forest_ocean",
+	name = "forest_shore",
 	node_top = "nodez:mud",
 	depth_top = 1,
 	node_filler = "nodez:mud",
 	depth_filler = 3,
 	node_riverbed = "nodez:mud",
 	depth_riverbed = 2,
+	node_water = "nodez:water_source",
+	depth_water_top = 5,
+	node_water_top = "nodez:water_source",
+	y_max = 0,
+	y_min = -2,
+	heat_point = 52,
+	humidity_point = 52,
+})
+
+minetest.register_biome({
+	name = "forest_ocean",
+	node_top = "nodez:sand",
+	depth_top = 1,
+	node_filler = "nodez:sand",
+	depth_filler = 3,
+	node_riverbed = "nodez:sand",
+	depth_riverbed = 2,
 	node_cave_liquid = "nodez:water_source",
 	node_dungeon = "nodez:cobble",
 	node_dungeon_alt = "nodez:mossycobble",
 	node_dungeon_stair = "stairs:stair_cobble",
-	y_max = 0,
+	y_max = mapgenz.biomes.ocean_y_max,
 	y_min = -255,
 	heat_point = 45,
 	humidity_point = 55,
@@ -62,18 +79,6 @@ minetest.register_biome({
 	y_min = -255,
 	heat_point = 55,
 	humidity_point = 60,
-})
-
-minetest.register_biome({
-	name = "grassland_under",
-	node_cave_liquid = {"nodez:water_source", "nodez:lava_source"},
-	node_dungeon = "nodez:cobble",
-	node_dungeon_alt = "nodez:mossycobble",
-	node_dungeon_stair = "stairs:stair_cobble",
-	y_max = -256,
-	y_min = -31000,
-	heat_point = 43,
-	humidity_point = 40,
 })
 
 --Desert Biome
@@ -114,11 +119,10 @@ minetest.register_biome({
 	y_min = 1,
 	heat_point = 80,
 	humidity_point = 89,
-	vertical_blend = 0,
 })
 
 minetest.register_biome({
-	name = "nodez_shore",
+	name = "swamp_shore",
 	node_top = "nodez:mud",
 	depth_top = 1,
 	node_filler = "nodez:mud",
@@ -132,5 +136,4 @@ minetest.register_biome({
 	y_min = -5,
 	heat_point = 79,
 	humidity_point = 90,
-	vertical_blend = 0,
 })

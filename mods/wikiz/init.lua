@@ -123,8 +123,8 @@ local function render_recipes(item_name, recipe_no)
 			output_img = craft_items[item_name].inventory_image
 		end
 		if not(output_img == "") then
-			render = render .."image["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.5)..";1,1;"..output_img
-				.."]"
+			render = render .."image["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.5)..";1,1;"
+				..output_img.."]"
 		else
 			render = render .."label["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.75)..";"
 				..craft_items[item_name].description.."]"

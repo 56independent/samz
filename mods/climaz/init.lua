@@ -1,5 +1,5 @@
 --
--- Climatez
+-- Climaz
 -- License:GPLv3
 --
 

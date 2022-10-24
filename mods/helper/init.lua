@@ -62,7 +62,7 @@ end
 --Node
 
 function helper.node_is_air(pos, y_offset)
-	if offset then
+	if y_offset then
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
@@ -75,7 +75,7 @@ end
 
 function helper.node_is_buildable(pos, y_offset)
 	local node = minetest.get_node_or_nil(pos)
-	if offset then
+	if y_offset then
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	if node and (helper.get_nodedef_field(node.name, "buildable_to") or helper.node_is_air(pos)) then
@@ -86,7 +86,7 @@ function helper.node_is_buildable(pos, y_offset)
 end
 
 function helper.node_is_soil(pos, y_offset)
-	if offset then
+	if y_offset then
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
@@ -98,7 +98,7 @@ function helper.node_is_soil(pos, y_offset)
 end
 
 function helper.node_is_water(pos, y_offset)
-	if offset then
+	if y_offset then
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
@@ -120,7 +120,7 @@ function helper.node_is_walkable(pos)
 end
 
 function helper.node_is_fire(pos, y_offset)
-	if offset then
+	if y_offset then
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)

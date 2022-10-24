@@ -149,41 +149,43 @@ function playerz.compose_cloth(player)
 	local upper_ItemStack, lower_ItemStack, footwear_ItemStack, head_ItemStack, hat_ItemStack
 	local underwear = false
 	local attached_cloth = {}
+	local model = playerz.registered_models[playerz.get_model_name(player)]
 	for i = 1, #inv_list do
 		local item_name = inv_list[i]:get_name()
 		local cloth_itemstack = minetest.registered_items[item_name]
 		--minetest.chat_send_all(item_name)
 		local cloth_type = minetest.get_item_group(item_name, "cloth")
 		--if cloth_type then minetest.chat_send_all(cloth_type) end
-		if cloth_type == 1 then
+		if cloth_type == 1 and not(model.disable_cloth and model.disable_cloth.head) then
 			head_ItemStack = cloth_itemstack._cloth_texture
-		elseif cloth_type == 2 then
+		elseif cloth_type == 2 and not(model.disable_cloth and model.disable_cloth.upper) then
 			upper_ItemStack = cloth_itemstack._cloth_texture
 			underwear = true
-		elseif cloth_type == 3 then
+		elseif cloth_type == 3 and not(model.disable_cloth and model.disable_cloth.lower) then
 			lower_ItemStack = cloth_itemstack._cloth_texture
-		elseif cloth_type == 4 then
+		elseif cloth_type == 4 and not(model.disable_cloth and model.disable_cloth.footwear) then
 			footwear_ItemStack = cloth_itemstack._cloth_texture
-		elseif cloth_type == 5 then
+		elseif cloth_type == 5 and not(model.disable_cloth and model.disable_cloth.hat) then
 			hat_ItemStack = cloth_itemstack._cloth_texture
 		end
 		if cloth_itemstack._cloth_attach then
 			attached_cloth[#attached_cloth+1] = cloth_itemstack._cloth_attach
 		end
 	end
-	if not(underwear) then
+	if not(underwear) and not(model.disable_cloth and model.disable_cloth.underwear) then
 		upper_ItemStack = "cloth_upper_underwear_default.png"
 	end
 	local _base_texture = playerz.get_base_texture_table(player)
 	local base_texture = playerz.compose_base_texture(_base_texture, {
 		canvas_size ="48x20",
-		skin_texture = "player_skin.png",
+		skin_texture = model.textures[1],
 		eyebrowns_pos = "6,6",
 		eye_right_pos = "7,9",
 		eye_left_pos = "10,9",
 		mouth_pos = "6,11",
 		hair_preview = false,
 		hair_pos = "0,0",
+		colorize_skin = model.colorize_skin
 	})
 	local cloth = base_texture.."^".."[combine:48x20:0,0="
 	if head_ItemStack then
@@ -243,10 +245,27 @@ end
 sfinv.register_page("sfinv:appearance", {
 	title = S("Appearance"),
 	get = function(self, player, context)
+		local lbl_mermaid
+		if playerz.is_mermaid(player) then
+			lbl_mermaid = S("Human")
+		else
+			lbl_mermaid = S("Mermaid")
+		end
 		return sfinv.make_formspec(player, context, [[
 			image[0.5,0.5;2,3.5;]]..minetest.formspec_escape(playerz.compose_preview(player, playerz.get_gender(player)))..[[]
+			image_button[6,1;1,1;;btn_mermaid;]]..lbl_mermaid..[[]
 			list[current_player;cloths;2.5,0.125;2,4]
 		]], true)
+	end,
+	on_player_receive_fields = function(self, player, context, fields)
+		if fields.btn_mermaid then
+			if not playerz.is_mermaid(player) then
+				playerz.convert_to_mermaid(player)
+			else
+				playerz.reset_mermaid(player)
+			end
+		end
+		sfinv.set_page(player, "sfinv:appearance")
 	end,
 })
 
@@ -329,7 +348,7 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
 		return
 	end
 	if update_cloths then
-		playerz.set_texture(player)
+		playerz.update_player_textures(player)
 		local player_name = player:get_player_name()
 		if get_context(player_name, "closet") then
 			minetest.show_formspec(player_name,

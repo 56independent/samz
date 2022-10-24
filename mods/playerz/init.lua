@@ -9,12 +9,13 @@ dofile(modpath .. "/damage.lua")
 dofile(modpath .. "/cloths.lua")
 dofile(modpath .. "/freeze.lua")
 dofile(modpath .. "/hunger.lua")
+dofile(modpath .. "/mermaid.lua")
 dofile(modpath .. "/preview.lua")
 
 -- Default player appearance
 playerz.register_model("character.b3d", {
 	animation_speed = 30,
-	textures = {"character.png", "blank.png"},
+	textures = {"player_skin.png", "blank.png"},
 	animations = {
 		-- Standard animations.
 		stand = {x = 0,   y = 79},
@@ -31,6 +32,7 @@ playerz.register_model("character.b3d", {
 	collisionbox = {-0.28125, 0.0, -0.28125, 0.28125, 1.5, 0.28125},
 	stepheight = 0.6,
 	eye_height = 1.47,
+	colorize_skin = true,
 })
 
 -- Update appearance when the player joins
@@ -51,8 +53,7 @@ minetest.register_on_joinplayer(function(player)
 		playerz.select_gender(player_name) --select the gender
 	else
 		hunger = playerz.load_hunger(player)
-		playerz.compose_model_textures(player)
-		playerz.update_model(player, playerz.get_gender_model(gender), true)
+		playerz.set_player(player)
 	end
 	-->REMOVE ON THE FIRST RELEASE
 	local class = playerz.get_class(player)

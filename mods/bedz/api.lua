@@ -342,8 +342,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			minetest.show_formspec(player_name, "bedz:form", compose_formspec(player_name))
 			return
 		end
+		return
 	end
 	if singleplayer or (playerz.count == 1) then
+		if not new_timeofday then
+			return
+		end
 		--singleplayer or only one player in multiplayer
 		local hours = calculate_hours(new_timeofday)
 		minetest.chat_send_player(player_name, S("You have slept").." "..hours.." "

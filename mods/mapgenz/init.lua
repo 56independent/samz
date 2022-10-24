@@ -19,6 +19,8 @@ end
 
 mapgenz.biomes.swamp_height = 7
 
+mapgenz.biomes.ocean_y_max = -3
+
 --
 -- Aliases for map generator outputs
 --
