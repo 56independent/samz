@@ -41,8 +41,8 @@ minetest.register_biome({
 	node_water_top = "nodez:water_source",
 	y_max = 0,
 	y_min = -2,
-	heat_point = 52,
-	humidity_point = 52,
+	heat_point = 49,
+	humidity_point = 51,
 })
 
 minetest.register_biome({
@@ -59,8 +59,8 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = mapgenz.biomes.ocean_y_max,
 	y_min = -255,
-	heat_point = 45,
-	humidity_point = 55,
+	heat_point = 48,
+	humidity_point = 52,
 })
 
 minetest.register_biome({
@@ -77,7 +77,7 @@ minetest.register_biome({
 	node_dungeon_stair = "stairs:stair_cobble",
 	y_max = 3,
 	y_min = -255,
-	heat_point = 55,
+	heat_point = 60,
 	humidity_point = 60,
 })
 
@@ -95,10 +95,10 @@ minetest.register_biome({
 	node_dungeon = "nodez:cobble",
 	node_dungeon_alt = "nodez:mossycobble",
 	node_dungeon_stair = "stairs:stair_cobble",
-	y_max = 31000,
+	y_max = 2000,
 	y_min = -4,
-	heat_point = 85,
-	humidity_point = 15,
+	heat_point = 95,
+	humidity_point = 10,
 })
 
 --Swampz
