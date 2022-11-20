@@ -65,7 +65,7 @@ if minetest.get_modpath("firez") ~= nil then
 
 		on_timer = function(pos, elapsed)
 			local node_above = helper.get_node(pos, "above")
-			if node_above.name == "firez:fire" then
+			if node_above and node_above.name == "firez:fire" then
 				return true
 			end
 			local new_node_name

@@ -23,9 +23,10 @@ function playerz.compose_preview(clicker, gender)
 		upper = "cloth_upper_underwear_preview.png"
 	end
 	local _base_texture = playerz.get_base_texture_table(clicker)
+	local model = playerz.registered_models[playerz.get_model_name(clicker)]
 	local base_texture = playerz.compose_base_texture(_base_texture, {
-		canvas_size ="10x18",
-		skin_texture = "player_preview.png",
+		canvas_size = model.preview.canvas_size,
+		skin_texture = model.preview.skin,
 		eyebrowns_pos = "2,2",
 		eye_right_pos = "3,5",
 		eye_left_pos = "6,5",
@@ -34,19 +35,19 @@ function playerz.compose_preview(clicker, gender)
 		hair_pos = "2,2",
 	})
 	local preview = base_texture
-	if head then
+	if head and not (model.disable_cloth and model.disable_cloth.head)then
 		preview= preview .. ":2,2="..head
 	end
-	if upper then
+	if upper and not (model.disable_cloth and model.disable_cloth.upper) then
 		preview= preview .. ":0,8="..upper
 	end
-	if lower then
+	if lower and not (model.disable_cloth and model.disable_cloth.lower) then
 		preview= preview .. ":2,14="..lower
 	end
-	if footwear then
+	if footwear and not (model.disable_cloth and model.disable_cloth.footwear) then
 		preview= preview .. ":2,14="..footwear
 	end
-	if hat then
+	if hat and not (model.disable_cloth and model.disable_cloth.hat) then
 		preview= preview .. ":0,0="..hat
 	end
 	return preview

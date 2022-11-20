@@ -23,6 +23,11 @@ playerz.register_model("mermaid.b3d", {
 		underwear = true,
 		lower = true,
 		upper = true,
+	},
+	preview = {
+		canvas_size = "10x22",
+		skin = "mermaid_preview.png",
+		form_img_size = "2, 4.27" --width, height
 	}
 })
 
@@ -34,16 +39,28 @@ function playerz.is_mermaid(player)
 	end
 end
 
-function playerz.convert_to_mermaid(player)
-	player:get_meta():set_int("mermaid", 1)
-	playerz.set_player(player)
+function playerz.reset_mermaid_physics(player)
+	playerphysics.remove_physics_factor(player, "speed", "mermaid_on_water")
+	playerphysics.remove_physics_factor(player, "speed", "mermaid_on_ground")
+end
+
+function playerz.set_mermaid(player)
+	playerz.reset_mermaid_physics(player)
 	player:set_properties({
 		breath_max = 600,
 	})
 	player:set_breath(600)
 end
 
+function playerz.convert_to_mermaid(player)
+	playerz.reset_mermaid_physics(player)
+	player:get_meta():set_int("mermaid", 1)
+	playerz.set_player(player)
+	playerz.set_mermaid(player)
+end
+
 function playerz.reset_mermaid(player)
+	playerz.reset_mermaid_physics(player)
 	player:get_meta():set_int("mermaid", 0)
 	playerz.set_player(player)
 	player:set_properties({

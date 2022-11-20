@@ -33,6 +33,11 @@ playerz.register_model("character.b3d", {
 	stepheight = 0.6,
 	eye_height = 1.47,
 	colorize_skin = true,
+	preview = {
+		canvas_size = "10x18",
+		skin = "player_preview.png",
+		form_img_size = "2, 3.5" --width, height
+	}
 })
 
 -- Update appearance when the player joins
@@ -55,6 +60,9 @@ minetest.register_on_joinplayer(function(player)
 		hunger = playerz.load_hunger(player)
 		playerz.set_player(player)
 	end
+	if playerz.is_mermaid(player) then
+		playerz.set_mermaid(player)
+	end
 	-->REMOVE ON THE FIRST RELEASE
 	local class = playerz.get_class(player)
 	if not class then
@@ -76,5 +84,5 @@ minetest.register_on_joinplayer(function(player)
 	--Set Sky
 	player:set_sky({sky_color={day_sky="#6ac4c4", day_horizon="#84d1d1"}})
 	--Enable Shadows
-	--player:set_lighting({shadows={intensity = 0.33}})
+	player:set_lighting({shadows={intensity = 0.33}})
 end)

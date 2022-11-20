@@ -95,7 +95,7 @@ minetest.register_biome({
 	node_dungeon = "nodez:cobble",
 	node_dungeon_alt = "nodez:mossycobble",
 	node_dungeon_stair = "stairs:stair_cobble",
-	y_max = 2000,
+	y_max = 40,
 	y_min = -4,
 	heat_point = 95,
 	humidity_point = 10,

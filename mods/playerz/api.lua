@@ -558,7 +558,7 @@ minetest.register_globalstep(function(dtime)
 							else
 								node_above_is_air = false
 							end
-							if	((node_below_is_liquid) and not(node_above_is_air)) or
+							if((node_below_is_liquid) and not(node_above_is_air)) or
 								(not(node_below_is_liquid) and node_above_is_liquid) then
 								on_water = true
 							else
@@ -614,8 +614,14 @@ minetest.register_globalstep(function(dtime)
 					player_set_animation(player, "swin_stand", animation_speed_mod)
 				end
 			end
-			if on_water and player_pos.y < 0 then
-				if timer > 1 then
+			if on_water then
+				if timer > 1 and playerz.is_mermaid(player) then
+					if not playerphysics.has_physics_factor(player, "speed", "mermaid_on_water") then
+						playerphysics.remove_physics_factor(player, "speed", "mermaid_on_ground")
+						playerphysics.add_physics_factor(player, "speed", "mermaid_on_water", 2)
+					end
+				end
+				if timer > 1 and player_pos.y < 0 then
 					player_pos.y = player_pos.y + 1
 					minetest.add_particlespawner({
 						amount = 6,
@@ -634,6 +640,12 @@ minetest.register_globalstep(function(dtime)
 						vertical = false,
 						texture = "bubble.png",
 					})
+				end
+			else
+				if playerz.is_mermaid(player)
+					and not playerphysics.has_physics_factor(player, "speed", "mermaid_on_ground") then
+						playerphysics.remove_physics_factor(player, "speed", "mermaid_on_water")
+						playerphysics.add_physics_factor(player, "speed", "mermaid_on_ground", 0.3)
 				end
 			end
 		else

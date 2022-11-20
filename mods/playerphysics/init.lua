@@ -43,3 +43,13 @@ function playerphysics.remove_physics_factor(player, attribute, id)
 	local raw_value = calculate_attribute_product(player, attribute)
 	player:set_physics_override({[attribute] = raw_value})
 end
+
+function playerphysics.has_physics_factor(player, attribute, id)
+	local meta = player:get_meta()
+	local a = minetest.deserialize(meta:get_string("playerphysics:physics"))
+	if a == nil or a[attribute][id] == nil then
+		return false
+	else
+		return true
+	end
+end

@@ -102,8 +102,9 @@ function helper.node_is_water(pos, y_offset)
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
 	local node = minetest.get_node_or_nil(pos)
-	if node and minetest.registered_nodes[node.name]["liquidtype"] == "source" or
-			minetest.registered_nodes[node.name]["liquidtype"] == "flowing" then
+	if node and minetest.registered_nodes[node.name]
+		and (minetest.registered_nodes[node.name]["liquidtype"] == "source"
+			or minetest.registered_nodes[node.name]["liquidtype"] == "flowing") then
 				return true
 	else
 		return false

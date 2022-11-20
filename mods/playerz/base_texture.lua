@@ -89,8 +89,7 @@ function playerz.create_base_texture(player)
 	else
 		skin_color = nil
 	end
-	base_texture["skin"] = {texture = model.textures[1],
-		color = skin_color}
+	base_texture["skin"] = {texture = model.textures[1], color = skin_color}
 	return base_texture
 end
 

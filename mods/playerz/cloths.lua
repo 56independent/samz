@@ -251,8 +251,10 @@ sfinv.register_page("sfinv:appearance", {
 		else
 			lbl_mermaid = S("Mermaid")
 		end
+		local model = playerz.registered_models[playerz.get_model_name(player)]
 		return sfinv.make_formspec(player, context, [[
-			image[0.5,0.5;2,3.5;]]..minetest.formspec_escape(playerz.compose_preview(player, playerz.get_gender(player)))..[[]
+			image[0.5,0.5;]]..model.preview.form_img_size..[[;]]
+				..minetest.formspec_escape(playerz.compose_preview(player, playerz.get_gender(player)))..[[]
 			image_button[6,1;1,1;;btn_mermaid;]]..lbl_mermaid..[[]
 			list[current_player;cloths;2.5,0.125;2,4]
 		]], true)

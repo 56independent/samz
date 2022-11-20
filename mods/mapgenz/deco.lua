@@ -417,3 +417,61 @@ minetest.register_decoration({
 	flags = "place_center_x, place_center_z, force_placement",
 })
 
+--Reed
+
+minetest.register_decoration({
+	name = "floraz:reed_in_swamp",
+	deco_type = "schematic",
+	place_on = {"nodez:silt_with_grass", "nodez:mud_with_moss", "nodez:mud"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.05,
+		scale = 0.005,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 2,
+		octaves = 3,
+		persist = 0.66
+	},
+	biomes = {"swamp"},
+	height = 2,
+	y_min = 0,
+	y_max = 1000,
+	place_offset_y = 1,
+	schematic = {
+		size = {x = 1, y = 4, z = 1},
+		data = {
+			{name = "floraz:reed", force_placement = true}, {name = "floraz:reed", force_placement = true},
+				{name = "floraz:reed"}, {name = "floraz:reed"}
+		}
+	},
+	spawn_by = "nodez:muddy_water_source",
+	num_spawn_by = 1,
+	flags = "place_center_x, place_center_z, force_placement",
+	rotation = "random",
+})
+
+minetest.register_decoration({
+	name = "floraz:reed_in_coast",
+	deco_type = "schematic",
+	place_on = {"nodez:sand", "nodez:mud"},
+	sidelen = 16,
+	noise_params = {
+		offset = -0.3,
+		scale = 0.3,
+		spread = {x = 200, y = 200, z = 200},
+		seed = 783224,
+		octaves = 3,
+		persist = 0.7
+	},
+	biomes = {"forest_shore", "beach", "swamp_shore"},
+	y_max = 0,
+	y_min = 0,
+	schematic = {
+		size = {x = 1, y = 5, z = 1},
+		data = {
+			{name = "nodez:mud", force_place = true}, {name = "floraz:reed"}, {name = "floraz:reed"},
+				{name = "floraz:reed"}, {name = "floraz:reed"}
+		}
+	},
+	place_offset_y = 1,
+})

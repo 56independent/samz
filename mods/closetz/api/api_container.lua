@@ -16,11 +16,13 @@ function closetz.container.get_container_formspec(pos, clicker)
 	local gender = playerz.get_gender(clicker)
 	--5.4--local model = playerz.get_gender_model(gender)
 	local preview = playerz.compose_preview(clicker, gender)
+	local model = playerz.registered_models[playerz.get_model_name(clicker)]
+
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 	local formspec =
 		"size[8,8.25]" ..
 		--5.4--"model[0,0;5,5;preview_model;"..model..";"..texture..";-10,195;;;0,79]"..
-		"image[0.5,0.5;2,4;"..minetest.formspec_escape(preview).."]" ..
+		"image[0.5,0.25;"..model.preview.form_img_size..";"..minetest.formspec_escape(preview).."]" ..
 		"list[current_player;cloths;2.5,0.25;2,4]" ..
 		get_bg(2.5,0.25,3,1,"closetz_gui_clothes_bg.png")..
 		"list[nodemeta:" .. spos .. ";closet;5,0.25;3,12;]" ..
