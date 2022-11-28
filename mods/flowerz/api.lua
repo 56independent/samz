@@ -146,7 +146,7 @@ function flowerz.register_mushroom(name, def)
 	})
 
 	if def.deco then
-		register_flower_deco(name, def.deco)
+		register_flower_deco(mushroom_name, def.deco)
 	end
 end
 

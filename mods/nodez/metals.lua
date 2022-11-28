@@ -15,6 +15,24 @@ minetest.register_craft({
 	cooktime = 7,
 })
 
+--Beam
+minetest.register_node("nodez:iron_beam", {
+	description = S("Iron Beam"),
+	tiles = {"nodez_beam_top.png", "nodez_beam_top.png", "nodez_beam_side.png"},
+	groups = {cracky = 3, iron = 1, build = 1},
+	sounds = sound.metal(),
+})
+
+minetest.register_craft({
+	type= "shaped",
+	output = "nodez:iron_beam",
+	recipe = {
+		{"",  "nodez:iron_ingot",
+		 ""},{"nodez:iron_ingot", "", ""},
+		{"", "", ""},
+	}
+})
+
 --Copper
 
 minetest.register_craftitem("nodez:copper_ingot", {

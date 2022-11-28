@@ -144,7 +144,7 @@ function doorz.register_door(name, def)
 		groups = {choppy = 2, door = 1, deco =1},
 		stack_max = 1,
 		buildable_to = false,
-		sounds = sound.wood(),
+		sounds = def.sounds,
 
 		on_place = function(itemstack, placer, pointed_thing)
 			if place_door(doorz_name, placer, pointed_thing) then
@@ -206,7 +206,7 @@ function doorz.register_door(name, def)
 			groups = {choppy = 2, door = 1, not_in_creative_inventory = 1},
 			stack_max = 1,
 			buildable_to = false,
-			sounds = sound.wood(),
+			sounds = def.sounds,
 
 			on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 				close_door(pos, doorz_name)
