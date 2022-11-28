@@ -118,6 +118,12 @@ function playerz.get_gender(player)
 	return player:get_meta():get_string("gender")
 end
 
+function playerz.change_gender(player, gender)
+	playerz.set_gender(player, gender)
+	playerz.set_base_texture(player, playerz.set_base_texture_by_gender(player, playerz.get_base_texture_table(player)))
+	playerz.set_player(player)
+end
+
 function playerz.is_male(player)
 	if playerz.get_gender(player) == "male" then
 		return true
@@ -148,7 +154,6 @@ minetest.register_chatcommand("toggle_gender", {
 	description = S("Change the gender, from male to female or viceversa"),
     func = function(name, param)
 		local player = minetest.get_player_by_name(name)
-		local meta = player:get_meta()
 		local old_gender = playerz.get_gender(player)
 		if old_gender then
 			local new_gender
@@ -157,11 +162,7 @@ minetest.register_chatcommand("toggle_gender", {
 			else
 				new_gender = "male"
 			end
-			meta:set_string("gender", new_gender)
-			playerz.update_model(player, true)
-			playerz.compose_player_textures(player)
-			local model_name = playerz.get_model_name(player)
-			playerz.set_player_textures(player, models[model_name].textures)
+			playerz.change_gender(player, new_gender)
 			local new_gender_cap = new_gender:gsub("^%l", string.upper)
 			minetest.chat_send_player(name, S("Your gender is changed to").." "..S(new_gender_cap)..".")
 		end
@@ -342,7 +343,7 @@ function playerz.get_player_model(player)
 	return player:get_meta():get_string("playerz:model")
 end
 
-function playerz.set_player_model(player)
+function playerz.set_player_model(player, model_name)
 	return player:get_meta():set_string("playerz:model", model_name)
 end
 
@@ -359,15 +360,6 @@ function playerz.apply_player_model(player)
 		eye_height = model.eye_height or 1.47,
 	})
 	playerz.set_animation(player, "stand")
-end
-
--- Called when a player's appearance needs to be updated
-function playerz.update_model(player, model_name, force)
-	if model then
-		if playerz.get_player_model(player) == model_name and not force then
-			return
-		end
-	end
 end
 
 function playerz.compose_player_textures(player)
@@ -692,7 +684,6 @@ minetest.register_on_shutdown(function()
 end)
 
 -- Check each player and apply animations
-local timer = 0
 minetest.register_globalstep(function(dtime)
 	timer = timer + dtime
 	for _, player in pairs(minetest.get_connected_players()) do

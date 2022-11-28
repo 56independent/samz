@@ -1,6 +1,24 @@
 function playerz.compose_preview(clicker, gender)
+	local _base_texture = playerz.get_base_texture_table(clicker)
+	local model = playerz.registered_models[playerz.get_model_name(clicker)]
+	local base_texture = playerz.compose_base_texture(_base_texture, {
+		canvas_size = model.preview.canvas_size,
+		skin_texture = model.preview.skin,
+		eyebrowns_pos = "2,2",
+		eye_right_pos = "3,5",
+		eye_left_pos = "6,5",
+		mouth_pos = "2,7",
+		hair_preview = true,
+		hair_pos = "2,2",
+	})
+
+	local preview = base_texture
+
 	local inv = clicker:get_inventory()
 	local inv_list = inv:get_list("cloths")
+	if not inv_list then
+		return preview
+	end
 	local head, upper, lower, underwear, footwear, hat
 	for i = 1, #inv_list do
 		local item_name = inv_list[i]:get_name()
@@ -22,19 +40,7 @@ function playerz.compose_preview(clicker, gender)
 	if not(underwear) then
 		upper = "cloth_upper_underwear_preview.png"
 	end
-	local _base_texture = playerz.get_base_texture_table(clicker)
-	local model = playerz.registered_models[playerz.get_model_name(clicker)]
-	local base_texture = playerz.compose_base_texture(_base_texture, {
-		canvas_size = model.preview.canvas_size,
-		skin_texture = model.preview.skin,
-		eyebrowns_pos = "2,2",
-		eye_right_pos = "3,5",
-		eye_left_pos = "6,5",
-		mouth_pos = "2,7",
-		hair_preview = true,
-		hair_pos = "2,2",
-	})
-	local preview = base_texture
+
 	if head and not (model.disable_cloth and model.disable_cloth.head)then
 		preview= preview .. ":2,2="..head
 	end

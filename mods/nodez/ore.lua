@@ -53,3 +53,5 @@ minetest.register_craftitem("nodez:copper_lump", {
 	groups = {ore=1, copper=1},
 	inventory_image = "nodez_copper_lump.png"
 })
+
+--Aluminium

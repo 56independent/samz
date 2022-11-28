@@ -3,9 +3,11 @@ allow_defined_top = false
 max_line_length = false
 
 globals = {
+	"aluz",
 	"eatz",
 	"bedz",
 	"boomz",
+	"bowz",
 	"bucketz",
 	"chestz",
 	"climaz",
@@ -27,9 +29,11 @@ globals = {
 	"mirrorz",
 	"mg_name",
 	"modname",
+	"modpath",
 	"nodez",
 	"ladderz",
 	"lampz",
+	"panez",
 	"playerz",
 	"playerphysics",
 	"S",

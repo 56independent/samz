@@ -5,16 +5,13 @@ local mushroom_spread_time = 5
 
 -- Flower registration
 
-local function register_flower_deco(name, deco)
+local function register_flower_deco(flower_name, deco)
 
 	if not(deco.noise_params) then
 		deco.noise_params = {}
 	end
 
-	local flower_name = modname..":"..name
-
 	minetest.register_decoration({
-		name = flower_name,
 		decoration = flower_name,
 		deco_type = deco.type or "simple",
 		place_on = deco.place_on,
@@ -28,9 +25,9 @@ local function register_flower_deco(name, deco)
 			persist = 0.6
 		},
 		biomes = deco.biomes,
-		y_max = deco.height.y_max,
-		y_min = deco.height.y_min,
-		schematic = deco.schematic,
+		y_max = deco.height.y_max or 128,
+		y_min = deco.height.y_min or 0,
+		schematic = deco.schematic or nil,
 		flags = deco.flags or "",
 		place_offset_y = deco.place_offset_y or 0
 	})
@@ -44,12 +41,14 @@ function flowerz.register_flower(name, def)
 	def.groups.attached_node = 1
 	def.groups.flammable = 1
 
+	local flower_name = modname..":"..name
+
 	local inventory_image =  modname.."_" .. name
 	if def.inv_img then
 		inventory_image = inventory_image .. "_inv"
 	end
 
-	minetest.register_node(modname..":" .. name, {
+	minetest.register_node(flower_name, {
 		description = S(def.desc),
 		drawtype = "plantlike",
 		waving = 1,
@@ -70,7 +69,7 @@ function flowerz.register_flower(name, def)
 	})
 
 	if def.deco then
-		register_flower_deco(name, def.deco)
+		register_flower_deco(flower_name, def.deco)
 	end
 end
 

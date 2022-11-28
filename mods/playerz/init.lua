@@ -84,5 +84,5 @@ minetest.register_on_joinplayer(function(player)
 	--Set Sky
 	player:set_sky({sky_color={day_sky="#6ac4c4", day_horizon="#84d1d1"}})
 	--Enable Shadows
-	player:set_lighting({shadows={intensity = 0.33}})
+	--player:set_lighting({shadows={intensity = 0.33}})
 end)

@@ -65,25 +65,28 @@ function playerz.set_base_texture(player, base_texture)
 	meta:set_string("base_texture", minetest.serialize(base_texture))
 end
 
-function playerz.create_base_texture(player)
+function playerz.set_base_texture_by_gender(player, base_texture)
 	local gender = playerz.get_gender(player)
-	local base_texture = {}
-	local hair_color = hair_colors_redux[math.random(#hair_colors_redux)]
-	local eye_color = "player_"..playerz.eye_colors[math.random(#playerz.eye_colors)].."_eye.png"
 	if gender == "male" then
 		base_texture["eyebrowns"] = {texture = nil, color = nil}
-		base_texture["eye"] = eye_color
 		base_texture["mouth"] = {texture = "player_male_mouth_default.png", color = nil}
-		base_texture["hair"] = {texture = "player_male_hair_default.png", color = hair_color}
+		base_texture["hair"] = {texture = "player_male_hair_default.png", color = base_texture["hair_color"]}
 	else
 		base_texture["eyebrowns"] = {texture = "player_eyebrowns_default.png", color = nil}
-		base_texture["eye"] = eye_color
 		base_texture["mouth"] = {texture = "player_female_mouth_default.png", color = nil}
-		base_texture["hair"] = {texture = "player_female_hair_default.png", color = hair_color}
+		base_texture["hair"] = {texture = "player_female_hair_default.png", color = base_texture["hair_color"]}
 	end
+	return base_texture
+end
+
+function playerz.create_base_texture(player)
+	local base_texture = {}
+	base_texture["eye"] = "player_"..playerz.eye_colors[math.random(#playerz.eye_colors)].."_eye.png"
+	base_texture["hair_color"] = hair_colors_redux[math.random(#hair_colors_redux)]
+	base_texture = playerz.set_base_texture_by_gender(player, base_texture)
 	local skin_color
 	local model = playerz.registered_models[playerz.get_model_name(player)]
-	minetest.chat_send_all(playerz.get_model_name(player))
+	--minetest.chat_send_all(playerz.get_model_name(player))
 	if model.colorize_skin then
 		skin_color = skin_colors_redux[math.random(#skin_colors_redux)]
 	else

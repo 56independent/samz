@@ -8,3 +8,9 @@ doorz.register_door("apple_tree", {
 		{"", "", ""},
 	}
 })
+
+doorz.register_door("red_aluminnum", {
+	description = "Read Aluminum",
+	tiles = {"doorz_red_aluminum.png", backface_culling = true},
+	inventory_image = "doorz_red_aluminum.png",
+})

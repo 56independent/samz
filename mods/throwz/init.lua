@@ -199,7 +199,7 @@ function throwz.register_throw(name, def)
 							local drag = 1/(liquidviscosity*6)
 							self.object:set_velocity(vector.multiply(velocity, drag))
 							self.object:set_acceleration({x = 0, y = -1.0, z = 0})
-							throwz.splash(self.old_pos, "throwz_bubble.png")
+							throwz.splash(self.old_pos, "bubble.png")
 						end
 					elseif self.liquidflag then
 						self.liquidflag = false
