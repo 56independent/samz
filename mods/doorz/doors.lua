@@ -16,3 +16,11 @@ doorz.register_door("red_aluminnum", {
 	inventory_image = "doorz_red_aluminum_inv.png",
 	sounds = sound.metal(),
 })
+
+doorz.register_door("green_aluminnum", {
+	description = "Green Aluminum",
+	tiles = {"doorz_green_aluminum.png", backface_culling = true},
+	inventory_image = "doorz_green_aluminum_inv.png",
+	sounds = sound.metal(),
+})
+

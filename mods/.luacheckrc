@@ -15,6 +15,7 @@ globals = {
 	"clothz",
 	"decoz",
 	"doorz",
+	"dyez",
 	"farmz",
 	"firez",
 	"fencez",

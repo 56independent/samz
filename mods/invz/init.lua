@@ -2,8 +2,8 @@ local modname = minetest.get_current_modname()
 local S = minetest.get_translator(modname)
 
 local frmspc_server = [[
-	image_button[0,0;1,1;invz_day.png;btn_day;]]..S("Day")..[[;;]
-	image_button[1,0;1,1;invz_night.png;btn_night;]]..S("Night")..[[;;]
+	image_button[0,0;1,1;invz_day.png;btn_day;]]..S("Day")..[[]
+	image_button[1,0;1,1;invz_night.png;btn_night;]]..S("Night")..[[]
 ]]
 
 local function get_session_time(player)

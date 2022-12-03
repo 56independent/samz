@@ -83,7 +83,7 @@ itemz.register_vessel("flask_with_rose", {
 	drop = "flowerz:rose",
 	craft = {
 		recipe = {
-			"itemz:empty_flask", "flowerz:rose",
+			"itemz:empty_flask", "flowerz:rose", "group:water",
 		}
 	}
 })

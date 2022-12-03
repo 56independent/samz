@@ -183,6 +183,22 @@ flowerz.flowers_list = {
 				height = {y_max = 128, y_min = 1}
 			}
 		}
+	},
+	{
+		name = "bindweed",
+		def = {
+			desc = "Bindweed",
+			box = {-4/16, -8/16, -4/16, 4/16, -2/16, 4/16},
+			groups = {color_pink = 1, flammable = 1},
+			inv_img = false,
+			deco = {
+				type = "simple",
+				place_on = "nodez:dirt_with_grass",
+				seed = 9723,
+				biomes = {"forest"},
+				height = {y_max = 128, y_min = 1}
+			}
+		}
 	}
 }
 
@@ -217,6 +233,7 @@ farmz.register_plant("sunflower", {
 	box = {-4/16, -0.5, -4/16, 4/16, 4/16, 4/16},
 	grow_time = 5,
 	drop_number = 1,
+	groups = {flammable = 2, sunflower = 1},
 	only_register_sprout = true,
 	craft_seed = {
 		input_amount = 1,

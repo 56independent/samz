@@ -1,0 +1,17 @@
+# textdomain: dyez
+Black=negro
+Blue=azul
+Brown=marrón
+Cyan=cián
+Darkgray=gris oscuro
+Darkgreen=verde oscuro
+@1 Dye=Tinte @1
+Gray=gris
+Green=verde
+Magenta=magenta
+Orange=naranja
+Pink=rosa
+Red=rojo
+Violet=violeta
+White=blanco
+Yellow=amarillo

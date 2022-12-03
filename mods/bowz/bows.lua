@@ -148,7 +148,7 @@ minetest.register_craft({
 bowz.register_bow("bowz:bow_wood", {
 	description = S("Wooden Far Bow"),
 	image = "bowz_bow_wood.png",
-	strength = 30,
+	strength = 15,
 	uses = 150,
 	charge_time = 0.5,
 	recipe = {
@@ -169,7 +169,7 @@ bowz.register_bow("bowz:bow_wood", {
 bowz.register_bow("bowz:bow_mese", {
 	description = S("Mese Far Bow"),
 	image = "bowz_bow_mese.png",
-	strength = 60,
+	strength = 35,
 	uses = 800,
 	charge_time = 0.8,
 	recipe = {
@@ -190,7 +190,7 @@ bowz.register_bow("bowz:bow_mese", {
 bowz.register_bow("bowz:bow_flaming", {
 	description = S("Flaming Far Bow"),
 	image = "bowz_bow_flaming.png",
-	strength = 100,
+	strength = 25,
 	uses = 1500,
 	charge_time = 0.8,
 	recipe = {
@@ -211,7 +211,7 @@ bowz.register_bow("bowz:bow_flaming", {
 bowz.register_bow("bowz:crossbow", {
 	description = S("Crossbow"),
 	image = "bowz_crossbow.png",
-	strength = 80,
+	strength = 20,
 	uses = 1000,
 	charge_time = 1.0,
 	recipe = {

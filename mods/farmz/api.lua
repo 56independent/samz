@@ -178,13 +178,19 @@ function farmz.register_plant(name, def)
 		local texture
 		local drop
 
+		local groups_plant = {}
+		groups_plant["crumbly"] = 1
+		groups_plant["plant"] = 1
+		groups_plant["not_in_creative_inventory"] = 1
+
 		if i == 1 then
+
 			if not def.only_register_sprout then
 
 				minetest.register_craftitem(product_name , {
 					description = S(def.description),
 					inventory_image = def.modname.."_"..name..".png",
-					groups = def.groups,
+					groups = def.groups_product,
 				})
 
 				_plant_name = product_name.."_plant"
@@ -196,6 +202,7 @@ function farmz.register_plant(name, def)
 				else
 					drop = def.drop
 				end
+				groups_plant["sprout"] = nil
 				register = true
 			else
 				register = false
@@ -205,6 +212,7 @@ function farmz.register_plant(name, def)
 			texture = def.modname.."_"..name.."_sprout.png"
 			description = S("@1 Plant", S(def.description)).." ".."("..S("Sprout")..")"
 			drop = ""
+			groups_plant["sprout"] = 1
 			register = true
 		end
 
@@ -228,7 +236,7 @@ function farmz.register_plant(name, def)
 				},
 				drop = drop,
 				buildable_to = true,
-				groups = {crumbly = 1, plant = 1, not_in_creative_inventory = 1},
+				groups = groups_plant,
 				sounds = sound.dirt(),
 
 				after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -244,6 +252,14 @@ function farmz.register_plant(name, def)
 					end
 					minetest.set_node(pos, {name = plant_name})
 					return false
+				end,
+
+				after_dig_node = function(pos, oldnode, oldmetadata, digger)
+					--minetest.chat_send_all(_plant_name)
+					--minetest.chat_send_all(tostring(minetest.get_item_group(_plant_name, "sprout")))
+					if def.gather and (minetest.get_item_group(_plant_name, "sprout") == 0) then
+						minetest.set_node(pos, {name = product_name.."_sprout"})
+					end
 				end,
 
 				after_destruct = function(pos, oldnode)

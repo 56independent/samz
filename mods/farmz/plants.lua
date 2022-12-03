@@ -4,7 +4,7 @@ farmz.register_plant("wheat", {
 	box = {-4/16, -0.5, -4/16, 4/16, 4/16, 4/16},
 	grow_time = 5,
 	drop_number = 2,
-	groups = {fleshy = 3, flammable = 2, wheat = 1},
+	groups_product = {flammable = 2, wheat = 1},
 	craft = {
 		name = "flour",
 		description = "Flour",
@@ -13,5 +13,16 @@ farmz.register_plant("wheat", {
 		groups = {food = 1}
 	},
 	only_register_sprout = false,
+	gather = false,
 })
 
+farmz.register_plant("cotton", {
+	modname = "farmz",
+	description = "Cotton",
+	box = {-4/16, -0.5, -4/16, 4/16, 4/16, 4/16},
+	grow_time = 5,
+	drop_number = 3,
+	groups_product = {flammable = 2, cotton = 1},
+	only_register_sprout = false,
+	gather = false,
+})

@@ -254,6 +254,10 @@ function helper.string.split(inputstr, sep)
 	return t
 end
 
+function helper.string.uppercase(str)
+    return (str:gsub("^%l", string.upper))
+end
+
 --Arrays
 
 function helper.array.search(array, value)

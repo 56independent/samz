@@ -124,7 +124,7 @@ local function render_recipes(item_name, recipe_no)
 		end
 		if not(output_img == "") then
 			render = render .."image["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.5)..";1,1;"
-				..output_img.."]"
+				..minetest.formspec_escape(output_img).."]"
 		else
 			render = render .."label["..tostring(col+col_offset+3)..","..tostring(row+row_offset+0.75)..";"
 				..craft_items[item_name].description.."]"
@@ -202,17 +202,18 @@ end
 local function create_form(player)
 	local context = sfinv.get_or_create_context(player)
 	return [[
-		image_button[0,0;1,1;;btn_build;]]..S("Build")..[[;;]
-		image_button[1,0;1,0.5;;btn_deco;]]..S("Deco")..[[;;]
-		image_button[1,0.5;1,0.5;;btn_lighting;]]..S("Lighting")..[[;;]
-		image_button[2,0;1,0.5;;btn_food;]]..S("Food")..[[;;]
-		image_button[2,0.5;1,0.5;;btn_farming;]]..S("Farming")..[[;;]
-		image_button[3,0;1,1;;btn_ore;]]..S("Ores")..[[;;]
-		image_button[4,0;1,1;;btn_pottery;]]..S("Pottery")..[[;;]
-		image_button[5,0;1,1;;btn_tool;]]..S("Tools")..[[;;]
-		image_button[6,0;1,0.5;;btn_vessel;]]..S("Vessels")..[[;;]
-		image_button[6,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[;;]
-		image_button[7,0;1,1;;btn_weapon;]]..S("Weapons")..[[;;]
+		image_button[0,0;1,1;;btn_build;]]..S("Build")..[[]
+		image_button[1,0;1,0.5;;btn_deco;]]..S("Deco")..[[]
+		image_button[1,0.5;1,0.5;;btn_lighting;]]..S("Lighting")..[[]
+		image_button[2,0;1,0.5;;btn_food;]]..S("Food")..[[]
+		image_button[2,0.5;1,0.5;;btn_farming;]]..S("Farming")..[[]
+		image_button[3,0;1,1;;btn_ore;]]..S("Ores")..[[]
+		image_button[4,0;1,1;;btn_pottery;]]..S("Pottery")..[[]
+		image_button[5,0;1,1;;btn_tool;]]..S("Tools")..[[]
+		image_button[6,0;1,0.5;;btn_vessel;]]..S("Vessels")..[[]
+		image_button[6,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[]
+		image_button[7,0;1,0.5;;btn_weapon;]]..S("Weapons")..[[]
+		image_button[7,0.5;1,0.5;;btn_fabric;]]..S("Fabrics")..[[]
 		]]..(context.recipes or "")..[[
 		]]..(context.crafts or "")..[[
 		]]..(context.info or "")..[[
