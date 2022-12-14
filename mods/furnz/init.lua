@@ -435,8 +435,7 @@ minetest.register_craft({
 	output = "furnz:furnace 1",
 	type = "shaped",
 	recipe = {
-		{"group:stone",  "group:stone",
-		 "group:stone"},{"group:stone", "", ""},
-		{"", "", ""},
+		{"group:stone", "group:stone"},
+		{"group:stone", "group:stone"},
 	}
 })

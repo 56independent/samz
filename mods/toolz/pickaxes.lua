@@ -23,9 +23,8 @@ minetest.register_craft({
 	output = "toolz:pick_mese",
 	type = "shaped",
 	recipe = {
-		{"nodez:mese_crystal", "nodez:mese_crystal",
-		 "nodez:mese_crystal"},{"", "", ""},
-		{"", "", ""},
+		{"nodez:mese_crystal", "nodez:mese_crystal"},
+		{"nodez:mese_crystal", ""}
 	}
 })
 
@@ -50,8 +49,7 @@ minetest.register_craft({
 	output = "toolz:pick_steel",
 	type = "shaped",
 	recipe = {
-		{"nodez:iron_ingot", "nodez:iron_ingot",
-		 "treez:stick"},{"", "", ""},
-		{"", "", ""},
+		{"nodez:iron_ingot", "nodez:iron_ingot"},
+		{"treez:stick", ""},
 	}
 })

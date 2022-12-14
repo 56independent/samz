@@ -26,3 +26,34 @@ farmz.register_plant("cotton", {
 	only_register_sprout = false,
 	gather = false,
 })
+
+farmz.register_plant("pumpkin", {
+	modname = "farmz",
+	description = "Pumpkin",
+	box = {-4/16, -0.5, -4/16, 4/16, 4/16, 4/16},
+	grow_time = 5,
+	groups_product = {flammable = 2, pumpkin = 1},
+	fruit = {
+		name = "pumpkin",
+		amount = 3,
+		grow_time = 5,
+		description = "Pumpkin",
+		tiles = {"farmz_pumpkin_top.png", "farmz_pumpkin_bottom.png", "farmz_pumpkin_side.png"},
+		groups = {crumbly=1, pumpkin=1},
+		shears = "decoz:carved_pumpkin",
+	},
+	only_register_sprout = false,
+	gather = false,
+	craft = {
+		name = "pumpkin_slice",
+		description = "Pumpkin Slice",
+		input_amount = 1,
+		output_amount = 4,
+		groups = {food = 1, pumpkin = 1}
+	},
+	craft_seed = {
+		input = "craft",
+		input_amount = 1,
+		output_amount = 1,
+	}
+})

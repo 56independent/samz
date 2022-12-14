@@ -27,6 +27,14 @@ minetest.register_node("farmz:grass", {
 				rarity = 5,
 				items = {"farmz:wheat_seed"},
 			},
+			{
+				rarity = 12,
+				items = {"farmz:cotton_seed"},
+			},
+			{
+				rarity = 20,
+				items = {"farmz:pumpkin_seed"},
+			},
 		}
 	}
 })

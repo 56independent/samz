@@ -20,9 +20,8 @@ minetest.register_craft({
 	output = "toolz:shovel_steel",
 	type = "shaped",
 	recipe = {
-		{"nodez:iron_ingot", "",
-		 "treez:stick"},{"", "", ""},
-		{"", "", ""},
+		{"nodez:iron_ingot", ""},
+		{"treez:stick", ""}
 	}
 })
 

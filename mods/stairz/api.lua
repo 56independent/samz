@@ -28,9 +28,8 @@ function stairz.register_stair(subname, recipeitem, groups, images, description)
 		output = stairs_name.." 6",
 		type = "shaped",
 		recipe = {
-			{recipeitem, "",
-			recipeitem}, {recipeitem, "", ""},
-			{"", "", ""},
+			{recipeitem, ""},
+			{recipeitem, recipeitem},
 		}
 	})
 end
@@ -63,9 +62,8 @@ function stairz.register_slab(subname, recipeitem, groups, images, description)
 		output = slab_name.." 4",
 		type = "shaped",
 		recipe = {
-			{"", "",
-			recipeitem}, {recipeitem, "", ""},
-			{"", "", ""},
+			{"", ""},
+			{recipeitem, recipeitem},
 		}
 	})
 end

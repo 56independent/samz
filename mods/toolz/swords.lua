@@ -17,11 +17,9 @@ minetest.register_tool("toolz:sword_steel", {
 
 minetest.register_craft({
 	output = "toolz:sword_steel",
-	type = "shaped",
 	recipe = {
-		{"", "nodez:iron_ingot",
-		 "nodez:iron_ingot"},{"", "", ""},
-		{"", "", ""},
+		{"", "nodez:iron_ingot"},
+		{"nodez:iron_ingot", ""}
 	}
 })
 
@@ -64,9 +62,8 @@ throwz.register_throw("toolz:dagger_steel", {
 		gain = 0.6,
 	},
 	recipe = {
-		{"", "",
-		 "nodez:iron_ingot"},{"", "", ""},
-		{"", "", ""},
+		{"", ""},
+		{"", "nodez:iron_ingot"},
 	},
 	primary_use = {
 		tool_capabilities = {

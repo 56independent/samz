@@ -44,8 +44,7 @@ minetest.register_craft({
 	output = "chestz:chest 1",
 	type = "shaped",
 	recipe = {
-		{"group:planks",  "group:planks",
-		 "group:planks"},{"group:planks", "", ""},
-		{"", "", ""},
+		{"group:planks", "group:planks"},
+		{"group:planks", "group:planks"}
 	}
 })

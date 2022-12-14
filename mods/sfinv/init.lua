@@ -22,7 +22,7 @@ sfinv.register_page("sfinv:crafting", {
 	title = S("Crafting"),
 	get = function(self, player, context)
 		return sfinv.make_formspec(player, context, [[
-				list[current_player;craft;1.75,0.5;2,2;]
+				list[current_player;craft;1.75,0.5;2,2;0]
 				list[current_player;craftpreview;4.75,1.5;1,1;]
 				image[3.75,1.5;1,1;sfinv_crafting_arrow.png]
 				image[3.58,3;0.8,0.8;sfinv_trash_icon.png]

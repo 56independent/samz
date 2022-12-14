@@ -162,11 +162,11 @@ minetest.register_tool("screwz:screwdriver", {
 	end,
 })
 
-
 minetest.register_craft({
 	output = "screwz:screwdriver",
+	type = "shaped",
 	recipe = {
-		{"default:steel_ingot"},
-		{"group:stick"}
+		{"nodez:iron_ingot", ""},
+		{"", "group:stick"}
 	}
 })

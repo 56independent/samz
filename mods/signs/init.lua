@@ -496,10 +496,10 @@ minetest.register_node("signs:wall_sign", {
 -- Craft
 minetest.register_craft({
 	output = "signs:sign 3",
+	type = "shaped",
 	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"group:wood", "group:wood", "group:wood"},
-		{"", "group:stick", ""}
+		{"group:wood", ""},
+		{"group:stick", ""},
 	}
 })
 

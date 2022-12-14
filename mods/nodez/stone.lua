@@ -42,6 +42,22 @@ minetest.register_node("nodez:gravel", {
 	}
 })
 
+--Stone Pavement
+
+minetest.register_node("nodez:stone_pavement", {
+	description = S("Stone Pavement"),
+	tiles ={"nodez_stone_pavement.png"},
+	is_ground_content = false,
+	groups = {cracky=3, stone=1, build=1},
+	sounds = sound.stone(),
+})
+
+minetest.register_craft({
+	output = "nodez:stone_pavement 2",
+	type = "shapeless",
+	recipe = {"nodez:stone", "nodez:gravel"},
+})
+
 --Silex
 
 minetest.register_craftitem("nodez:silex", {

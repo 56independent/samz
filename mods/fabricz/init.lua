@@ -24,10 +24,9 @@ for _, color in ipairs(dyez.colors) do
 	minetest.register_craft({
 		output = name,
 		type = "shaped",
-			recipe = {
-			{"group:dye,color_" .. color, "farmz:cotton", "farmz:cotton"},
-			{"farmz:cotton", "", ""},
-			{"", "", ""},
+		recipe = {
+			{"group:dye,color_"..color, "farmz:cotton"},
+			{"farmz:cotton", "farmz:cotton"},
 		}
 	})
 end

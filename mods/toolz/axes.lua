@@ -25,9 +25,8 @@ minetest.register_craft({
 	output = "toolz:axe_stone",
 	type = "shaped",
 	recipe = {
-		{"nodez:silex", "nodez:silex",
-		 ""},{"treez:stick", "", ""},
-		{"", "", ""},
+		{"nodez:silex", "nodez:silex"},
+		{"", "treez:stick"}
 	}
 })
 
@@ -49,8 +48,7 @@ minetest.register_craft({
 	output = "toolz:axe_steel",
 	type = "shaped",
 	recipe = {
-		{"nodez:iron_ingot", "nodez:iron_ingot",
-		 ""},{"treez:stick", "", ""},
-		{"", "", ""},
+		{"nodez:iron_ingot", "nodez:iron_ingot"},
+		{"", "treez:stick"},
 	}
 })

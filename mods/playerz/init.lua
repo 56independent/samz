@@ -85,6 +85,9 @@ minetest.register_on_joinplayer(function(player)
 	playerz.count = playerz.count + 1
 	--Set Sky
 	player:set_sky({sky_color={day_sky="#6ac4c4", day_horizon="#84d1d1"}})
+	local inv = player:get_inventory()
+	inv:set_size("craft", 4)
+	inv:set_width("craft", samz.craft_width)
 	--Enable Shadows
 	--player:set_lighting({shadows={intensity = 0.33}})
 end)

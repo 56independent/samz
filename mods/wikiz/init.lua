@@ -94,14 +94,14 @@ local function render_recipes(item_name, recipe_no)
 		render = render .."image["..tostring(col+col_offset-2)..","..tostring(row+row_offset)..";1,1;"
 						..type_img.."]"
 
-		--Width; 0=shapeless, 3=shaped
+		--Width; 0=shapeless, 2=shaped
 		local width = recipe.width
 		local width_str
 		if type == "cooking" then
 			width_str = "cooking"
 		elseif width == 0 then
 			width_str = "unordered"
-		elseif width == 3 then
+		elseif width == samz.craft_width then
 			width_str = "ordered"
 		else
 			width_str = "unordered"

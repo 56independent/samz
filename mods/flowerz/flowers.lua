@@ -236,6 +236,7 @@ farmz.register_plant("sunflower", {
 	groups = {flammable = 2, sunflower = 1},
 	only_register_sprout = true,
 	craft_seed = {
+		input = "product",
 		input_amount = 1,
 		output_amount = 4,
 	},

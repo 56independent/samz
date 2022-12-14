@@ -28,13 +28,3 @@ minetest.register_tool("bucketz:bucket", {
 		end
 	end,
 })
-
-minetest.register_craft({
-	output = "bucketz:bucket",
-	type = "shaped",
-	recipe = {
-		{"",  "",
-		 ""},{"nodez:iron_ingot", "", ""},
-		{"", "", ""},
-	}
-})

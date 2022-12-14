@@ -4,6 +4,7 @@ helper.nodebox = {}
 helper.table = {}
 helper.string = {}
 helper.array = {}
+helper.nodes = {}
 
 --Node Helpers
 
@@ -89,12 +90,14 @@ function helper.node_is_soil(pos, y_offset)
 	if y_offset then
 		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
-	local node = minetest.get_node_or_nil(pos)
-	if node and minetest.get_item_group(node.name, "soil") >= 1 then
-		return true
-	else
-		return false
+	return helper.in_group(pos, "soil")
+end
+
+function helper.node_is_plow(pos, y_offset)
+	if y_offset then
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
 	end
+	return helper.in_group(pos, "plow")
 end
 
 function helper.node_is_water(pos, y_offset)
@@ -134,6 +137,13 @@ end
 
 function helper.set_to_air(pos)
 	minetest.set_node(pos, {name="air"})
+end
+
+function helper.node_is_dirt(pos, y_offset)
+	if y_offset then
+		pos = vector.new(pos.x, pos.y + y_offset, pos.z)
+	end
+	return helper.in_group(pos, "dirt")
 end
 
 --Direction
@@ -208,6 +218,16 @@ helper.nodebox.flat_v = {
 
 --Tables
 
+function helper.table.is_empty(t)
+	local next = next
+	if next(t) == nil then
+		return true
+	else
+		return false
+	end
+end
+
+
 function helper.table.shallowcopy(original)
 	local copy = {}
 	for key, value in pairs(original) do
@@ -240,6 +260,28 @@ function helper.table.shuffle(t) -- suffles numeric indices
     return t
 end
 
+--Nodes
+
+function helper.nodes.adjacent_pos_grid(pos, non_oblique)
+	local cells = {{x=0, y=0, z=1}, {x=0, y=0, z=-1}, {x=1, y=0, z=0}, {x=-1, y=0, z=0}}
+	local grid = {}
+	if not non_oblique then
+		cells[#cells+1] = {x=1, y=0, z=1}
+		cells[#cells+1] = {x=1, y=0, z=-1}
+		cells[#cells+1] = {x=-1, y=0, z=1}
+		cells[#cells+1] = {x=-1, y=0, z=-1}
+	end
+	local _cells = helper.table.shuffle(cells)
+	for _, cell_pos in ipairs(_cells) do
+		grid[#grid+1] = vector.add(pos, cell_pos)
+	end
+	return grid
+end
+
+function helper.nodes.get_random_adjacent_pos(pos, non_oblique)
+	local grid = helper.nodes.adjacent_pos_grid(pos, non_oblique)
+	return grid[math.random(1, #grid)]
+end
 
 --Strings
 

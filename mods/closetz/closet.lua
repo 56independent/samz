@@ -21,9 +21,8 @@ closetz.register_container("closet", {
 minetest.register_craft({
 	output = "closetz:closet",
 	type = "shaped",
-		recipe = {
-			{"","group:mirror",
-			""},{"group:wood", "", ""},
-			{"", "", ""},
+	recipe = {
+		{"", "group:mirror"},
+		{"", "group:wood"},
 	}
 })

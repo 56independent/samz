@@ -16,21 +16,32 @@ function foodz.register_food(name, def)
 			end
 		})
 	else
-		minetest.register_node(food_name, {
-			inventory_image = def.inventory_image,
-			drawtype = "nodebox",
-			description = S(def.description),
-			tiles = def.tiles,
-			paramtype = "light",
-			paramtype2 = "facedir",
+		local mesh, selection_box, node_box
+		if def.type == "nodebox" then
+			mesh = nil
 			node_box = {
 				type = "fixed",
 				fixed = def.node_box,
-			},
-			selection_box = {
-				type = "fixed",
-				fixed = def.selection_box,
-			},
+			}
+		else
+			node_box = nil
+			selection_box = nil
+			mesh = "foodz_pumpkin_cake.obj"
+		end
+		selection_box = {
+			type = "fixed",
+			fixed = def.selection_box,
+		}
+		minetest.register_node(food_name, {
+			inventory_image = def.inventory_image,
+			drawtype = def.type,
+			description = S(def.description),
+			mesh = mesh,
+			node_box = node_box,
+			selection_box = selection_box,
+			tiles = def.tiles,
+			use_texture_alpha = true,
+			paramtype2 = "facedir",
 			groups = def.groups,
 
 			on_use = function(itemstack, user, pointed_thing)

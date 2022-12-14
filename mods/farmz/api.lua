@@ -7,6 +7,37 @@ local function start_grow(pos, _time)
 	timer:start(_time)
 end
 
+local function grow_fruit(pos, def)
+	local grow_more
+	local meta = minetest.get_meta(pos)
+	local amount = meta:get_int("farmz:fruit_amount")
+	--check for a place to fruit grown
+	local grid = helper.nodes.adjacent_pos_grid(pos, true)
+	local dirt_cells = {}
+	for _, cell_pos in ipairs(grid) do
+		if (helper.node_is_air(cell_pos) or helper.node_is_plow(cell_pos)) and helper.node_is_dirt(cell_pos, -1) then
+			dirt_cells[#dirt_cells+1] = cell_pos
+		end
+	end
+	local grow_pos
+	if helper.table.is_empty(dirt_cells) then
+		grow_pos = pos
+		grow_more = false
+	else
+		grow_pos = dirt_cells[math.random(1, #dirt_cells)]
+		amount = amount - 1
+		if amount == 0 then
+			minetest.set_node(pos, {name = "air"})
+			grow_more = false
+		else
+			meta:set_int("farmz:fruit_amount", amount)
+			grow_more = true
+		end
+	end
+	minetest.set_node(grow_pos, {name = def.modname..":"..def.fruit.name})
+	return grow_more
+end
+
 --Plow Node
 
 local function remove_soil(pos)
@@ -25,6 +56,7 @@ minetest.register_node("farmz:plow", {
     buildable_to = true,
     groups = {crumbly = 3, dirt = 1, plow = 1, not_in_creative_inventory = 1},
     sounds = sound.dirt(),
+	drop = "", --no drop
     after_destruct = function(pos, oldnode)
 		--destroy the soil under
 		local node = minetest.get_node_or_nil(pos)
@@ -168,8 +200,76 @@ function farmz.register_seed(modname, name, description, product_name, grow_time
 	return seed_name
 end
 
+local function register_craft(modname, product_name, craft)
+
+	local craft_name = modname..":"..craft.name
+
+	minetest.register_craftitem(craft_name, {
+		description = S(craft.description),
+		inventory_image = modname.."_"..craft.name..".png",
+		groups = craft.groups,
+	})
+
+	local recipe = {{}, {}}
+	local row = 1
+	local ingredient = ""
+	for i = 1, 4 do
+		if i == 3 then
+			row = 2
+		end
+		if i <=  craft.input_amount then
+			ingredient = product_name
+		else
+			ingredient = ""
+		end
+		recipe[row][#recipe[row]+1] = ingredient
+	end
+	minetest.register_craft({
+		output = craft_name.." "..tostring((craft.output_amount or 1)),
+		type = "shaped",
+		recipe = recipe,
+	})
+end
+
+local function register_product(name, product_name, def)
+	if def.fruit then
+		local fruit_name = def.modname..":"..def.fruit.name
+		minetest.register_node(fruit_name, {
+			description = S(def.fruit.description),
+			inventory_image = def.fruit.inventory_image or "",
+			wield_image = def.fruit.wield_image or def.inventory_image or "",
+			drawtype = "normal",
+			paramtype = "light",
+			walkable = true,
+			tiles = def.fruit.tiles or {},
+			groups = def.fruit.groups or {},
+
+			on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+				if def.fruit.shears then
+					if clicker:get_wielded_item():get_name() == "toolz:shears_steel" then
+						minetest.set_node(pos, {name=def.fruit.shears})
+					end
+				end
+			end
+		})
+		if def.fruit.craft then
+			register_craft(def.modname, fruit_name, def.fruit.craft)
+		end
+	else
+		minetest.register_craftitem(product_name , {
+			description = S(def.description),
+			inventory_image = def.modname.."_"..name..".png",
+			groups = def.groups_product,
+		})
+	end
+end
+
 function farmz.register_plant(name, def)
+
 	local product_name = def.modname..":"..name
+
+	local seed_name = farmz.register_seed(def.modname, name, def.description, product_name, def.grow_time,
+		true)
 
 	for i = 1,2 do
 		local register
@@ -183,15 +283,11 @@ function farmz.register_plant(name, def)
 		groups_plant["plant"] = 1
 		groups_plant["not_in_creative_inventory"] = 1
 
-		if i == 1 then
+		if i == 1 then --normal plant
 
 			if not def.only_register_sprout then
 
-				minetest.register_craftitem(product_name , {
-					description = S(def.description),
-					inventory_image = def.modname.."_"..name..".png",
-					groups = def.groups_product,
-				})
+				register_product(name, product_name, def)
 
 				_plant_name = product_name.."_plant"
 				texture = def.modname.."_"..name.."_plant.png"
@@ -207,7 +303,7 @@ function farmz.register_plant(name, def)
 			else
 				register = false
 			end
-		else
+		else --sprout
 			_plant_name = product_name.."_sprout"
 			texture = def.modname.."_"..name.."_sprout.png"
 			description = S("@1 Plant", S(def.description)).." ".."("..S("Sprout")..")"
@@ -242,16 +338,33 @@ function farmz.register_plant(name, def)
 				after_place_node = function(pos, placer, itemstack, pointed_thing)
 					if i == 2 then
 						start_grow(pos, def.grow_time)
+					elseif i ==1 and def.fruit then
+						local meta = minetest.get_meta(pos)
+						meta:set_int("farmz:fruit_amount", def.fruit.amount or 1)
+						start_grow(pos, def.fruit.grow_time or 5)
+					end
+				end,
+
+				on_construct = function(pos)
+					if i ==1 and def.fruit then
+						local meta = minetest.get_meta(pos)
+						meta:set_int("farmz:fruit_amount", def.fruit.amount or 1)
+						start_grow(pos, def.fruit.grow_time or 5)
 					end
 				end,
 
 				on_timer = function(pos)
-					local plant_name = product_name
-					if not def.only_register_sprout then
-						plant_name =  plant_name .. "_plant"
+					if i == 2 then --grow plant
+						local plant_name = product_name
+						if not def.only_register_sprout then
+							plant_name =  plant_name .. "_plant"
+						end
+						minetest.set_node(pos, {name = plant_name})
+						return false
+					else --grow fruit
+						local grow_more = grow_fruit(pos, def)
+						return grow_more
 					end
-					minetest.set_node(pos, {name = plant_name})
-					return false
 				end,
 
 				after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -273,37 +386,24 @@ function farmz.register_plant(name, def)
 		end
 	end
 
-	local seed_name = farmz.register_seed(def.modname, name, def.description, product_name, def.grow_time,
-		true)
-
 	if def.craft then
-		local craft_name = def.modname..":"..def.craft.name
-
-		minetest.register_craftitem(craft_name, {
-			description = S(def.craft.description),
-			inventory_image = def.modname.."_"..def.craft.name..".png",
-			groups = def.craft.groups,
-		})
-
-		local recipe = {}
-		for i = 1, (def.craft.input_amount or 1) do
-			recipe[#recipe+1] = product_name
-		end
-		minetest.register_craft({
-			output = craft_name.." "..tostring((def.craft.output_amount or 1)),
-			type = "shapeless",
-			recipe = recipe,
-		})
+		register_craft(def.modname, product_name, def.craft)
 	end
 
 	if def.craft_seed then
-		local recipe = {}
-		for i = 1, (def.craft_seed.input_amount or 1) do
-			recipe[#recipe+1] = product_name
+		local input
+		if def.craft_seed.input == "craft" then
+			input = def.modname..":"..def.craft.name
+		elseif def.craft_seed.input == "product" then
+			input = product_name
 		end
+		local recipe = {
+			{input, ""},
+			{"", ""}
+		}
 		minetest.register_craft({
 			output = seed_name.." "..tostring((def.craft_seed.output_amount or 1)),
-			type = "shapeless",
+			type = "shaped",
 			recipe = recipe,
 		})
 	end

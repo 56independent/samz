@@ -17,9 +17,8 @@ minetest.register_craft({
 	output = "bowz:inv_arrow 5",
 	type = "shaped",
 	recipe = {
-		{"itemz:string", "nodez:iron_ingot",
-		 "treez:stick"},{"", "", ""},
-		{"", "", ""},
+		{"itemz:string", "nodez:iron_ingot"},
+		{"treez:stick", ""},
 	},
 })
 
@@ -44,9 +43,8 @@ minetest.register_craft({
 	output = "bowz:inv_mese_arrow 5",
 	type = "shaped",
 	recipe = {
-		{"itemz:string", "nodez:mese_crystal",
-		 "treez:stick"},{"", "", ""},
-		{"", "", ""},
+		{"itemz:string", "nodez:mese_crystal"},
+		{"treez:stick", "" }
 	},
 })
 
@@ -73,9 +71,8 @@ minetest.register_craft({
 	output = "bowz:inv_fire_arrow 2",
 	type = "shaped",
 	recipe = {
-		{"itemz:string", "nodez:iron_ingot",
-		 "treez:stick"},{"torchz:torch", "", ""},
-		{"", "", ""},
+		{"itemz:string", "nodez:iron_ingot"},
+		{"treez:stick", "torchz:torch"},
 	},
 })
 
@@ -106,9 +103,8 @@ minetest.register_craft({
 	output = "bowz:inv_explosive_arrow",
 	type = "shaped",
 	recipe = {
-		{"itemz:string", "nodez:iron_ingot",
-		 "treez:stick"},{"boomz:powder_stick", "", ""},
-		{"", "", ""},
+		{"itemz:string", "nodez:iron_ingot"},
+		{"treez:stick", "boomz:powder_stick"},
 	},
 })
 
@@ -139,9 +135,8 @@ minetest.register_craft({
 	output = "bowz:inv_water_arrow",
 	type = "shaped",
 	recipe = {
-		{"nodez:water_source", "nodez:iron_ingot",
-		 "treez:stick"},{"bucketz:bucket", "", ""},
-		{"", "", ""},
+		{"nodez:water_source", "nodez:iron_ingot"},
+		{"treez:stick", "bucketz:bucket"},
 	},
 })
 
@@ -152,9 +147,8 @@ bowz.register_bow("bowz:bow_wood", {
 	uses = 150,
 	charge_time = 0.5,
 	recipe = {
-		{"group:wood", "itemz:string",
-		 "group:wood"},{"itemz:string", "", ""},
-		{"", "", ""},
+		{"group:wood", "itemz:string"},
+		{"group:wood", "itemz:string"},
 	},
 	base_texture = "bowz_base_bow_wood.png",
 	overlay_empty = "bowz_overlay_empty.png",
@@ -173,9 +167,8 @@ bowz.register_bow("bowz:bow_mese", {
 	uses = 800,
 	charge_time = 0.8,
 	recipe = {
-		{"nodez:mese_crystal", "itemz:string",
-		 "nodez:mese_crystal"},{"itemz:string", "", ""},
-		{"", "", ""},
+		{"nodez:mese_crystal", "itemz:string"},
+		{"nodez:mese_crystal", "itemz:string"}
 	},
 	base_texture = "bowz_base_bow_mese.png",
 	overlay_empty = "bowz_overlay_empty.png",
@@ -194,9 +187,8 @@ bowz.register_bow("bowz:bow_flaming", {
 	uses = 1500,
 	charge_time = 0.8,
 	recipe = {
-		{"nodez:copper_ingot", "itemz:string",
-		 "nodez:copper_ingot"},{"itemz:string", "", ""},
-		{"", "", ""},
+		{"nodez:copper_ingot", "itemz:string"},
+		{"nodez:copper_ingot", "itemz:string"}
 	},
 	base_texture = "bowz_base_bow_flaming.png",
 	overlay_empty = "bowz_overlay_empty.png",
@@ -215,9 +207,8 @@ bowz.register_bow("bowz:crossbow", {
 	uses = 1000,
 	charge_time = 1.0,
 	recipe = {
-		{"group:wood", "itemz:string",
-		 "bowz:tripwire"},{"itemz:string", "", ""},
-		{"", "", ""},
+		{"group:wood", "itemz:string"},
+		{"bowz:tripwire", "itemz:string"},
 	},
 	base_texture = "bowz_base_crossbow.png",
 	overlay_empty = "bowz_crossbow_overlay_empty.png",
@@ -239,8 +230,7 @@ minetest.register_craft({
 	output = "bowz:tripwire 2",
 	type = "shaped",
 	recipe = {
-		{"", "nodez:iron_ingot",
-		 "treez:stick"},{"group:wood", "", ""},
-		{"", "", ""},
+		{"", "nodez:iron_ingot"},
+		{"treez:stick", "group:wood"},
 	},
 })

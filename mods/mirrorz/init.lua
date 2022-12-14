@@ -31,9 +31,8 @@ minetest.register_node("mirrorz:mirror", {
 minetest.register_craft({
 	output = "mirrorz:mirror",
 	type = "shaped",
-		recipe = {
-			{"","group:glass",
-			""},{"group:wood", "", ""},
-			{"", "", ""},
+	recipe = {
+		{"", "group:glass"},
+		{"", "group:wood"}
 	}
 })

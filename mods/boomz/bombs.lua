@@ -13,7 +13,7 @@ minetest.register_craft({
 	output = "boomz:gunpowder",
 	recipe = {
 		"nodez:coal_lump", "nodez:gravel",
-		"nodez:salt",
+		"nodez:salt"
 	}
 })
 
@@ -37,8 +37,7 @@ throwz.register_throw("boomz:powder_stick", {
 		gain = 0.6,
 	},
 	recipe = {
-		{"", "",
-		 "nodez:iron_ingot"},{"", "", ""},
-		{"", "", ""},
+		{"", ""},
+		{"", "boomz:gunpowder"},
 	},
 })

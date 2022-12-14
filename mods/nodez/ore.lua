@@ -55,3 +55,17 @@ minetest.register_craftitem("nodez:copper_lump", {
 })
 
 --Aluminium
+
+minetest.register_node("nodez:bauxite_ore", {
+	description = S("Bauxite Ore"),
+	tiles = {"nodez_stone.png^nodez_bauxite_ore.png"},
+	groups = {cracky=2, aluminum=1, ore=1},
+	drop = "nodez:bauxite_lump 10",
+	sounds = sound.stone(),
+})
+
+minetest.register_craftitem("nodez:bauxite_lump", {
+	description = S("Bauxite Lump"),
+	inventory_image = "nodez_bauxite_lump.png",
+	groups = {ore=1, aluminum=1},
+})

@@ -7,8 +7,9 @@ function panez.register_pane(name, def)
 
 	local flatgroups = table.copy(def.groups)
 	flatgroups.pane = 1
+	flatgroups.build = 1
 	minetest.register_node(":"..modname..":" .. name .. "_flat", {
-		description = def.description,
+		description = S(def.description),
 		drawtype = "nodebox",
 		paramtype = "light",
 		is_ground_content = false,

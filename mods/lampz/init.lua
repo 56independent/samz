@@ -161,9 +161,9 @@ minetest.register_node("lampz:oil_lamp_wall", {
 
 minetest.register_craft({
 	output = "lampz:oil_lamp",
+	type = "shaped",
 	recipe = {
-		{"nodez:copper_ingot"},
-		{"foodz:sunflower_oil"},
-		{"itemz:string"}
+		{"nodez:copper_ingot", "foodz:sunflower_oil"},
+		{"itemz:string", ""}
 	}
 })

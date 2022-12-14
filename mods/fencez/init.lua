@@ -64,9 +64,8 @@ function fencez.register_fence(name, def)
 		output = _fence_name .. " 4",
 		type = "shaped",
 		recipe = {
-			{def.material, "group:stick",
-			def.material},{"group:stick", "", ""},
-			{"", "", ""},
+			{def.material, "group:stick"},
+			{def.material, "group:stick"},
 		}
 	})
 

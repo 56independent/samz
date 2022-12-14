@@ -475,3 +475,24 @@ minetest.register_decoration({
 	},
 	place_offset_y = 1,
 })
+
+--Pumpkin
+minetest.register_decoration({
+	decoration = "farmz:pumpkin",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.00005,
+		scale = 0.00005,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 9974,
+		octaves = 3,
+		persist = 0.66
+	},
+	biomes = {"forest"},
+	y_min = 1,
+	y_max = 1000,
+	flags = "place_center_x, place_center_z, force_placement",
+	rotation = "random",
+})

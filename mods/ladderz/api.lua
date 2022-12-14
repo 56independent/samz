@@ -48,9 +48,8 @@ function ladderz.register_ladder(name, def)
 		output = ladder_name .. " 4",
 		type = "shaped",
 		recipe = {
-			{"", def.recipe,
-			""},{def.recipe, "", ""},
-			{"", "", ""},
+			{"", def.recipe},
+			{"", def.recipe}
 		}
 	})
 end

@@ -11,5 +11,7 @@ minetest.register_craftitem(modname..":".."string", {
 minetest.register_craft({
 	output = modname..":".."string 4",
 	type = "shapeless",
-	recipe = {"floraz:reed"}
+	recipe = {
+		"floraz:reed"
+	}
 })

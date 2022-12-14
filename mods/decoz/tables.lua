@@ -20,8 +20,7 @@ decoz.register_table("simple_table", {
 		{-0.4375, -0.5, -0.4375, 0.4375, 0.5, 0.4375},
 	},
 	recipe = {
-		{"group:planks","group:planks",
-		 "group:stick"},{"group:stick", "", ""},
-		{"", "", ""},
+		{"group:planks","group:planks"},
+		{"group:stick", "group:stick"}
 	}
 })
