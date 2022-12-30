@@ -2,7 +2,6 @@
 @1 Plant=Planta de @1
 @1 Seed=Semilla de @1
 Cotton=Algodón
-Bread=Pan
 Flour=Harina
 Grass=Hierba
 Plowed Soil=Tierra arada
@@ -12,6 +11,9 @@ Seed Soil=Cultivo con semillas
 Sprout=brote
 Steel Hoe=Azada de hierro
 Sunflower=girasol
+Tomato=Tomate
 Swamp Grass=Hierba del pantano
+Watermelon=Sandía
+Watermelon Slice=Rodaja de sandía
 Wheat=Trigo
 

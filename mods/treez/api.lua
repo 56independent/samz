@@ -30,11 +30,11 @@ function treez.register_tree(name, def)
 				fixed = def.fruit.selection_box
 			},
 			groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
-				leafdecay = 3, leafdecay_drop = 1, food=1},
+				leafdecay = 3, leafdecay_drop = 1, food = def.fruit.hp},
 			sounds = sound.leaves(),
 
 			on_use = function(itemstack, user, pointed_thing)
-				eatz.item_eat(itemstack, user, fruit_name, def.fruit.hp, def.fruit.hunger)
+				eatz.item_eat(itemstack, user, fruit_name, def.fruit.hunger)
 				return itemstack
 			end,
 
@@ -67,9 +67,9 @@ function treez.register_tree(name, def)
 			minetest.register_craftitem(craft_fruit_name, {
 				description = S(def.fruit.craft.description),
 				inventory_image = "treez_"..def.fruit.craft.name..".png",
-				groups = {fleshy = 3, flammable = 2, food = 1},
+				groups = {fleshy = 3, flammable = 2, food = def.fruit.craft.hp},
 				on_use = function(itemstack, user, pointed_thing)
-					eatz.item_eat(itemstack, user, craft_fruit_name, def.fruit.craft.hp, def.fruit.craft.hunger)
+					eatz.item_eat(itemstack, user, craft_fruit_name, def.fruit.craft.hunger)
 					return itemstack
 				end,
 			})

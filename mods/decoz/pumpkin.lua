@@ -12,6 +12,7 @@ minetest.register_node("decoz:carved_pumpkin", {
 		"farmz_pumpkin_side.png", "farmz_pumpkin_side.png",
 		"farmz_pumpkin_side.png", "decoz_carved_pumpkin.png"},
 	groups = {deco=1, crumbly=1, pumpkin=1},
+	sounds = sound.defaults()
 })
 
 --Jack'o'lantern
@@ -28,6 +29,7 @@ minetest.register_node("decoz:jack_o_lantern", {
 			"farmz_pumpkin_side.png", "decoz_jack_o_lantern.png"
 	},
 	groups = {deco=1, crumbly=1, pumpkin=1},
+	sounds = sound.defaults()
 })
 
 minetest.register_craft({

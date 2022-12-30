@@ -48,7 +48,7 @@ foodz.register_food("cherry_cake", {
 foodz.register_food("pumpkin_cake", {
     description = "Pumpkin Cake",
     inventory_image = "foodz_pumpkin_cake_inv.png",
-   	type = "mesh",
+	type = "mesh",
 	tiles = {"foodz_pumpkin_cake.png"},
 	selection_box = {
 		{-0.25, -0.5, -0.25, 0.25, -0.1875, 0.25},

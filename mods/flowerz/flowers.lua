@@ -1,3 +1,5 @@
+modname = ...
+
 flowerz.flowers_list = {
 	{
 		name = "calla",
@@ -228,7 +230,7 @@ flowerz.register_tall_flower("sunflower", {
 })
 
 farmz.register_plant("sunflower", {
-	modname = "flowerz",
+	modname = modname,
 	description = "Sunflower",
 	box = {-4/16, -0.5, -4/16, 4/16, 4/16, 4/16},
 	grow_time = 5,

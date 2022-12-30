@@ -167,3 +167,21 @@ minetest.register_craft({
 		{"itemz:string", ""}
 	}
 })
+
+minetest.register_node("lampz:art_deco_lamp", {
+	description = S("Art Deco Lamp"),
+	inventory_image = "lampz_art_deco_lamp.png",
+	drawtype = "nodebox",
+	node_box = helper.nodebox.plant_normal,
+	walkable = true,
+	paramtype = "light",
+	light_source = 6,
+	paramtype2 = "facedir",
+	tiles = {"lampz_art_deco_lamp_side.png", "lampz_art_deco_lamp_side.png",
+			"lampz_art_deco_lamp_side.png", "lampz_art_deco_lamp_side.png",
+			"lampz_art_deco_lamp.png^[transformFX", "lampz_art_deco_lamp.png"
+	},
+	use_texture_alpha = "blend",
+	groups = {crumbly=1, lamp=1, lighting=1},
+	sounds = sound.defaults()
+})

@@ -96,7 +96,7 @@ function flowerz.register_mushroom(name, def)
 	def.groups.snappy = 3
 	def.groups.mushroom = 1
 	def.groups.flora = 1
-	def.groups.food = 1
+	def.groups.food = def.hp or 1
 	def.groups.attached_node = 1
 	def.groups.flammable = 1
 
@@ -131,7 +131,7 @@ function flowerz.register_mushroom(name, def)
 		},
 
 		on_use = function(itemstack, user, pointed_thing)
-			eatz.item_eat(itemstack, user, mushroom_name, def.hp or 1, def.hunger or 2)
+			eatz.item_eat(itemstack, user, mushroom_name, def.hunger or 2)
 			return itemstack
 		end,
 

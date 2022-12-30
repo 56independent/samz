@@ -76,7 +76,7 @@ minetest.register_on_joinplayer(function(player)
 		bgcolor[#303030;both]
 		listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]
 		style_type[image_button;bgcolor=#ffffff55;bgimg=sfinv_bgimg.png;border=false]
-		style_type[button;bgcolor=#ffffff;bgimg=sfinv_bgimg.png;border=false]
+		style_type[button;bgcolor=#ffffff;bgimg=sfinv_bgimg.png;border=false;bgimg_middle=2,2,14,14;padding=-14,-14,0,0]
 	]]
 	player:set_formspec_prepend(formspec)
 	-- Set hotbar textures

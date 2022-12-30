@@ -201,6 +201,14 @@ helper.nodebox.plant = {
 	}
 }
 
+helper.nodebox.plant_normal = { --No ground plane
+	type = "fixed",
+	fixed = {
+		{-0.5, -0.5, 0.0, 0.5, 0.5, 0.0},
+		{0, -0.5, -0.5, 0, 0.5, 0.5},
+	}
+}
+
 helper.nodebox.fire = {
 	type = "fixed",
 	fixed = {
@@ -226,7 +234,6 @@ function helper.table.is_empty(t)
 		return false
 	end
 end
-
 
 function helper.table.shallowcopy(original)
 	local copy = {}

@@ -57,6 +57,7 @@ function playerz.convert_to_mermaid(player)
 	player:get_meta():set_int("mermaid", 1)
 	playerz.set_player(player)
 	playerz.set_mermaid(player)
+	effz.create_effect("magic", player, 5)
 end
 
 function playerz.reset_mermaid(player)
@@ -67,4 +68,5 @@ function playerz.reset_mermaid(player)
 		breath_max = 10,
 	})
 	player:set_breath(10)
+	effz.create_effect("magic", player, 5)
 end

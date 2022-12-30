@@ -59,20 +59,21 @@ local function remove_table_by_key(tab, key)
 end
 
 function climaz.is_inside_climate(pos)
-	--This function returns the climate_id if inside
-	--check altitude
-	if (pos.y < climaz.settings.climate_min_height) or (pos.y > climaz.settings.climate_max_height) then
-		return false, nil
-	end
-	--check if on water
+	--check if underwater
+	local underwater
 	pos.y = pos.y + 1
 	local node_name = minetest.get_node(pos).name
 	if minetest.registered_nodes[node_name] and (
 		minetest.registered_nodes[node_name]["liquidtype"] == "source" or
 		minetest.registered_nodes[node_name]["liquidtype"] == "flowing") then
-			return false, true
+			underwater = true
 	end
 	pos.y = pos.y - 1
+	--This function returns the climate_id if inside
+	--check altitude
+	if (pos.y < climaz.settings.climate_min_height) or (pos.y > climaz.settings.climate_max_height) then
+		return false, underwater
+	end
 	--If sphere's centre coordinates is (cx,cy,cz) and its radius is r,
 	--then point (x,y,z) is in the sphere if (x−cx)2+(y−cy)2+(z−cz)2<r2.
 	for i, _climate in ipairs(climaz.climates) do
@@ -81,10 +82,10 @@ function climaz.is_inside_climate(pos)
 			(pos.y - climate_center.y)^2 +
 			(pos.z - climate_center.z)^2
 			) then
-				return i, false
+				return i, underwater
 		end
 	end
-	return false, false
+	return false, underwater
 end
 
 local function has_light(minp, maxp)
@@ -279,7 +280,7 @@ local climate = {
 	timer = 0,
 	end_time = 0,
 
-	new = function(self, climate_id, player_name)
+	new = function(self, climate_id, player_name, underwater)
 
 		local new_climate = {}
 
@@ -366,7 +367,7 @@ local climate = {
 		new_climate.wind = wind
 
 		--save the player
-		self:add_player(player_name, new_climate.id, new_climate.downfall_type)
+		self:add_player(player_name, new_climate.id, new_climate.downfall_type, underwater)
 
 		return new_climate
 
@@ -402,6 +403,10 @@ local climate = {
 	end,
 
 	apply = function(self, _player_name)
+
+		if self.players[_player_name].underwater then
+			return
+		end
 
 		local _player = minetest.get_player_by_name(_player_name)
 
@@ -470,25 +475,33 @@ local climate = {
 		--minetest.chat_send_all("Climate created by ".._player_name)
 	end,
 
-	add_player = function(self, player_name, climate_id, downfall_type)
+	add_player = function(self, player_name, climate_id, downfall_type, underwater)
+
 		local player = minetest.get_player_by_name(player_name)
+
 		self.players[player_name] = {
 			climate_id = climate_id,
 			sky_color = nil,
 			clouds_color = nil,
+			clouds_density = nil,
 			rain_sound_handle = nil,
 			hud_id = nil,
 			downfall_type = downfall_type,
+			underwater = underwater,
 		}
-		local downfall_sky_color, downfall_clouds_color
+
+		local downfall_sky_color, downfall_clouds_color, downfall_clouds_density
 
 		if downfall_type == "rain" or downfall_type == "storm" or downfall_type == "snow" then
 			downfall_sky_color = "#808080"
 			downfall_clouds_color = "#C0C0C0"
+			downfall_clouds_density = 0.9
 		else --"sand"
 			downfall_sky_color = "#DEB887"
 			downfall_clouds_color = "#DEB887"
+			downfall_clouds_density = 0.8
 		end
+
 		self.players[player_name].sky_color = player:get_sky().sky_color or "#8cbafa"
 		player:set_sky({
 			sky_color = {
@@ -496,9 +509,14 @@ local climate = {
 			}
 		})
 		self.players[player_name].clouds_color = player:get_clouds().color or "#fff0f0e5"
+		self.players[player_name].clouds_density = player:get_clouds().density or 0.4
 		player:set_clouds({
 			color = downfall_clouds_color,
+			density = downfall_clouds_density
 		})
+		if player.set_lighting then --allow older MT to work
+			player:set_lighting({shadows = {intensity = 0.6 * (1 - downfall_clouds_density)}})
+		end
 
 		if downfall_type == "sand" and climaz.settings.dust_effect then
 			self.players[player_name].hud_id = player:hud_add({
@@ -531,9 +549,14 @@ local climate = {
 				day_sky = self.players[player_name].sky_color,
 			}
 		})
+		local cloud_density = self.players[player_name].clouds_density;
 		player:set_clouds({
 			color = self.players[player_name].clouds_color,
+			density = cloud_density,
 		})
+		if player.set_lighting then --allow older MT to work
+			player:set_lighting({shadows = {intensity = 0.6 * (1 - cloud_density)}})
+		end
 
 		local downfall_type = self.players[player_name].downfall_type
 
@@ -576,6 +599,15 @@ local climate = {
 
 }
 
+--This also sets the shadow intensity
+--(for Minetest versions that support it).
+minetest.register_on_joinplayer(function(player)
+	reset_player_climate_id(player:get_player_name())
+	if player.set_lighting then --allow older MT to work
+		player:set_lighting({shadows = {intensity = 0.6 * (1 - player:get_clouds().density or 0.4)}})
+	end
+end)
+
 --CLIMATE CORE: GLOBALSTEP
 
 minetest.register_globalstep(function(dtime)
@@ -585,14 +617,20 @@ minetest.register_globalstep(function(dtime)
 			local player_name = player:get_player_name()
 			local player_pos = player:get_pos()
 			local current_climate_id = get_player_climate_id(player)
-			local inside_climate_id, on_water = climaz.is_inside_climate(player_pos)
+			local inside_climate_id, underwater = climaz.is_inside_climate(player_pos)
+			--minetest.chat_send_all(tostring(inside_climate_id))
+			--minetest.chat_send_all(tostring(current_climate_id))
 			if current_climate_id then
 				local _remove_player
-				if on_water then
-					_remove_player = true
-				elseif not(current_climate_id == inside_climate_id) then --IMPORTANT: this comparation should be in this order!!!
+				if not(current_climate_id == inside_climate_id) then --IMPORTANT: this comparation should be in this order!!!
 					_remove_player = true
 					--minetest.chat_send_all(player_name.." abandoned a climate")
+				end
+				local player_in_climate = climaz.climates[current_climate_id].players[player_name]
+				if player_in_climate and underwater then
+					player_in_climate.underwater = true --mark as underwater
+				else
+					player_in_climate.underwater = false
 				end
 				if _remove_player then
 					if climaz.climates[current_climate_id] then
@@ -603,14 +641,14 @@ minetest.register_globalstep(function(dtime)
 				end
 			elseif inside_climate_id and not(current_climate_id) then --another player enter into the climate
 				local downfall_type = climaz.climates[inside_climate_id].downfall_type
-				climaz.climates[inside_climate_id]:add_player(player_name, inside_climate_id, downfall_type)
+				climaz.climates[inside_climate_id]:add_player(player_name, inside_climate_id, downfall_type, underwater)
 				--minetest.chat_send_all(player_name.." entered into the climate")
 				--minetest.chat_send_all("climate_id= "..tostring(climate_id)..", _climate?= "..tostring(_climate))
 			elseif not(current_climate_id) and not(inside_climate_id) then --chance to create a climate
 				local chance = math.random(climaz.settings.climate_change_ratio)
 				if chance == 1 then
 					local new_climate_id = get_id()
-					climaz.climates[new_climate_id] = climate:new(new_climate_id, player_name)
+					climaz.climates[new_climate_id] = climate:new(new_climate_id, player_name, underwater)
 					--minetest.chat_send_all(player_name.." created a climate id="..new_climate_id)
 				end
 			end

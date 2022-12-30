@@ -124,7 +124,7 @@ function doorz.register_door(name, def)
 		drawtype = "mesh",
 		paramtype = "light",
 		sunlight_propagates = true,
-		use_texture_alpha = "clip",
+		use_texture_alpha = "blend",
 		paramtype2 = "facedir",
 		mesh = "doorz.b3d",
 		selection_box = {
@@ -201,7 +201,7 @@ function doorz.register_door(name, def)
 			drop = doorz_name,
 			tiles = def.tiles,
 			walkable = true,
-			use_texture_alpha = "clip",
+			use_texture_alpha = "blend",
 			is_ground_content = false,
 			groups = {choppy = 2, door = 1, not_in_creative_inventory = 1},
 			stack_max = 1,

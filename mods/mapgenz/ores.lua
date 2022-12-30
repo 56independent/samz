@@ -36,19 +36,7 @@ minetest.register_ore({
 	y_min          = -512,
 })
 
---Copper
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "nodez:bauxite_ore",
-	wherein        = "nodez:stone",
-	clust_scarcity = 8 * 8 * 8,
-	clust_num_ores = 6,
-	clust_size     = 5,
-	y_max          = -32,
-	y_min          = -382,
-})
-
---Gems
+--Rubi
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "nodez:ruby_ore",
@@ -60,7 +48,7 @@ minetest.register_ore({
 	y_min          = -512,
 })
 
---Gems
+--Mese
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "nodez:mese_ore",
@@ -82,4 +70,16 @@ minetest.register_ore({
 	clust_size     = 8,
 	y_max          = -64,
 	y_min          = -256,
+})
+
+--Bauxite
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "nodez:bauxite_ore",
+	wherein        = "nodez:stone",
+	clust_scarcity = 9 * 9 * 9,
+	clust_num_ores = 6,
+	clust_size     = 4,
+	y_max          = -32,
+	y_min          = -288,
 })

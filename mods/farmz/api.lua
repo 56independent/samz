@@ -59,8 +59,7 @@ minetest.register_node("farmz:plow", {
 	drop = "", --no drop
     after_destruct = function(pos, oldnode)
 		--destroy the soil under
-		local node = minetest.get_node_or_nil(pos)
-		if node and node.name == "air" then
+		if helper.node_is_air(pos) then
 			remove_soil({x=pos.x, y=pos.y-1, z=pos.z})
 		end
     end
@@ -190,8 +189,7 @@ function farmz.register_seed(modname, name, description, product_name, grow_time
 
 		after_destruct = function(pos, oldnode)
 			--destroy the soil under
-			local node = minetest.get_node_or_nil(pos)
-			if node and node.name == "air" then
+			if helper.node_is_air(pos) then
 				remove_soil({x=pos.x, y=pos.y-1, z=pos.z})
 			end
 		end
@@ -208,12 +206,16 @@ local function register_craft(modname, product_name, craft)
 		description = S(craft.description),
 		inventory_image = modname.."_"..craft.name..".png",
 		groups = craft.groups,
+		on_use = function(itemstack, user, pointed_thing)
+			eatz.item_eat(itemstack, user, craft_name)
+			return itemstack
+		end,
 	})
 
 	local recipe = {{}, {}}
 	local row = 1
-	local ingredient = ""
 	for i = 1, 4 do
+		local ingredient
 		if i == 3 then
 			row = 2
 		end
@@ -243,6 +245,7 @@ local function register_product(name, product_name, def)
 			walkable = true,
 			tiles = def.fruit.tiles or {},
 			groups = def.fruit.groups or {},
+			sounds = def.fruit.sounds or sound.defaults(),
 
 			on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 				if def.fruit.shears then
@@ -256,12 +259,53 @@ local function register_product(name, product_name, def)
 			register_craft(def.modname, fruit_name, def.fruit.craft)
 		end
 	else
-		minetest.register_craftitem(product_name , {
+		if def.hp then
+			def.groups_product["food"] = def.hp
+		end
+		minetest.register_craftitem(product_name, {
 			description = S(def.description),
 			inventory_image = def.modname.."_"..name..".png",
 			groups = def.groups_product,
+			on_use = function(itemstack, user, pointed_thing)
+				eatz.item_eat(itemstack, user, product_name, 8)
+				return itemstack
+			end,
 		})
 	end
+end
+
+--Tall Plant
+
+function farmz.register_plant_top(plant_name_top, plant_name, name, description, def, groups_plant)
+
+	groups_plant["plant_tall"] = 1
+
+	minetest.register_node(plant_name_top, {
+		description = description,
+		drawtype = "nodebox",
+		node_box = helper.nodebox.plant_normal,
+		visual_scale = 1.0,
+		tiles = {def.modname.."_"..name.."_plant_top.png"},
+		inventory_image = def.modname.."_"..name.."_plant_top_inv.png",
+		paramtype = "light",
+		walkable = false,
+		waving = 1,
+		groups = groups_plant,
+		sounds = sound.leaves(),
+		drop = "",
+		selection_box = {
+			type = "fixed",
+			fixed = def.box
+		},
+
+		after_destruct = function(pos, oldnode)
+			pos.y = pos.y - 1
+			local node = minetest.get_node_or_nil(pos)
+			if node and node.name == plant_name then
+				minetest.remove_node(pos)
+			end
+		end
+	})
 end
 
 function farmz.register_plant(name, def)
@@ -270,6 +314,8 @@ function farmz.register_plant(name, def)
 
 	local seed_name = farmz.register_seed(def.modname, name, def.description, product_name, def.grow_time,
 		true)
+
+	local walkable = false
 
 	for i = 1,2 do
 		local register
@@ -299,6 +345,9 @@ function farmz.register_plant(name, def)
 					drop = def.drop
 				end
 				groups_plant["sprout"] = nil
+				if def.tall_plant then
+					groups_plant["attached_node"] = 1
+				end
 				register = true
 			else
 				register = false
@@ -313,13 +362,19 @@ function farmz.register_plant(name, def)
 		end
 
 		if register then
+			local plant_name_top
+			if i == 1 and def.tall_plant then
+				plant_name_top = _plant_name .. "_top"
+				farmz.register_plant_top(plant_name_top, _plant_name, name, description, def, groups_plant)
+				walkable = true
+			end
 			minetest.register_node(_plant_name, {
 				description = description,
 				inventory_image = def.inventory_image or texture,
 				wield_image = def.wield_image or def.inventory_image or texture,
 				drawtype = "nodebox",
 				paramtype = "light",
-				walkable = false,
+				walkable = walkable,
 				node_box = helper.nodebox.plant,
 				tiles = {
 					"farmz_plow.png",
@@ -335,6 +390,29 @@ function farmz.register_plant(name, def)
 				groups = groups_plant,
 				sounds = sound.dirt(),
 
+
+				on_place = function(itemstack, placer, pointed_thing)
+					if not def.tall_plant then
+						return
+					end
+					if not(pointed_thing.type) == "node" then
+						return
+					end
+					local pos_above = minetest.get_pointed_thing_position(pointed_thing, true)
+					local pos_plant_top = pos_above
+					pos_plant_top.y = pos_plant_top.y + 1
+					if helper.node_is_air(pos_plant_top) then
+						pos_above.y = pos_above.y - 1
+						minetest.set_node(pos_above, {name = _plant_name})
+						local player_name = placer and placer:get_player_name() or ""
+						if not (creative and creative.is_enabled_for
+							and creative.is_enabled_for(player_name)) then
+								itemstack:take_item()
+						end
+						return itemstack
+					end
+				end,
+
 				after_place_node = function(pos, placer, itemstack, pointed_thing)
 					if i == 2 then
 						start_grow(pos, def.grow_time)
@@ -346,10 +424,16 @@ function farmz.register_plant(name, def)
 				end,
 
 				on_construct = function(pos)
-					if i ==1 and def.fruit then
-						local meta = minetest.get_meta(pos)
-						meta:set_int("farmz:fruit_amount", def.fruit.amount or 1)
-						start_grow(pos, def.fruit.grow_time or 5)
+					if i == 1 then --no sprout
+						if def.fruit then
+							local meta = minetest.get_meta(pos)
+							meta:set_int("farmz:fruit_amount", def.fruit.amount or 1)
+							start_grow(pos, def.fruit.grow_time or 5)
+						end
+						if def.tall_plant then
+							pos.y = pos.y + 2
+							minetest.place_node(pos, {name = plant_name_top})
+						end
 					end
 				end,
 
@@ -377,9 +461,16 @@ function farmz.register_plant(name, def)
 
 				after_destruct = function(pos, oldnode)
 					--destroy the soil under
-					local node = minetest.get_node_or_nil(pos)
-					if node and node.name == "air" then
+					if helper.node_is_air(pos) then
 						minetest.swap_node(pos, {name="farmz:plow"})
+					end
+					--destroy the top plant part
+					if i == 1 and def.tall then
+						pos.y = pos.y + 1
+						local node_top = minetest.get_node_or_nil(pos)
+						if node_top and node_top.name == plant_name_top then
+							minetest.remove_node(pos)
+						end
 					end
 				end
 			})

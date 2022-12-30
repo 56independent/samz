@@ -5,6 +5,10 @@ local dirt_grass_time = 1200
 local function remove_plow(pos)
 	if helper.in_group(pos, "plow") or helper.in_group(pos, "plant") then
 		minetest.swap_node(pos, {name="air"})
+		pos.y =pos.y + 1
+		if helper.in_group(pos, "plant_tall") then
+			minetest.swap_node(pos, {name="air"})
+		end
 	end
 end
 

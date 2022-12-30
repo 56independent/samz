@@ -154,7 +154,7 @@ minetest.register_node("nodez:muddy_water_flowing", {
 	sounds = sound.water(),
 })
 
---Ice
+--Snow and Ice
 
 minetest.register_node("nodez:snow_block", {
 	description = S("Snow Block"),
@@ -162,8 +162,23 @@ minetest.register_node("nodez:snow_block", {
 	is_ground_content = false,
 	drawtype = "normal",
 	paramtype = "light",
-	groups = {cracky = 3, cools_lava = 1, slippery = 2},
+	groups = {cracky = 3, cools_lava = 1, slippery = 2, build = 1},
 	sounds = sound.ice(),
+})
+
+minetest.register_craftitem("nodez:snowball", {
+	description = S("Snowball"),
+	inventory_image = "nodez_snowball.png",
+	groups = {snowball=1, build = 1}
+})
+
+minetest.register_craft({
+	type = "shaped",
+	output = "nodez:snowball 4",
+	recipe ={
+		{"nodez:snow_block", ""},
+		{"", ""}
+	}
 })
 
 minetest.register_node("nodez:ice", {
@@ -174,7 +189,7 @@ minetest.register_node("nodez:ice", {
 	use_texture_alpha = "blend",
 	paramtype = "light",
 	paramtype2 = "glasslikeliquidlevel",
-	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+	groups = {cracky = 3, cools_lava = 1, slippery = 3, build = 1},
 	sounds = sound.ice(),
 })
 

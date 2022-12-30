@@ -23,11 +23,13 @@ local function eatz_particlespawner(user, item_name, itemstack)
 	})
 end
 
-function eatz.item_eat(itemstack, user, item_name, hp, hunger)
+function eatz.item_eat(itemstack, user, item_name)
 	if user and user:is_player() then
-		playerz.change_hp(user, hp or 1, "eat")
+		local hp = minetest.get_item_group(item_name, "food") or 2
+		local hunger = minetest.get_item_group(item_name, "hunger") or 2
+		playerz.change_hp(user, hp, "eat")
 		eatz_particlespawner(user, item_name, itemstack)
-		playerz.change_hunger(user, hunger or 1)
+		playerz.change_hunger(user, hunger)
 		sound.play("player", user, "eatz_chewing")
 	end
 	itemstack:take_item()
