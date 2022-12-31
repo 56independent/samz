@@ -213,7 +213,7 @@ local function create_form(player)
 		image_button[6,0;1,0.5;;btn_vessel;]]..S("Vessels")..[[]
 		image_button[6,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[]
 		image_button[7,0;1,0.5;;btn_weapon;]]..S("Weapons")..[[]
-		image_button[7,0.5;1,0.5;;btn_fabric;]]..S("Fabrics")..[[]
+		image_button[7,0.5;1,0.5;;btn_dye;]]..S("Dyes")..[[]
 		]]..(context.recipes or "")..[[
 		]]..(context.crafts or "")..[[
 		]]..(context.info or "")..[[

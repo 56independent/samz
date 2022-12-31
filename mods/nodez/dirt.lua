@@ -57,6 +57,20 @@ minetest.register_node("nodez:dirt_with_grass", {
 	end
 })
 
+minetest.register_node("nodez:dark_dirt_with_grass", {
+	description = S("Dirt with Grass"),
+	tiles ={"nodez_boreal_grass.png",
+		-- a little dot on the bottom to distinguish it from dirt
+		"nodez_dark_dirt.png",
+		{name = "nodez_dark_dirt.png^nodez_boreal_side.png",
+		tileable_vertical = false}},
+	groups = {crumbly=3, dirt=1, soil=1, flammable=1},
+	sounds = sound.leaves(),
+	on_destruct = function(pos)
+		destroy_plow(pos)
+	end
+})
+
 if minetest.get_modpath("firez") ~= nil then
 	minetest.register_node("nodez:dirt_with_burnt_grass", {
 		description = S("Dirt with Burnt Grass"),

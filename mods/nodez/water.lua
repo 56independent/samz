@@ -156,6 +156,36 @@ minetest.register_node("nodez:muddy_water_flowing", {
 
 --Snow and Ice
 
+minetest.register_node("nodez:snow", {
+	description = S("Snow"),
+	tiles = {"nodez_snow.png"},
+	paramtype = "light",
+	buildable_to = true,
+	floodable = true,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
+		},
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -6 / 16, 0.5},
+		},
+	},
+	groups = {crumbly = 3, falling_node = 1, snow = 1},
+	sounds = sound.snow(),
+
+	on_construct = function(pos)
+		if helper.node_is_dirt(pos, -1) then
+			pos.y = pos.y - 1
+			minetest.set_node(pos, {name = "nodez:dirt_with_snow"})
+		end
+	end,
+})
+
 minetest.register_node("nodez:snow_block", {
 	description = S("Snow Block"),
 	tiles = {"nodez_snow.png"},
@@ -166,15 +196,18 @@ minetest.register_node("nodez:snow_block", {
 	sounds = sound.ice(),
 })
 
-minetest.register_craftitem("nodez:snowball", {
+throwz.register_throw("nodez:snowball", {
+	type = "normal",
 	description = S("Snowball"),
 	inventory_image = "nodez_snowball.png",
-	groups = {snowball=1, build = 1}
-})
-
-minetest.register_craft({
-	type = "shaped",
-	output = "nodez:snowball 4",
+	wield_image = "nodez_snowball.png",
+	strength = 10,
+	throw_damage = 0.5,
+	throw_sounds = {
+		max_hear_distance = 10,
+		gain = 0.6,
+	},
+	drop = "nodez:snow",
 	recipe ={
 		{"nodez:snow_block", ""},
 		{"", ""}
@@ -190,6 +223,29 @@ minetest.register_node("nodez:ice", {
 	paramtype = "light",
 	paramtype2 = "glasslikeliquidlevel",
 	groups = {cracky = 3, cools_lava = 1, slippery = 3, build = 1},
+	sounds = sound.ice(),
+})
+
+minetest.register_node("nodez:floe", {
+	description = S("Ice Floe"),
+	tiles = {"nodez_ice.png"},
+	paramtype = "light",
+	use_texture_alpha = "blend",
+	buildable_to = true,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
+		},
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -6 / 16, 0.5},
+		},
+	},
+	groups = {crumbly = 3, ice = 1},
 	sounds = sound.ice(),
 })
 

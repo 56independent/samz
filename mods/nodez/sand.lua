@@ -28,12 +28,15 @@ minetest.register_node("nodez:glass", {
 	drawtype = "glasslike_framed_optional",
 	inventory_image = "nodez_glass_inv.png",
 	tiles = {"nodez_glass.png", "nodez_glass_detail.png"},
-	use_texture_alpha = "blend", -- only needed for stairs API
+	use_texture_alpha = "blend",
 	paramtype = "light",
-	paramtype2 = "glasslikeliquidlevel",
+	--paramtype2 = "glasslikeliquidlevel",
+	paramtype2 = "color",
+	palette = "palette256.png",
+	place_param2 = 1,
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky=3, glass=1, deco=1, build=1},
+	groups = {cracky=3, glass=1, deco=1, build=1, dyeable = 256},
 	oddly_breakable_by_hand = 3,
 	sounds = sound.glass()
 })

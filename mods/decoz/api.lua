@@ -195,7 +195,7 @@ function decoz.register_table(name, def)
 		sounds = sound.wood(),
 		is_ground_content = false,
 		stack_max = 1,
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, chair = 1, deco = 1},
+		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, table = 1, deco = 1},
 	})
 
 	if def.recipe then

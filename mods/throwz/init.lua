@@ -211,26 +211,27 @@ function throwz.register_throw(name, def)
 
 					if minetest.registered_items[node_name].walkable then
 
-						if not(def.drop) then
-							if not(def.drop == "") then
-								local drop_item = ItemStack(name)
-								if self.wear then
-									drop_item:set_wear(self.wear)
-								end
-								local drop_pos = self.old_pos
-								local item_ref =  minetest.add_item(drop_pos, drop_item)
-								--minetest.item_drop(drop_item, nil, drop_pos)
-								if item_ref and def.boom then
-									minetest.after(def.boom.delay or 0, function()
-										for _, obj in ipairs(minetest.get_objects_inside_radius(drop_pos, 1)) do
-											if obj == item_ref then
-												item_ref:remove()
-												boomz.boom(drop_pos, def.boom.radius, def.boom.player_damage)
-											end
-										end
-									end, drop_pos)
-								end
+						local drop_pos = self.old_pos
+
+						if not(def.drop) and not(def.drop == "") then
+							local drop_item = ItemStack(name)
+							if self.wear then
+								drop_item:set_wear(self.wear)
 							end
+							local item_ref =  minetest.add_item(drop_pos, drop_item)
+							--minetest.item_drop(drop_item, nil, drop_pos)
+							if item_ref and def.boom then
+								minetest.after(def.boom.delay or 0, function()
+									for _, obj in ipairs(minetest.get_objects_inside_radius(drop_pos, 1)) do
+										if obj == item_ref then
+											item_ref:remove()
+											boomz.boom(drop_pos, def.boom.radius, def.boom.player_damage)
+										end
+									end
+								end, drop_pos)
+							end
+						else
+							minetest.set_node(drop_pos, {name = def.drop})
 						end
 
 						self.waiting_for_removal = true

@@ -10,10 +10,15 @@ helper.nodes = {}
 
 function helper.in_group(pos, group)
 	local node = minetest.get_node_or_nil(pos)
-	if (not node) or (minetest.get_item_group(node.name, group) == 0) then
-		return false
+	if node then
+		local group_value = minetest.get_item_group(node.name, group)
+		if group_value > 0 then
+			return group_value
+		else
+			return false
+		end
 	else
-		return true
+		return false
 	end
 end
 

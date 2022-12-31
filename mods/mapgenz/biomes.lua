@@ -137,3 +137,40 @@ minetest.register_biome({
 	heat_point = 79,
 	humidity_point = 90,
 })
+
+--Boreal Forest
+
+minetest.register_biome({
+	name = "boreal",
+	node_top = "nodez:dark_dirt_with_grass",
+	depth_top = 1,
+	node_filler = "nodez:mud",
+	depth_filler = 3,
+	node_riverbed = "nodez:sand",
+	depth_riverbed = 2,
+	node_cave_liquid = "nodez:water_source",
+	node_dungeon = "nodez:cobble",
+	node_dungeon_alt = "nodez:mossycobble",
+	node_dungeon_stair = "stairs:stair_cobble",
+	y_max = mapgenz.biomes.peaky_mountain_height,
+	y_min = 0,
+	heat_point = 10,
+	humidity_point = 40,
+})
+
+minetest.register_biome({
+	name = "boreal_shore",
+	node_top = "nodez:ice",
+	depth_top = 1,
+	node_filler = "nodez:mud",
+	depth_filler = 3,
+	node_riverbed = "nodez:sand",
+	depth_riverbed = 2,
+	node_water = "nodez:water_source",
+	depth_water_top = 1,
+	node_water_top = "nodez:ice",
+	y_max = 0,
+	y_min = -5,
+	heat_point = 9,
+	humidity_point = 41,
+})

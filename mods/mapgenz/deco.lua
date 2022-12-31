@@ -476,6 +476,49 @@ minetest.register_decoration({
 	place_offset_y = 1,
 })
 
+--Boreal
+
+minetest.register_decoration({
+	decoration = "nodez:snow_block",
+	deco_type = "simple",
+	place_on = {"nodez:dirt_boreal_with_grass"},
+	sidelen = 16,
+	fill_ratio = 2.5,
+	biomes = {"boreal"},
+	noise_params = {
+		offset = -0.1,
+		scale = 0.8,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 1340,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = 1,
+	y_max = mapgenz.biomes.peaky_mountain_height,
+	place_offset_y = -1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
+minetest.register_decoration({
+	decoration = "nodez:floe",
+	deco_type = "simple",
+	place_on = {"nodez:water_source"},
+	sidelen = 16,
+	fill_ratio = 2.5,
+	biomes = {"boreal_shore"},
+	noise_params = {
+		offset = 0.5,
+		scale = 0.8,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 451,
+		octaves = 3,
+		persist = 0.66
+	},
+	y_min = -5,
+	y_max = 1,
+	flags = "place_center_x, place_center_z, force_placement",
+})
+
 --Pumpkin
 minetest.register_decoration({
 	decoration = "farmz:pumpkin",
