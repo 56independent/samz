@@ -190,7 +190,7 @@ minetest.register_decoration({
 	name = "farmz:grass",
 	decoration = "farmz:grass",
 	deco_type = "simple",
-	place_on = {"nodez:dirt_with_grass"},
+	place_on = {"nodez:dirt_with_grass", "nodez:dark_dirt_with_grass"},
 	sidelen = 16,
 	noise_params = {
 		offset = 0.015,
@@ -200,7 +200,7 @@ minetest.register_decoration({
 		octaves = 3,
 		persist = 0.6
 	},
-	biomes = {"forest"},
+	biomes = {"forest", "boreal"},
 	y_max = mapgenz.biomes.peaky_mountain_height,
 	y_min = 1,
 })
@@ -481,7 +481,7 @@ minetest.register_decoration({
 minetest.register_decoration({
 	decoration = "nodez:snow_block",
 	deco_type = "simple",
-	place_on = {"nodez:dirt_boreal_with_grass"},
+	place_on = {"nodez:dark_dirt_with_grass"},
 	sidelen = 16,
 	fill_ratio = 2.5,
 	biomes = {"boreal"},
@@ -555,6 +555,27 @@ minetest.register_decoration({
 		persist = 0.66
 	},
 	biomes = {"forest"},
+	y_min = 1,
+	y_max = 1000,
+	flags = "place_center_x, place_center_z, force_placement",
+	rotation = "random",
+})
+
+--Fern
+minetest.register_decoration({
+	decoration = "floraz:fern",
+	deco_type = "simple",
+	place_on = {"nodez:dark_dirt_with_grass"},
+	sidelen = 16,
+	noise_params = {
+		offset = 0.005,
+		scale = 0.005,
+		spread = {x = 250, y = 250, z = 250},
+		seed = 963,
+		octaves = 3,
+		persist = 0.66
+	},
+	biomes = {"boreal"},
 	y_min = 1,
 	y_max = 1000,
 	flags = "place_center_x, place_center_z, force_placement",

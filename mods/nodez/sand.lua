@@ -24,7 +24,7 @@ minetest.register_node("nodez:sandstone", {
 --Glass
 
 minetest.register_node("nodez:glass", {
-	description = S("Glass"),
+	description = S("Glass").."\n"..minetest.colorize("yellow", S("Dyeable")),
 	drawtype = "glasslike_framed_optional",
 	inventory_image = "nodez_glass_inv.png",
 	tiles = {"nodez_glass.png", "nodez_glass_detail.png"},

@@ -28,3 +28,13 @@ floraz.register_growing_plant("reed", {
 	dig_up = true,
 })
 
+--Fern
+
+floraz.register_plant("fern", {
+	desc= "Fern",
+	groups = {fern = 1},
+		selection_box = {
+		type = "fixed",
+		fixed = {-3/ 16, -0.5, -2 / 16, 3 / 16, 0.25, 3 / 16},
+	},
+})

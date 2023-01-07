@@ -3,6 +3,7 @@
 @1 Sapling=Retoño @1
 @1 Trunk=Tronco @1
 @1 Wood=Madera @1
+Acorn=Bellota
 Apple=Manzana
 Apple Tree=de manzano
 Birch=de abedul
@@ -11,5 +12,7 @@ Cherry Tree=de cerezo
 Chestnut=Castaña
 Chestnut Burr=Erizo de castaña
 Chestnut Tree=de castaño
+Fir=de abeto
+Oak=de roble
 Stick=Palo
 Willow=de sauce

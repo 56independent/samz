@@ -1,17 +1,21 @@
 # textdomain: fabricz
 @1 Cotton Fabric=Tela de algodón @1
-White=blanca
-Grey=gris
-Darkgrey=gris oscura
 Black=negra
-Violet=violeta
 Blue=azul
+Brown=marrón
 Cyan=azul claro
 Darkgreen=verde oscuro
+Darkgrey=gris oscura
+Dyeable=Tintable
+Fabric Block=Bloque textil
 Green=verde
-Yellow=amarilla
-Brown=marrón
-Orange=naranja
-Red=roja
+Grey=gris
 Magenta=magenta
+Orange=naranja
+Paper=Papel
 Pink=rosa
+Red=roja
+Violet=violeta
+White=blanca
+Yellow=amarilla
+

@@ -177,13 +177,14 @@ function decoz.register_table(name, def)
 	local table_name = modname..":"..name
 
 	minetest.register_node(table_name, {
-		description = S(def.description),
+		description = S(def.description).."\n"..minetest.colorize("yellow", S("Dyeable")),
 		inventory_image = def.inventory_image or "",
 		wield_image = def.wield_image or def.inventory_image,
 		tiles = def.tiles,
 		drawtype = "nodebox",
 		paramtype = "light",
-		paramtype2 = "facedir",
+		paramtype2 = "colorfacedir",
+		palette = "palette8.png",
 		node_box = {
 			type = "fixed",
 			fixed = def.node_box
@@ -195,7 +196,7 @@ function decoz.register_table(name, def)
 		sounds = sound.wood(),
 		is_ground_content = false,
 		stack_max = 1,
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, table = 1, deco = 1},
+		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, table = 1, deco = 1, dyeable = 7},
 	})
 
 	if def.recipe then

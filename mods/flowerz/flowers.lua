@@ -195,9 +195,25 @@ flowerz.flowers_list = {
 			inv_img = false,
 			deco = {
 				type = "simple",
-				place_on = "nodez:dirt_with_grass",
+				place_on = "nodez:dark_dirt_with_grass",
 				seed = 9723,
-				biomes = {"forest"},
+				biomes = {"boreal"},
+				height = {y_max = 128, y_min = 1}
+			}
+		}
+	},
+	{
+		name = "fuchsia",
+		def = {
+			desc = "Fuchsia",
+			box = {-4/16, -8/16, -4/16, 4/16, -2/16, 4/16},
+			groups = {color_pink = 1, flammable = 1},
+			inv_img = false,
+			deco = {
+				type = "simple",
+				place_on = "nodez:dark_dirt_with_grass",
+				seed = 538,
+				biomes = {"boreal"},
 				height = {y_max = 128, y_min = 1}
 			}
 		}

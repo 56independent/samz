@@ -23,6 +23,7 @@ unordered=desordenado
 Vessels=Envases
 water=agua
 Weapons=Armas
+Writing=Escritura
 #Info Farming
 Plow the soil with a hoe.=Ara la tierra con una azada.
 Plant seeds.=Planta semillas.
@@ -30,3 +31,5 @@ Seeds are obtained by collecting grass or sunflower seeds.=Obtén semillas recol
 Wait for them to grow.=Espera a que crezcan.
 Mushrooms also spread if you plant them.=Los hongos también se expanden si los plantas.
 You can plant cacti and have them grow.=Puedes plantar cactus y que crezcan.
+#Info Dyes
+Stuff dyeable: Glass, Table and Fabric Block=Cosas tintables : Vidrio, Mesa y Bloque textil

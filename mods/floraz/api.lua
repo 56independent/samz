@@ -1,9 +1,36 @@
---Liana
-
 S, modname = ...
 
 --Constants
 local plant_grow_time = 5
+
+function floraz.register_plant(name, def)
+
+	local plant_name = modname .. ":" .. name
+
+	groups = def.groups
+	groups["plant"] = 1
+	groups["snappy"] = 2
+	groups["flammable"] = 3
+	groups["oddly_breakable_by_hand"] = 3
+	groups["choppy"] = 2
+
+	local tile = modname.."_"..name..".png"
+
+	minetest.register_node(plant_name, {
+		description = S(def.desc),
+		drawtype = "plantlike",
+		walkable = false,
+		paramtype = "light",
+		paramtype2 = "facedir",
+		tiles = {tile},
+		inventory_image = def.inventory_image or tile,
+		wield_image = def.wield_image or def.inventory_image or tile,
+		use_texture_alpha = "blend",
+		groups = groups,
+		selection_box = def.selection_box or {},
+		sounds = sound.leaves()
+	})
+end
 
 function floraz.register_liana(name, def)
 
@@ -17,7 +44,7 @@ function floraz.register_liana(name, def)
 		paramtype2 = "facedir",
 		tiles = {modname.."_"..name.."_liana.png"},
 		inventory_image = def.inventory_image or def.tile,
-		wield_image = def.wield_imagew or def.inventory_image or def.tile,
+		wield_image = def.wield_image or def.inventory_image or def.tile,
 		use_texture_alpha = "clip",
 		node_box = helper.nodebox.flat_v,
 		groups = {

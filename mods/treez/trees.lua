@@ -120,3 +120,49 @@ treez.register_tree("willow", {
 		place_offset_y = 0,
 	},
 })
+
+--Spruce
+treez.register_tree("fir", {
+	description = "Fir",
+	fence = "picket",
+	deco = {
+		biomes = {"boreal"},
+		place_on = "nodez:dark_dirt_with_grass",
+		noise_params = {
+			offset = 0.005,
+			scale = 0.005,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 1236,
+			octaves = 3,
+			persist = 0.66
+		},
+		place_offset_y = 1,
+	},
+})
+
+--Oak
+treez.register_tree("oak", {
+	description = "Oak",
+	fence = "normal",
+	deco = {
+		biomes = {"boreal"},
+		place_on = "nodez:dark_dirt_with_grass",
+		noise_params = {
+			offset = 0.005,
+			scale = 0.005,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 621,
+			octaves = 3,
+			persist = 0.66
+		},
+		place_offset_y = 1,
+	},
+	fruit = {
+		name = "acorn",
+		description = "Acorn",
+		hp = 1,
+		hunger = 1,
+		inv_img = true,
+		selection_box = {-3/16, -3/16, -3/16, 3/16, 8/16, 3/16},
+	},
+})

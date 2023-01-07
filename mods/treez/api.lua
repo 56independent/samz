@@ -88,7 +88,8 @@ function treez.register_tree(name, def)
 	end
 
 	--Sapling
-	minetest.register_node("treez:"..name.."_sapling", {
+	local sapling_name = "treez:"..name.."_sapling"
+	minetest.register_node(sapling_name, {
 		description = S("@1 Sapling", S(def.description)),
 		drawtype = "plantlike",
 		tiles = {"treez_"..name.."_sapling.png"},

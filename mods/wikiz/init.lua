@@ -209,7 +209,8 @@ local function create_form(player)
 		image_button[2,0.5;1,0.5;;btn_farming;]]..S("Farming")..[[]
 		image_button[3,0;1,1;;btn_ore;]]..S("Ores")..[[]
 		image_button[4,0;1,1;;btn_pottery;]]..S("Pottery")..[[]
-		image_button[5,0;1,1;;btn_tool;]]..S("Tools")..[[]
+		image_button[5,0;1,0.5;;btn_tool;]]..S("Tools")..[[]
+		image_button[5,0.5;1,0.5;;btn_writing;]]..S("Writing")..[[]
 		image_button[6,0;1,0.5;;btn_vessel;]]..S("Vessels")..[[]
 		image_button[6,0.5;1,0.5;;btn_cloth;]]..S("Cloth")..[[]
 		image_button[7,0;1,0.5;;btn_weapon;]]..S("Weapons")..[[]
@@ -249,12 +250,21 @@ local info = {
 		"Wait for them to grow.",
 		"Mushrooms also spread if you plant them.",
 		"You can plant cacti and have them grow."
+	}),
+	dye = compose_info({
+		"Stuff dyeable: Glass, Table and Fabric Block"
 	})
 }
 
 local function get_info(group)
+	local pos
+	if group == "farming" then
+		pos = "0.5,2;8,5"
+	elseif group == "dye" then
+		pos = "0.5,5;8,5"
+	end
 	return [[
-		textarea[0.5,2;8,5;;;]]..info[group]..[[]
+		textarea[]]..pos..[[;;;]]..info[group]..[[]
 	]]
 end
 
@@ -310,14 +320,18 @@ sfinv.register_page("wiki", {
 							_context.crafts = ""
 							_context.recipes = ""
 							crafts = false
+						elseif group == "dye" then
+							_context.info = get_info(group)
+							_context.group = group
+							crafts = true
 						else
+							_context.info = ""
 							_context.group = group
 							_context.craft_page = 1
 							crafts = true
 						end
 					end
 					if crafts then
-						_context.info = ""
 						if crafts_cache[group] then
 							crafts = crafts_cache[group]
 						else
