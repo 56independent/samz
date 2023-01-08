@@ -12,19 +12,19 @@ local S = minetest.get_translator(modname)
 
 for color, def in pairs(dyez.colors) do
 
-	local color_description, colorstring
+	--local color_description, colorstring
 
-	if not def[1] then
-		color_description = helper.string.uppercase(color)
-	else
-		color_description = def[1]
-	end
+	--if not def[1] then
+		--color_description = helper.string.uppercase(color)
+	--else
+		--color_description = def[1]
+	--end
 
-	if not color[2] then
-		colorstring = color
-	else
-		colorstring = color[2]
-	end
+	--if not color[2] then
+		--colorstring = color
+	--else
+		--colorstring = color[2]
+	--end
 
 	local name = modname..":"..color
 
@@ -79,7 +79,7 @@ minetest.register_craft({
 	output = "fabricz:paper 8",
 	type = "shaped",
 	recipe = {
-		{"group:water:", ""},
+		{"group:water", ""},
 		{"", "fabricz:block"},
 	}
 })

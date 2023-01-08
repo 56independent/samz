@@ -14,5 +14,5 @@ local S = minetest.get_translator(modname)
 --
 
 -- Load the files
-assert(loadfile(modpath .. "/api.lua"))(modpath)
+assert(loadfile(modpath .. "/api.lua"))(S, modpath)
 assert(loadfile(modpath .. "/bows.lua"))(S)

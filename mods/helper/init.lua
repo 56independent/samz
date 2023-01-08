@@ -272,6 +272,33 @@ function helper.table.shuffle(t) -- suffles numeric indices
     return t
 end
 
+function helper.table.remove_table_by_key(tab, key)
+	local i = 0
+	local keys, values = {},{}
+	for k, v in pairs(tab) do
+		i = i + 1
+		keys[i] = k
+		values[i] = v
+	end
+
+	while i > 0 do
+		if keys[i] == key then
+			table.remove(keys, i)
+			table.remove(values, i)
+			break
+		end
+		i = i - 1
+	end
+
+	local new_tab = {}
+
+	for j = 1, #keys do
+		new_tab[keys[j]] = values[j]
+	end
+
+	return new_tab
+end
+
 --Nodes
 
 function helper.nodes.adjacent_pos_grid(pos, non_oblique)
@@ -310,6 +337,14 @@ end
 
 function helper.string.uppercase(str)
     return (str:gsub("^%l", string.upper))
+end
+
+function helper.string.is_empty(str)
+	if str == "" then
+		return true
+	else
+		return false
+	end
 end
 
 --Arrays

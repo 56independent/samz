@@ -1,4 +1,4 @@
-S, modname = ...
+local S, modname = ...
 
 local function compose_inv_img(color)
 	local inv_img = "[combine:16x16:0,0=itemz_empty_flask.png:0,0=dyez_flask_content.png"
@@ -74,7 +74,7 @@ function dyez.register_dye(color, def)
 				local param2 = palette_idx
 				if minetest.registered_nodes[node.name]["paramtype2"] == "colorfacedir" then
 					local old_color = minetest.strip_param2_color(node.param2, "colorfacedir")
-					rotation = node.param2 - (old_color or 0)
+					local rotation = node.param2 - (old_color or 0)
 					param2 = (32*param2) + rotation
 				end
 				minetest.set_node(pos, {name = node.name, param2 = param2})

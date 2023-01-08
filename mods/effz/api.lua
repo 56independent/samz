@@ -1,6 +1,6 @@
 function effz.create_effect(_type, attached, _time)
 
-    local particles_amount, min_size,  max_size,  texture, textpool
+    local pos, particles_amount, min_size, max_size, texture, texpool
 
 
     if _type == "magic" then

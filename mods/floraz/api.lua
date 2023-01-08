@@ -1,4 +1,4 @@
-S, modname = ...
+local S, modname = ...
 
 --Constants
 local plant_grow_time = 5
@@ -7,7 +7,7 @@ function floraz.register_plant(name, def)
 
 	local plant_name = modname .. ":" .. name
 
-	groups = def.groups
+	local groups = def.groups
 	groups["plant"] = 1
 	groups["snappy"] = 2
 	groups["flammable"] = 3
