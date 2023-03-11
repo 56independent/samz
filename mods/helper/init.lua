@@ -1,10 +1,14 @@
-helper = {}
-helper.vector = {}
-helper.nodebox = {}
-helper.table = {}
-helper.string = {}
-helper.array = {}
-helper.nodes = {}
+helper = {
+	vector = {},
+	nodebox = {},
+	table = {},
+	string = {},
+	array = {},
+	nodes = {},
+	int = {},
+	bool = {},
+	math = {},
+}
 
 --Node Helpers
 
@@ -231,6 +235,14 @@ helper.nodebox.flat_v = {
 
 --Tables
 
+function helper.is_table(elem)
+	if (type(elem) == "table") then
+		return true
+	else
+		return false
+	end
+end
+
 function helper.table.is_empty(t)
 	local next = next
 	if next(t) == nil then
@@ -340,11 +352,15 @@ function helper.string.uppercase(str)
 end
 
 function helper.string.is_empty(str)
-	if str == "" then
-		return true
-	else
-		return false
-	end
+	return str == nil or str == ''
+end
+
+function helper.string.is_nil(str)
+	return str == nil
+end
+
+function helper.string.is_blank(str)
+	return str == ''
 end
 
 --Arrays
@@ -372,3 +388,32 @@ function helper.number_to_bool(value)
 	end
 end
 
+--Boolean
+
+function helper.bool.check(value)
+	if value == "true" then
+		return true
+	else
+		return false
+	end
+end
+
+--Numbers
+
+function helper.int.is_pair(number)
+	if (number % 2 == 0) then
+		return true
+	else
+		return false
+	end
+end
+
+--Math
+
+function helper.math.clamp(val, lower, upper)
+    assert(val and lower and upper, "Not all the values provided to the clamp math function")
+    if lower > upper then  --swap if boundaries supplied the wrong way
+		lower, upper = upper, lower
+	end
+    return math.max(lower, math.min(upper, val))
+end

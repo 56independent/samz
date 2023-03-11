@@ -10,7 +10,8 @@ local settings = Settings(modpath .. "/climaz.conf")
 
 climaz.settings = {
 	climate_min_height = tonumber(settings:get("climate_min_height")),
-	climate_max_height = tonumber(minetest.settings:get('climate_max_height', true)) or 120,
+	climate_max_height = tonumber(settings:get("climate_max_height")) or
+		tonumber(minetest.settings:get("cloud_height")) or 120,
 	climate_change_ratio = tonumber(settings:get("climate_change_ratio")),
 	radius = tonumber(settings:get("climate_radius")),
 	climate_duration = tonumber(settings:get("climate_duration")),

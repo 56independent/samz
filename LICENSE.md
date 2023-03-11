@@ -78,6 +78,20 @@ https://github.com/minetest/minetest/blob/master/LICENSE.txt
 - License: This work is licensed under the Creative Commons 0 License.
 - Site: https://freesound.org/people/Nox_Sound/sounds/546604/
 
+## bookz_page_turn.ogg
+
+- Mod: Bookz
+- Author: flag2
+- License: This work is licensed under the Attribution 3.0 License.
+- Site: https://freesound.org/people/flag2/sounds/63318/
+
+## bookz_close.ogg
+
+- Mod: Bookz
+- Author: ondondvo
+- License: This work is licensed under the Creative Commons 0 License.
+- Site: https://freesound.org/people/ondondvo/sounds/195795/
+
 # Other Licenses
 
 Read inside the mods to further info.
@@ -101,5 +115,7 @@ Read inside the mods to further info.
 ## "playerphysics" mod
 
 - License: This mod is free software, released under the MIT License.
+
+
 
 

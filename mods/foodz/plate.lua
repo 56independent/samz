@@ -25,8 +25,8 @@ minetest.register_node("foodz:plate", {
 	-- in this case variant 0.
 	tiles = {"nodez_terracota.png", "nodez_terracota.png"},
 	-- Tiles for variants 1, 2, and 3 are specified here.
-	variant_tiles = {
-		{"foodz_vegetable_soup.png", "nodez_terracota.png"},
+	variant = {
+		tiles = {"foodz_vegetable_soup.png", "nodez_terracota.png"},
 	},
 
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
